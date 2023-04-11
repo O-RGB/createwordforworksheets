@@ -2,10 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Kanit";
+  font-weight: 400;
+  src: url("/public/Kanit-Medium.ttf") format("truetype");
+}
+
+body {
+  font-family: "Kanit", sans-serif;
+}
+
 .layout-padding {
   @apply p-5;
 }
 
 .layout-card {
   @apply w-full h-auto mb-5 bg-white rounded-lg layout-padding;
+}
+
+.layout-card-title {
+  @apply text-lg font-bold pb-2;
 }

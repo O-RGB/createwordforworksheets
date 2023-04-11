@@ -7,10 +7,10 @@ interface LayoutDisplayProps {
 const LayoutDisplay: React.FC<LayoutDisplayProps> = ({ children }) => {
   return (
     <>
-      <div className="w-full h-full flex border-2">
+      <div className="w-full h-full flex border-l-2">
         <div
-          className="bg-white hidden lg:block 
-         lg:w-[500px] layout-padding "
+          className="bg-gray-100 hidden md:block 
+         md:w-[500px] layout-padding "
         >
           <div className="sticky top-0 w-full  bg-white">ge</div>
         </div>

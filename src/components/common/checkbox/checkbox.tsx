@@ -1,7 +1,8 @@
 import { Checkbox } from "antd";
 import React, { useState } from "react";
-import CheckBoxImageLabel from "./image-label";
+import CheckBoxImageLabel from "./image-image";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
+import ImageDetail from "./image-detail";
 
 interface CheckBoxProps {
   value: string;
@@ -36,10 +37,20 @@ const CheckBox: React.FC<CheckBoxProps> = ({
         <div className={`flex flex-col gap-2   `}>
           {label}
           <div hidden={imageMode}>
-            <CheckBoxImageLabel
-              url="https://picsum.photos/200/200"
-              select={checkBoxOnChange}
-            ></CheckBoxImageLabel>
+            <div className="flex gap-3 h-full">
+              <CheckBoxImageLabel
+                url="https://picsum.photos/800/800"
+                select={checkBoxOnChange}
+              ></CheckBoxImageLabel>
+              <ImageDetail
+                ImageDetailPrice={{
+                  book: 84,
+                  tool: 9,
+                  file: 8,
+                  print:9
+                }}
+              ></ImageDetail>
+            </div>
           </div>
         </div>
       </Checkbox>

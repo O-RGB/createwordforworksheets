@@ -3,3 +3,10 @@ interface CheckBoxGroupOptions {
   label: string;
   disabled?: boolean;
 }
+
+interface ImageDetailPrice {
+  print?: number;
+  book?: number;
+  file?: number;
+  tool?: number;
+}
