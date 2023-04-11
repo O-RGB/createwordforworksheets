@@ -11,8 +11,8 @@ const SearchApps: React.FC<SearchAppsProps> = ({}) => {
     <>
       <Form>
         <div className="flex gap-2">
-          <AutoCompleteCommon></AutoCompleteCommon>
-          <ButtonCommon>Search</ButtonCommon>
+          <AutoCompleteCommon placeholder="ค้นหา"></AutoCompleteCommon>
+          <ButtonCommon>O</ButtonCommon>
         </div>
       </Form>
     </>

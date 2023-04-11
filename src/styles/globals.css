@@ -2,15 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "Kanit";
-  font-weight: 400;
-  src: url("/public/Kanit-Medium.ttf") format("truetype");
-}
-
-body {
-  font-family: "Kanit", sans-serif;
-}
 
 .layout-padding {
   @apply p-5;
