@@ -1,4 +1,5 @@
 import CheckBoxCommon from "@/components/common/checkbox";
+import LayoutDisplay from "@/components/layout";
 import { Form } from "antd";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
@@ -12,12 +13,32 @@ const Home: NextPage = () => {
   ];
   return (
     <>
-      <Form layout="vertical">
-        <CheckBoxCommon
-          CheckBoxGroupOptions={optionsWithDisabled}
-          label="eigjow"
-        ></CheckBoxCommon>
-      </Form>
+      <LayoutDisplay>
+        <div className="layout-card">
+          <Form layout="vertical">
+            <CheckBoxCommon
+              CheckBoxGroupOptions={optionsWithDisabled}
+              label="eigjow"
+            ></CheckBoxCommon>
+          </Form>
+        </div>
+        <div className="layout-card">
+          <Form layout="vertical">
+            <CheckBoxCommon
+              CheckBoxGroupOptions={optionsWithDisabled}
+              label="eigjow"
+            ></CheckBoxCommon>
+          </Form>
+        </div>
+        <div className="layout-card">
+          <Form layout="vertical">
+            <CheckBoxCommon
+              CheckBoxGroupOptions={optionsWithDisabled}
+              label="eigjow"
+            ></CheckBoxCommon>
+          </Form>
+        </div>
+      </LayoutDisplay>
     </>
   );
 };

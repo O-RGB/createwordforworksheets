@@ -2,3 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.layout-padding {
+  @apply p-5;
+}
+
+.layout-card {
+  @apply w-full h-auto mb-5 bg-white rounded-lg layout-padding;
+}
