@@ -2,15 +2,11 @@ import ResultTextApps from "@/apps/result";
 import ResultSettingApps from "@/apps/resultSetting";
 import SettingApps from "@/apps/setting";
 import SearchApps from "@/apps/srarch";
-import AutoCompleteCommon from "@/components/common/autoComplete";
 import CheckBoxCommon from "@/components/common/checkbox";
 import LayoutDisplay from "@/components/layout";
-import { AutoComplete, FloatButton, Form, Switch } from "antd";
+import { FloatButton, Form } from "antd";
 import type { NextPage } from "next";
-import { Head } from "next/document";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { QuestionCircleOutlined } from "@ant-design/icons";
 
