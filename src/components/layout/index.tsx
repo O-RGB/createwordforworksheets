@@ -16,7 +16,7 @@ const LayoutDisplay: React.FC<LayoutDisplayProps> = ({
           className="bg-gray-100 hidden lg:block 
          md:w-[500px] layout-padding "
         >
-          <div className="sticky top-0 w-full  bg-white layout-padding">{tabChildren}</div>
+          <div className="sticky top-5 w-full  bg-gray-100 ">{tabChildren}</div>
         </div>
         <div className="bg-gray-100 w-full layout-padding">{children}</div>
       </div>

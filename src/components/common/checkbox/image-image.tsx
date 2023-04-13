@@ -11,18 +11,20 @@ const CheckBoxImageLabel: React.FC<CheckBoxImageLabelProps> = ({
 }) => {
   return (
     <>
-      <div className="select-none overflow-hidden rounded-md relative w-20 ">
+      <div className="select-none overflow-hidden rounded-md relative w-20 h-full">
         <div
-          className={`w-full h-full absolute top-0 duration-200 ${
-            select ? "bg-opacity-60 bg-black " : "opacity-0"
+          className={`w-full h-full absolute top-0 duration-200 rounded-md  ${
+            select ? "bg-opacity-60 bg-black" : "opacity-0"
           } `}
         >
-          <div className="flex items-center justify-center w-full h-full">
+          <div className="flex items-center justify-center h-full ">
             <CheckCircleOutlined className=" text-white text-2xl font-bold" />
           </div>
         </div>
-        <div className="h-full  ">
-          <img src={url} className=" h-full object-cover " />
+        <div>
+          <div className="h-full w-full object-cover">
+            <img src={url} className="h-20 w-full object-cover" />
+          </div>
         </div>
       </div>
     </>

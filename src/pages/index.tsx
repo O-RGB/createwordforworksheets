@@ -8,7 +8,8 @@ import { FloatButton, Form } from "antd";
 import type { NextPage } from "next";
 import { useState } from "react";
 
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import { ShoppingOutlined, SaveOutlined } from "@ant-design/icons";
+import CheckBoxCard from "@/apps/checkBoxCard";
 
 const Home: NextPage = () => {
   const optionsWithDisabled: CheckBoxGroupOptions[] = [
@@ -41,12 +42,13 @@ const Home: NextPage = () => {
     );
   };
 
+  const [form] = Form.useForm();
+
   return (
     <>
       <FloatButton.Group shape="circle">
-        <FloatButton badge={{ count: 12 }} icon={<QuestionCircleOutlined />} />
-        <FloatButton badge={{ count: 123, overflowCount: 999 }} />
-        <FloatButton.BackTop visibilityHeight={0} />
+        <FloatButton badge={{ count: 12 }} icon={<ShoppingOutlined />} />
+        <FloatButton icon={<SaveOutlined />} />
       </FloatButton.Group>
       <LayoutDisplay tabChildren={result()}>
         <div className="layout-card">
@@ -57,42 +59,25 @@ const Home: NextPage = () => {
           <div className="layout-card-title">ค้นหา</div>
           <SearchApps></SearchApps>
         </div>
-        <div className="layout-card">
-          <div className="layout-card-title">คณิตศาสตร์</div>
-          <Form layout="vertical">
-            <CheckBoxCommon
-              CheckBoxGroupOptions={optionsWithDisabled}
-              imageMode={!imageSrtting.image}
-            ></CheckBoxCommon>
-          </Form>
-        </div>
-        <div className="layout-card">
-          <Form layout="vertical">
-            <CheckBoxCommon
-              CheckBoxGroupOptions={optionsWithDisabled}
-              imageMode={!imageSrtting.image}
-              label="eigjow"
-            ></CheckBoxCommon>
-          </Form>
-        </div>
-        <div className="layout-card">
-          <div className="layout-card-title">คณิตศาสตร์</div>
-          <Form layout="vertical">
-            <CheckBoxCommon
-              CheckBoxGroupOptions={optionsWithDisabled}
-              imageMode={!imageSrtting.image}
-            ></CheckBoxCommon>
-          </Form>
-        </div>
-        <div className="layout-card">
-          <div className="layout-card-title">คณิตศาสตร์</div>
-          <Form layout="vertical">
-            <CheckBoxCommon
-              CheckBoxGroupOptions={optionsWithDisabled}
-              imageMode={!imageSrtting.image}
-            ></CheckBoxCommon>
-          </Form>
-        </div>
+
+        <Form form={form} onFinish={(e) => console.log(e)}>
+          <CheckBoxCard
+            form={form}
+            name="np1"
+            label="คณิตศาสตร์"
+            imageSrtting={!imageSrtting.image}
+            optionsWithDisabled={optionsWithDisabled}
+          ></CheckBoxCard>
+          <CheckBoxCard
+            form={form}
+            name="np2"
+            label="คณิตศาสตร์"
+            imageSrtting={!imageSrtting.image}
+            optionsWithDisabled={optionsWithDisabled}
+          ></CheckBoxCard>
+          <button type="submit">sub</button>
+        </Form>
+
         <div className="block  lg:hidden">{result()}</div>
       </LayoutDisplay>
     </>
