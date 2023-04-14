@@ -42,6 +42,20 @@ const CheckBoxCommon: React.FC<CheckBoxCommonProps> = ({
       }
     }, 50);
   };
+  const updateArraySelect = (value: CheckBoxGroupOptions) => {
+    setTimeout(() => {
+      let temp = checkBoxArray;
+      let obj: CheckBoxGroupOptions[] = [];
+      temp.map((x) => {
+        if (x.value == value.value) {
+          x.mode = value.mode;
+        }
+        obj.push(x);
+      });
+      setCheckBoxArray(obj);
+      form?.setFieldValue(name ?? "", obj);
+    }, 50);
+  };
 
   return (
     <>
@@ -52,6 +66,8 @@ const CheckBoxCommon: React.FC<CheckBoxCommonProps> = ({
               <React.Fragment key={`checkBox-key-${i}`}>
                 <div className="w-full">
                   <CheckBox
+                    imageUrl={x.image}
+                    onUpdate={updateArraySelect}
                     onSelect={createArraySelect}
                     imageMode={imageMode}
                     value={x.value}

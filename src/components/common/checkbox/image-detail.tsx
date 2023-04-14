@@ -2,7 +2,7 @@ import React from "react";
 import { AiFillPrinter, AiTwotoneFileAdd } from "react-icons/ai";
 import { FaBook, FaTools } from "react-icons/fa";
 interface ImageDetailProps {
-  ImageDetailPrice?: ImageDetailPrice;
+  ImageDetailPrice?: WorkSheetsDetailPrice;
 }
 
 const ImageDetail: React.FC<ImageDetailProps> = ({ ImageDetailPrice }) => {

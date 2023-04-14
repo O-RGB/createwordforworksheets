@@ -6,26 +6,55 @@ import CheckBoxCommon from "@/components/common/checkbox";
 import LayoutDisplay from "@/components/layout";
 import { FloatButton, Form } from "antd";
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ShoppingOutlined, SaveOutlined } from "@ant-design/icons";
 import CheckBoxCard from "@/apps/checkBoxCard";
+import { GetResult } from "@/lib/getResult";
+import { WorkSheetsData } from "@/mock/workSheetsData";
+import { WorksheetsModel } from "@/model/worksheets";
+import { HeadWorkSheets } from "@/model/headworksheets";
+import { WorkSheetsToOption } from "@/lib/worksheetsToOption";
 
 const Home: NextPage = () => {
-  const optionsWithDisabled: CheckBoxGroupOptions[] = [
-    { label: "ใบงานคณิตสาสตร์ อ.2", value: "Apple" },
-    { label: "Pear", value: "Pear" },
-    { label: "Orange", value: "Orange" },
-  ];
-
   const [imageSrtting, setImageSetting] = useState<SettingOnFinish>({
     image: false,
   });
+  const [resultText, setResultText] = useState<string>("");
+  const [shopCount, setShopCount] = useState<number>(0);
+  const [data, loadData] = useState<HeadWorkSheets[] | undefined>(undefined);
 
   const onSettingFinish = (SettingOnFinish: SettingOnFinish) => {
     setImageSetting(SettingOnFinish);
     console.log(SettingOnFinish);
   };
+
+  const onFinishCheckBox = (x: any) => {
+    GetResult(x).then((data) => {
+      setResultText(JSON.stringify(data));
+    });
+  };
+
+  const onFieldsChange = () => {
+    setTimeout(() => {
+      console.log();
+      let fieldData = form.getFieldsValue();
+      GetResult(fieldData).then((data) => {
+        let cout = 0;
+        data.map((x) => {
+          cout += x.length;
+        });
+        setShopCount(cout);
+      });
+      setShopCount;
+    }, 200);
+  };
+
+  useEffect(() => {
+    let worksheets = WorkSheetsData();
+    loadData(worksheets);
+    console.log(worksheets);
+  }, []);
 
   const result = () => {
     return (
@@ -36,7 +65,7 @@ const Home: NextPage = () => {
         </div>
         <div className="layout-card">
           <div className="layout-card-title">ผลลัพธ์</div>
-          <ResultTextApps></ResultTextApps>
+          <ResultTextApps value={resultText}></ResultTextApps>
         </div>
       </>
     );
@@ -47,7 +76,7 @@ const Home: NextPage = () => {
   return (
     <>
       <FloatButton.Group shape="circle">
-        <FloatButton badge={{ count: 12 }} icon={<ShoppingOutlined />} />
+        <FloatButton badge={{ count: shopCount }} icon={<ShoppingOutlined />} />
         <FloatButton icon={<SaveOutlined />} />
       </FloatButton.Group>
       <LayoutDisplay tabChildren={result()}>
@@ -60,21 +89,29 @@ const Home: NextPage = () => {
           <SearchApps></SearchApps>
         </div>
 
-        <Form form={form} onFinish={(e) => console.log(e)}>
-          <CheckBoxCard
-            form={form}
-            name="np1"
-            label="คณิตศาสตร์"
-            imageSrtting={!imageSrtting.image}
-            optionsWithDisabled={optionsWithDisabled}
-          ></CheckBoxCard>
-          <CheckBoxCard
-            form={form}
-            name="np2"
-            label="คณิตศาสตร์"
-            imageSrtting={!imageSrtting.image}
-            optionsWithDisabled={optionsWithDisabled}
-          ></CheckBoxCard>
+        <Form
+          form={form}
+          onFinish={onFinishCheckBox}
+          onFieldsChange={onFieldsChange}
+        >
+          {data?.map((header) => {
+            let headerArray = header.getHeadWorksheets();
+            if (headerArray.worksheets) {
+              return (
+                <>
+                  {
+                    <CheckBoxCard
+                      form={form}
+                      name={headerArray.formName}
+                      label={headerArray.headerTitle}
+                      imageSrtting={!imageSrtting.image}
+                      WorksheetsModel={headerArray.worksheets}
+                    ></CheckBoxCard>
+                  }
+                </>
+              );
+            }
+          })}
           <button type="submit">sub</button>
         </Form>
 

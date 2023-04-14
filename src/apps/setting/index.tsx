@@ -1,3 +1,4 @@
+import InputCommon from "@/components/common/input";
 import SwitchCommon from "@/components/common/switch";
 import { Form, Switch } from "antd";
 import React from "react";
@@ -17,9 +18,17 @@ const SettingApps: React.FC<SettingAppsProps> = ({ onFinish }) => {
           onFinish?.(temp);
         }}
         layout="vertical"
-        className="grid grid-cols-4"
+      
       >
-        <SwitchCommon name="image" labal="แสดงรูปภาพ"></SwitchCommon>
+        <div className="flex flex-col gap-3 w-full">
+          <div>
+            <SwitchCommon name="image" labal="แสดงรูปภาพ"></SwitchCommon>
+          </div>
+          <div className="flex gap-3 w-full">
+            <InputCommon name="sunk" label="ค่าส่ง"></InputCommon>
+            <InputCommon name="sunk" label="บวกเพิ่มเข้าเล่ม"></InputCommon>
+          </div>
+        </div>
         {/* <SwitchCommon name="darkMode" labal="ดาร์กโหมด"></SwitchCommon> */}
       </Form>
     </>

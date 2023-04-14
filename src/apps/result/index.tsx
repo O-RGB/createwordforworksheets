@@ -5,13 +5,18 @@ import React from "react";
 interface ResultTextAppsProps {
   name?: string;
   label?: string;
+  value?: string;
 }
 
-const ResultTextApps: React.FC<ResultTextAppsProps> = ({ name, label }) => {
+const ResultTextApps: React.FC<ResultTextAppsProps> = ({
+  name,
+  label,
+  value,
+}) => {
   return (
     <>
       <div>
-        <TextAreaCommon></TextAreaCommon>
+        <TextAreaCommon value={value}></TextAreaCommon>
       </div>
     </>
   );
