@@ -49,7 +49,7 @@ const CheckBoxCommon: React.FC<CheckBoxCommonProps> = ({
       temp.map((x) => {
         if (x.value == value.value) {
           x.mode = value.mode;
-          x.number = value.number
+          x.number = value.number;
         }
         obj.push(x);
       });
@@ -60,13 +60,19 @@ const CheckBoxCommon: React.FC<CheckBoxCommonProps> = ({
 
   return (
     <>
-      <Form.Item className="m-0 p-0" name={name} label={label} initialValue={checkBoxArray}>
+      <Form.Item
+        className="m-0 p-0"
+        name={name}
+        label={label}
+        initialValue={checkBoxArray}
+      >
         <div className="flex flex-col gap-2">
           {CheckBoxGroupOptions?.map((x, i) => {
             return (
               <React.Fragment key={`checkBox-key-${i}`}>
                 <div className="w-full">
                   <CheckBox
+                    price={x.price}
                     imageUrl={x.image}
                     onUpdate={updateArraySelect}
                     onSelect={createArraySelect}

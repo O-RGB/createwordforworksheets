@@ -1,6 +1,6 @@
 import { WorksheetsModel } from "@/model/worksheets";
 
-export const MathWorkSheets = () => {
+export const MathWorkSheets = (bookPrice: number) => {
   let worksheetsModel: WorksheetsModel[] = [];
   worksheetsModel.push(
     new WorksheetsModel({
@@ -14,7 +14,7 @@ export const MathWorkSheets = () => {
       price: {
         file: 99,
         print: 240,
-        book: 34,
+        book: 240 + bookPrice,
       },
     })
   );
@@ -28,7 +28,7 @@ export const MathWorkSheets = () => {
       relationship: ["MATH001", "MATH002", "MATH003"],
       workSheetsType: "room",
       price: {
-        book: 34,
+        book: 240 + bookPrice,
         file: 43,
         print: 49,
       },

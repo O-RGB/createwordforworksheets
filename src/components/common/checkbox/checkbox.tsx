@@ -13,6 +13,7 @@ interface CheckBoxProps {
   onSelect?: (value: CheckBoxGroupOptions, select: boolean) => void;
   onUpdate?: (value: CheckBoxGroupOptions) => void;
   imageUrl?: string;
+  price?: WorkSheetsDetailPrice;
 }
 
 const CheckBox: React.FC<CheckBoxProps> = ({
@@ -22,6 +23,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({
   onSelect,
   onUpdate,
   imageUrl,
+  price,
 }) => {
   const [checkBoxOnChange, setOnChange] = useState<boolean>(false);
   const [countNumber, setCountNumber] = useState<number>(1);
@@ -41,6 +43,8 @@ const CheckBox: React.FC<CheckBoxProps> = ({
         true
       );
     } else {
+      setModeCheckBox("File");
+      setCountNumber(1);
       setOnChange(false);
       onSelect?.(
         {
@@ -60,12 +64,12 @@ const CheckBox: React.FC<CheckBoxProps> = ({
       value: value,
       image: imageUrl ?? "",
       mode: result,
-      number: countNumber,
+      number: 1,
     });
   };
 
   const numberOnChange = (id: string, number: number) => {
-    console.log(number)
+    console.log(number);
     setCountNumber(number);
     onUpdate?.({
       label: label,
@@ -107,10 +111,10 @@ const CheckBox: React.FC<CheckBoxProps> = ({
                 )}
                 <ImageDetail
                   ImageDetailPrice={{
-                    book: 84,
-                    tool: 9,
-                    file: 8,
-                    print: 9,
+                    book: price?.book,
+                    tool: price?.tool,
+                    file: price?.file,
+                    print: price?.print,
                   }}
                 ></ImageDetail>
               </div>
@@ -118,20 +122,24 @@ const CheckBox: React.FC<CheckBoxProps> = ({
           </div>
           {checkBoxOnChange && (
             <div
-              className={`flex flex-col sm:flex-row  sm:items-end  select-none -mt-0.5 sm:gap-3 pt-1 sm:pt-3`}
+              className={`flex flex-col sm:flex-row  ${
+                imageMode ? "gap-3 sm:gap-5" : "sm:items-end gap-3 pt-3"
+              }  select-none -mt-0.5  `}
             >
-              <div>
-                <ImageNumber
-                  id={value}
-                  onChange={(id, value) => {
-                    if (checkBoxOnChange) {
-                      numberOnChange(id, value);
-                    }
-                  }}
-                ></ImageNumber>
-              </div>
+              {modeCheckBox != "File" && (
+                <div>
+                  <ImageNumber
+                    id={value}
+                    onChange={(id, value) => {
+                      if (checkBoxOnChange) {
+                        numberOnChange(id, value);
+                      }
+                    }}
+                  ></ImageNumber>
+                </div>
+              )}
 
-              <div>
+              <div className="flex pt-1 ">
                 {!imageMode && <br />}
                 <ImageCondition
                   id={value}

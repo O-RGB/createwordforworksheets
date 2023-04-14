@@ -6,7 +6,7 @@ import CheckBoxCommon from "@/components/common/checkbox";
 import LayoutDisplay from "@/components/layout";
 import { FloatButton, Form } from "antd";
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { ShoppingOutlined, SaveOutlined } from "@ant-design/icons";
 import CheckBoxCard from "@/apps/checkBoxCard";
@@ -15,22 +15,31 @@ import { WorkSheetsData } from "@/mock/workSheetsData";
 import { WorksheetsModel } from "@/model/worksheets";
 import { HeadWorkSheets } from "@/model/headworksheets";
 import { WorkSheetsToOption } from "@/lib/worksheetsToOption";
+import { DeliveryFeeContext } from "@/context/deliveryFee";
+import { BookServiceContext } from "@/context/bookService";
 
 const Home: NextPage = () => {
   const [imageSrtting, setImageSetting] = useState<SettingOnFinish>({
     image: false,
+    delivery_fee: 0,
   });
   const [resultText, setResultText] = useState<string>("");
   const [shopCount, setShopCount] = useState<number>(0);
   const [data, loadData] = useState<HeadWorkSheets[] | undefined>(undefined);
+  const { deliveryFee, setDeliveryFee } = useContext(DeliveryFeeContext);
+  const { bookPrice, setBookPrice } = useContext(BookServiceContext);
 
   const onSettingFinish = (SettingOnFinish: SettingOnFinish) => {
     setImageSetting(SettingOnFinish);
-    console.log(SettingOnFinish);
+    setDeliveryFee(Number(SettingOnFinish.delivery_fee));
+    loadData(undefined);
+    let worksheets = WorkSheetsData(Number(SettingOnFinish.delivery_fee));
+    loadData(worksheets);
+    console.log("eiuj");
   };
 
   const onFinishCheckBox = (x: any) => {
-    GetResult(x).then((data) => {
+    GetResult(x, bookPrice).then((data) => {
       setResultText(JSON.stringify(data));
     });
   };
@@ -38,7 +47,7 @@ const Home: NextPage = () => {
   const onFieldsChange = () => {
     setTimeout(() => {
       let fieldData = form.getFieldsValue();
-      GetResult(fieldData).then((data) => {
+      GetResult(fieldData, bookPrice).then((data) => {
         let cout = 0;
         data.map((x) => {
           cout += x.length;
@@ -50,9 +59,9 @@ const Home: NextPage = () => {
   };
 
   useEffect(() => {
-    let worksheets = WorkSheetsData();
+    let worksheets = WorkSheetsData(bookPrice);
     loadData(worksheets);
-  }, []);
+  }, [bookPrice]);
 
   const result = () => {
     return (

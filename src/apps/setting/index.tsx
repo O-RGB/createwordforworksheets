@@ -1,14 +1,20 @@
 import InputCommon from "@/components/common/input";
 import SwitchCommon from "@/components/common/switch";
+import { DeliveryFeeContext } from "@/context/deliveryFee";
 import { Form, Switch } from "antd";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 
 interface SettingAppsProps {
   onFinish?: (data: SettingOnFinish) => void;
 }
 
 const SettingApps: React.FC<SettingAppsProps> = ({ onFinish }) => {
+  const { deliveryFee } = useContext(DeliveryFeeContext);
   const [form] = Form.useForm();
+  useEffect(() => {
+    form.setFieldValue("delivery_fee", deliveryFee.toString());
+    form.setFieldValue("book_price", "40");
+  }, []);
   return (
     <>
       <Form

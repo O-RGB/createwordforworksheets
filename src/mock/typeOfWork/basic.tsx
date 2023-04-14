@@ -1,5 +1,5 @@
 import { WorksheetsModel } from "@/model/worksheets";
-export const BasicWorkSheets = () => {
+export const BasicWorkSheets = (bookPrice: number) => {
   let worksheetsModel: WorksheetsModel[] = [];
   worksheetsModel.push(
     new WorksheetsModel({
@@ -13,7 +13,7 @@ export const BasicWorkSheets = () => {
       price: {
         file: 99,
         print: 240,
-        book: 34,
+        book: (240 + bookPrice),
       },
     })
   );

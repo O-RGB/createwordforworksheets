@@ -4,5 +4,6 @@ interface CheckBoxGroupOptions {
   image: string;
   mode?: ResultWorkSheetsMode;
   number?: number;
+  price?: WorkSheetsDetailPrice;
   disabled?: boolean;
 }

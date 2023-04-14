@@ -9,6 +9,7 @@ export const WorkSheetsToOption = (worksheets: WorksheetsModel[]) => {
         label: temp?.name,
         value: temp?.workSheetsId,
         image: temp?.imageUrl,
+        price: temp?.price,
       });
     }
   });
