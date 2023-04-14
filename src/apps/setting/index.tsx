@@ -1,5 +1,6 @@
 import InputCommon from "@/components/common/input";
 import SwitchCommon from "@/components/common/switch";
+import { BookServiceContext } from "@/context/bookService";
 import { DeliveryFeeContext } from "@/context/deliveryFee";
 import { Form, Switch } from "antd";
 import React, { useContext, useEffect } from "react";
@@ -10,10 +11,11 @@ interface SettingAppsProps {
 
 const SettingApps: React.FC<SettingAppsProps> = ({ onFinish }) => {
   const { deliveryFee } = useContext(DeliveryFeeContext);
+  const { bookPrice } = useContext(BookServiceContext);
   const [form] = Form.useForm();
   useEffect(() => {
     form.setFieldValue("delivery_fee", deliveryFee.toString());
-    form.setFieldValue("book_price", "40");
+    form.setFieldValue("book_price", bookPrice.toString());
   }, []);
   return (
     <>

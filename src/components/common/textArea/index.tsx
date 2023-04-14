@@ -17,6 +17,7 @@ const TextAreaCommon: React.FC<TextAreaCommonProps> = ({
     <>
       <Form.Item className="m-0 p-0" name={name} label={label}>
         <TextArea
+          autoSize
           value={value}
           placeholder="Basic usage"
           style={{ width: "100%" }}

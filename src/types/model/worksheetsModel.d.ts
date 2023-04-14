@@ -14,11 +14,11 @@ interface WorksheetsModelInput {
   imageUrl: string;
   price: WorkSheetsDetailPrice;
   conditionStr: string;
-  relationship: string[];
 }
 
 interface HeadWorkSheetsInput<T> {
   formName?: string;
   headerTitle?: string;
+  relationship?: string[][];
   worksheets?: T[];
 }

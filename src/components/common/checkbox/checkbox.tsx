@@ -10,10 +10,13 @@ interface CheckBoxProps {
   value: string;
   label: string;
   imageMode?: boolean;
-  onSelect?: (value: CheckBoxGroupOptions, select: boolean) => void;
-  onUpdate?: (value: CheckBoxGroupOptions) => void;
-  imageUrl?: string;
-  price?: WorkSheetsDetailPrice;
+  onSelect?: (
+    value: CheckBoxGroupOptions<WorksheetsModelInput>,
+    select: boolean
+  ) => void;
+  onUpdate?: (value: CheckBoxGroupOptions<WorksheetsModelInput>) => void;
+  relationship?: string[][];
+  WorksheetsModelInput?: WorksheetsModelInput;
 }
 
 const CheckBox: React.FC<CheckBoxProps> = ({
@@ -22,8 +25,8 @@ const CheckBox: React.FC<CheckBoxProps> = ({
   imageMode = false,
   onSelect,
   onUpdate,
-  imageUrl,
-  price,
+  WorksheetsModelInput,
+  relationship,
 }) => {
   const [checkBoxOnChange, setOnChange] = useState<boolean>(false);
   const [countNumber, setCountNumber] = useState<number>(1);
@@ -36,21 +39,22 @@ const CheckBox: React.FC<CheckBoxProps> = ({
         {
           label: label,
           value: value,
-          image: imageUrl ?? "",
+          realData: WorksheetsModelInput,
           mode: modeCheckBox,
+          relationship: relationship,
           number: 1,
         },
         true
       );
     } else {
       setModeCheckBox("File");
-      setCountNumber(1);
       setOnChange(false);
       onSelect?.(
         {
           label: label,
           value: value,
-          image: imageUrl ?? "",
+          realData: WorksheetsModelInput,
+          relationship: relationship,
           mode: modeCheckBox,
         },
         false
@@ -62,8 +66,9 @@ const CheckBox: React.FC<CheckBoxProps> = ({
     onUpdate?.({
       label: label,
       value: value,
-      image: imageUrl ?? "",
+      realData: WorksheetsModelInput,
       mode: result,
+      relationship: relationship,
       number: 1,
     });
   };
@@ -74,8 +79,9 @@ const CheckBox: React.FC<CheckBoxProps> = ({
     onUpdate?.({
       label: label,
       value: value,
-      image: imageUrl ?? "",
+      realData: WorksheetsModelInput,
       mode: modeCheckBox,
+      relationship: relationship,
       number: number,
     });
   };
@@ -103,20 +109,23 @@ const CheckBox: React.FC<CheckBoxProps> = ({
             <div>{label}</div>
             <div hidden={imageMode}>
               <div className="flex gap-3">
-                {imageUrl && (
-                  <CheckBoxImageLabel
-                    url={imageUrl}
-                    select={checkBoxOnChange}
-                  ></CheckBoxImageLabel>
+                {WorksheetsModelInput && (
+                  <>
+                    <CheckBoxImageLabel
+                      url={WorksheetsModelInput.imageUrl}
+                      select={checkBoxOnChange}
+                    ></CheckBoxImageLabel>
+
+                    <ImageDetail
+                      ImageDetailPrice={{
+                        book: WorksheetsModelInput.price?.book,
+                        tool: WorksheetsModelInput.price?.tool,
+                        file: WorksheetsModelInput.price?.file,
+                        print: WorksheetsModelInput.price?.print,
+                      }}
+                    ></ImageDetail>
+                  </>
                 )}
-                <ImageDetail
-                  ImageDetailPrice={{
-                    book: price?.book,
-                    tool: price?.tool,
-                    file: price?.file,
-                    print: price?.print,
-                  }}
-                ></ImageDetail>
               </div>
             </div>
           </div>

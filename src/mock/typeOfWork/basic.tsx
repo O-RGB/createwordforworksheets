@@ -8,12 +8,11 @@ export const BasicWorkSheets = (bookPrice: number) => {
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "พื้นฐาน อ.1",
-      relationship: ["ZIP001", "ZIP002", "ZIP003"],
       workSheetsType: "room",
       price: {
         file: 99,
         print: 240,
-        book: (240 + bookPrice),
+        book: 240 + bookPrice,
       },
     })
   );

@@ -11,7 +11,7 @@ interface CheckBoxCardProps {
   label?: string;
   name?: string;
   form?: FormInstance<any>;
-  imageUrl?: string;
+  relationship?: string[][];
 }
 
 const CheckBoxCard: React.FC<CheckBoxCardProps> = ({
@@ -20,10 +20,10 @@ const CheckBoxCard: React.FC<CheckBoxCardProps> = ({
   label,
   name,
   form,
-  imageUrl,
+  relationship,
 }) => {
   const [worksheetsOption, setWorksheetsOption] = useState<
-    CheckBoxGroupOptions[]
+    CheckBoxGroupOptions<WorksheetsModelInput>[]
   >([]);
   useEffect(() => {
     if (WorksheetsModel) {
@@ -36,6 +36,7 @@ const CheckBoxCard: React.FC<CheckBoxCardProps> = ({
       <div className="layout-card">
         <div className="layout-card-title">{label}</div>
         <CheckBoxCommon
+        relationship={relationship}
           form={form}
           name={name}
           CheckBoxGroupOptions={worksheetsOption}

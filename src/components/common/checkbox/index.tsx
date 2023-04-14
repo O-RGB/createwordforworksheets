@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 import CheckBox from "./checkbox";
 
 interface CheckBoxCommonProps {
+  relationship?: string[][];
   name?: string;
   label?: string;
-  CheckBoxGroupOptions?: CheckBoxGroupOptions[];
+  CheckBoxGroupOptions?: CheckBoxGroupOptions<WorksheetsModelInput>[];
   imageMode?: boolean;
   form?: FormInstance<any>;
 }
@@ -16,14 +17,18 @@ const CheckBoxCommon: React.FC<CheckBoxCommonProps> = ({
   CheckBoxGroupOptions,
   imageMode,
   form,
+  relationship,
 }) => {
   useEffect(() => {}, [form]);
 
-  const [checkBoxArray, setCheckBoxArray] = useState<CheckBoxGroupOptions[]>(
-    []
-  );
+  const [checkBoxArray, setCheckBoxArray] = useState<
+    CheckBoxGroupOptions<WorksheetsModelInput>[]
+  >([]);
 
-  const createArraySelect = (value: CheckBoxGroupOptions, select: boolean) => {
+  const createArraySelect = (
+    value: CheckBoxGroupOptions<WorksheetsModelInput>,
+    select: boolean
+  ) => {
     setTimeout(() => {
       let temp = checkBoxArray;
       if (select) {
@@ -31,7 +36,7 @@ const CheckBoxCommon: React.FC<CheckBoxCommonProps> = ({
         setCheckBoxArray(temp);
         form?.setFieldValue(name ?? "", temp);
       } else {
-        let checkTemp: CheckBoxGroupOptions[] = [];
+        let checkTemp: CheckBoxGroupOptions<WorksheetsModelInput>[] = [];
         temp?.map((data) => {
           if (data.value != value.value) {
             checkTemp.push(data);
@@ -42,10 +47,12 @@ const CheckBoxCommon: React.FC<CheckBoxCommonProps> = ({
       }
     }, 50);
   };
-  const updateArraySelect = (value: CheckBoxGroupOptions) => {
+  const updateArraySelect = (
+    value: CheckBoxGroupOptions<WorksheetsModelInput>
+  ) => {
     setTimeout(() => {
       let temp = checkBoxArray;
-      let obj: CheckBoxGroupOptions[] = [];
+      let obj: CheckBoxGroupOptions<WorksheetsModelInput>[] = [];
       temp.map((x) => {
         if (x.value == value.value) {
           x.mode = value.mode;
@@ -72,8 +79,8 @@ const CheckBoxCommon: React.FC<CheckBoxCommonProps> = ({
               <React.Fragment key={`checkBox-key-${i}`}>
                 <div className="w-full">
                   <CheckBox
-                    price={x.price}
-                    imageUrl={x.image}
+                    relationship={relationship}
+                    WorksheetsModelInput={x.realData}
                     onUpdate={updateArraySelect}
                     onSelect={createArraySelect}
                     imageMode={imageMode}

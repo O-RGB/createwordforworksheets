@@ -11,7 +11,7 @@ const LayoutDisplay: React.FC<LayoutDisplayProps> = ({
 }) => {
   return (
     <>
-      <div className="w-full h-full flex border-l-2">
+      <div className="w-full min-h-screen flex border-l-2">
         <div
           className="bg-gray-100 hidden lg:block 
          md:w-[500px] layout-padding "

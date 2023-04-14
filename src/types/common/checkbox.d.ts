@@ -1,9 +1,11 @@
-interface CheckBoxGroupOptions {
+interface CheckBoxGroupOptions<T> {
   value: string;
   label: string;
-  image: string;
+  realData?: T;
+  // image: string;
   mode?: ResultWorkSheetsMode;
   number?: number;
-  price?: WorkSheetsDetailPrice;
+  relationship?: string[][];
+  // price?: WorkSheetsDetailPrice;
   disabled?: boolean;
 }
