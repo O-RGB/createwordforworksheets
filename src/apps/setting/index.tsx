@@ -18,18 +18,19 @@ const SettingApps: React.FC<SettingAppsProps> = ({ onFinish }) => {
           onFinish?.(temp);
         }}
         layout="vertical"
-      
       >
         <div className="flex flex-col gap-3 w-full">
           <div>
             <SwitchCommon name="image" labal="แสดงรูปภาพ"></SwitchCommon>
           </div>
           <div className="flex gap-3 w-full">
-            <InputCommon name="sunk" label="ค่าส่ง"></InputCommon>
-            <InputCommon name="sunk" label="บวกเพิ่มเข้าเล่ม"></InputCommon>
+            <InputCommon name="delivery_fee" label="ค่าส่ง"></InputCommon>
+            <InputCommon
+              name="book_price"
+              label="บวกเพิ่มเข้าเล่ม"
+            ></InputCommon>
           </div>
         </div>
-        {/* <SwitchCommon name="darkMode" labal="ดาร์กโหมด"></SwitchCommon> */}
       </Form>
     </>
   );

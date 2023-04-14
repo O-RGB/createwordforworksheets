@@ -3,5 +3,6 @@ interface CheckBoxGroupOptions {
   label: string;
   image: string;
   mode?: ResultWorkSheetsMode;
+  number?: number;
   disabled?: boolean;
 }

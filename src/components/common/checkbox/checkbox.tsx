@@ -4,6 +4,7 @@ import CheckBoxImageLabel from "./image-image";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import ImageDetail from "./image-detail";
 import ImageCondition from "./image-condition";
+import ImageNumber from "./image-number";
 
 interface CheckBoxProps {
   value: string;
@@ -23,6 +24,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({
   imageUrl,
 }) => {
   const [checkBoxOnChange, setOnChange] = useState<boolean>(false);
+  const [countNumber, setCountNumber] = useState<number>(1);
   const [modeCheckBox, setModeCheckBox] =
     useState<ResultWorkSheetsMode>("File");
   const onCheck = (e: CheckboxChangeEvent) => {
@@ -34,6 +36,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({
           value: value,
           image: imageUrl ?? "",
           mode: modeCheckBox,
+          number: 1,
         },
         true
       );
@@ -57,6 +60,19 @@ const CheckBox: React.FC<CheckBoxProps> = ({
       value: value,
       image: imageUrl ?? "",
       mode: result,
+      number: countNumber,
+    });
+  };
+
+  const numberOnChange = (id: string, number: number) => {
+    console.log(number)
+    setCountNumber(number);
+    onUpdate?.({
+      label: label,
+      value: value,
+      image: imageUrl ?? "",
+      mode: modeCheckBox,
+      number: number,
     });
   };
 
@@ -68,13 +84,17 @@ const CheckBox: React.FC<CheckBoxProps> = ({
         }}
         rootClassName="w-full"
         className={`${
-          imageMode ? "p-2" : "p-2 pb-4"
+          imageMode ? "p-2" : "p-2 "
         }   rounded-md w-full duration-200 ${
           checkBoxOnChange ? "bg-slate-100" : ""
         }`}
         value={value}
       >
-        <div className={`${imageMode ? "flex" : ""} w-full gap-4  `}>
+        <div
+          className={`${
+            imageMode ? "flex flex-col sm:flex-row" : ""
+          } w-full gap-4`}
+        >
           <div className={`flex flex-col gap-2 `}>
             <div>{label}</div>
             <div hidden={imageMode}>
@@ -98,8 +118,19 @@ const CheckBox: React.FC<CheckBoxProps> = ({
           </div>
           {checkBoxOnChange && (
             <div
-              className={`flex items-center justify-center select-none -mt-0.5`}
+              className={`flex flex-col sm:flex-row  sm:items-end  select-none -mt-0.5 sm:gap-3 pt-1 sm:pt-3`}
             >
+              <div>
+                <ImageNumber
+                  id={value}
+                  onChange={(id, value) => {
+                    if (checkBoxOnChange) {
+                      numberOnChange(id, value);
+                    }
+                  }}
+                ></ImageNumber>
+              </div>
+
               <div>
                 {!imageMode && <br />}
                 <ImageCondition

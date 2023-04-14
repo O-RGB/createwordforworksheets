@@ -25,7 +25,7 @@ const ImageCondition: React.FC<ImageConditionProps> = ({ onChange, id }) => {
         onChange={onChange1}
         value={value1}
         buttonStyle="solid"
-        optionType="button"
+
       />
     </>
   );

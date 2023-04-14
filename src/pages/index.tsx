@@ -37,7 +37,6 @@ const Home: NextPage = () => {
 
   const onFieldsChange = () => {
     setTimeout(() => {
-      console.log();
       let fieldData = form.getFieldsValue();
       GetResult(fieldData).then((data) => {
         let cout = 0;
@@ -53,7 +52,6 @@ const Home: NextPage = () => {
   useEffect(() => {
     let worksheets = WorkSheetsData();
     loadData(worksheets);
-    console.log(worksheets);
   }, []);
 
   const result = () => {
