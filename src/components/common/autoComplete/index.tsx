@@ -5,7 +5,7 @@ interface AutoCompleteProps {
   name?: string;
   label?: string;
   placeholder?: string;
-  options?: CheckBoxGroupOptions[];
+  options?: any[];
   onSelect?: (e: any) => void;
   onSearch?: (text: string) => void;
 }
