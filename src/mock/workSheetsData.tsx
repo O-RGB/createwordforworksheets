@@ -4,12 +4,14 @@ import { BasicWorkSheets } from "./typeOfWork/basic";
 
 export const WorkSheetsData = (bookPrice: number) => {
   let headWorkSheets: HeadWorkSheets[] = [];
-
   headWorkSheets.push(
     new HeadWorkSheets({
       formName: "math",
       headerTitle: "คณิตศาสตร์",
-      relationship: [["MATH001", "MATH002", "MATH003"]],
+      relationship: [
+        ["MATH001", "MATH002", "MATH003"],
+        ["MATH006", "MATH007"],
+      ],
       worksheets: MathWorkSheets(bookPrice),
     }),
     new HeadWorkSheets({

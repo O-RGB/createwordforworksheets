@@ -18,6 +18,7 @@ import { WorkSheetsToOption } from "@/lib/worksheetsToOption";
 import { DeliveryFeeContext } from "@/context/deliveryFee";
 import { BookServiceContext } from "@/context/bookService";
 import { CheckRelatrionship } from "@/lib/relatrionship";
+import { CreateGoodName } from "@/lib/createGoodname";
 
 const Home: NextPage = () => {
   const [imageSrtting, setImageSetting] = useState<SettingOnFinish>({
@@ -46,8 +47,10 @@ const Home: NextPage = () => {
 
   const onFinishCheckBox = (x: any) => {
     GetResult(x, bookPrice).then((data) => {
-      setResultText(JSON.stringify(data));
-      CheckRelatrionship(data);
+      let s = CheckRelatrionship(data);
+      let text = CreateGoodName(s);
+      console.log(text);
+      setResultText(text);
     });
   };
 
