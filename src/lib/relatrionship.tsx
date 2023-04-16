@@ -8,7 +8,6 @@ export const CheckRelatrionship = (
       let relatrionship = child.realData?.relationship;
       let check = false;
 
-      let dataStore: CheckBoxGroupOptions<WorksheetsModelInput>[] = [];
       let checkStore: boolean[] = [];
       relatrionship?.map((relatrion) => {
         main.map((data) => {
@@ -18,15 +17,16 @@ export const CheckRelatrionship = (
         });
       });
 
-      dataStore.push(child);
+  
 
       if (checkStore.length == relatrionship?.length) {
         check = true;
       }
       returnData.push({
-        realData: dataStore,
+        realData: child,
         conditionStr: child.realData?.conditionStr,
         relatrionship: check,
+        mixMode: child.mixMode,
       });
     });
   });

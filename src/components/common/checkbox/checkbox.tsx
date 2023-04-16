@@ -12,6 +12,7 @@ interface CheckBoxProps {
   label: string;
   imageMode?: boolean;
   mixMode?: boolean;
+  mainId?: string;
   onSelect?: (
     value: CheckBoxGroupOptions<WorksheetsModelInput>,
     select: boolean
@@ -30,6 +31,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({
   onUpdate,
   WorksheetsModelInput,
   relationship,
+  mainId,
 }) => {
   const [checkBoxOnChange, setOnChange] = useState<boolean>(false);
   const [countNumber, setCountNumber] = useState<number>(1);
@@ -188,10 +190,15 @@ const CheckBox: React.FC<CheckBoxProps> = ({
                 </>
               ) : (
                 <>
-                  <div className="flex pt-1 ">
-                    {!imageMode && <br />}
-                    <ImageCheckBook onChange={mixDataOnChange}></ImageCheckBook>
-                  </div>
+                  {mainId && (
+                    <div className="flex pt-1 ">
+                      {!imageMode && <br />}
+                      <ImageCheckBook
+                        mainId={mainId}
+                        onChange={mixDataOnChange}
+                      ></ImageCheckBook>
+                    </div>
+                  )}
                 </>
               )}
             </div>

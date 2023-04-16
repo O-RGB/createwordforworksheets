@@ -18,6 +18,7 @@ interface checkboxMixModeReturn {
 }
 
 interface checkboxMixMain {
+  mainId: string;
   Print: checkboxMixModeReturn;
   File: checkboxMixModeReturn;
   Book: checkboxMixModeReturn;

@@ -83,6 +83,7 @@ const CheckBoxCommon: React.FC<CheckBoxCommonProps> = ({
               <React.Fragment key={`checkBox-key-${i}`}>
                 <div className="w-full">
                   <CheckBox
+                    mainId={name}
                     mixMode={mixMode}
                     relationship={relationship}
                     WorksheetsModelInput={x.realData}

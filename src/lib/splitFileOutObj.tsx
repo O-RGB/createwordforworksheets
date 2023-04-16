@@ -5,20 +5,19 @@ export const SplitFileOutObj = (
   let ResultCheckRelationshipMain: ResultCheckRelationship[] = [];
   resultCheckRelationship.map((child) => {
     let ResultCheckRelationshipChild: ResultCheckRelationship;
-    let RealDataChild: CheckBoxGroupOptions<WorksheetsModelInput>[] = [];
-    child.realData.map((real) => {
-      if (file) {
-        if (real.mode == "File") {
-          RealDataChild.push(real);
-        }
-      } else {
-        if (real.mode != "File") {
-          RealDataChild.push(real);
-        }
-      }
-    });
+    let RealDataChild: CheckBoxGroupOptions<WorksheetsModelInput> | undefined;
 
-    if (RealDataChild.length != 0) {
+    if (file) {
+      if (child.realData.mode == "File") {
+        RealDataChild = child.realData;
+      }
+    } else {
+      if (child.realData.mode != "File") {
+        RealDataChild = child.realData;
+      }
+    }
+
+    if (RealDataChild) {
       ResultCheckRelationshipChild = {
         realData: RealDataChild,
         relatrionship: child.relatrionship,

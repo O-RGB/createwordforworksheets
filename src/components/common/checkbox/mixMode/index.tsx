@@ -4,10 +4,14 @@ import ImageNumber from "../element/image-number";
 import MixMode from "./mixMode";
 
 interface ImageCheckBookProps {
+  mainId: string;
   onChange?: (checkboxMixMain: checkboxMixMain) => void;
 }
 
-const ImageCheckBook: React.FC<ImageCheckBookProps> = ({ onChange }) => {
+const ImageCheckBook: React.FC<ImageCheckBookProps> = ({
+  onChange,
+  mainId,
+}) => {
   const optionsWithDisabled = [
     { label: "ไฟล์", value: "File" },
     { label: "ปริ้น", value: "Print" },
@@ -15,6 +19,7 @@ const ImageCheckBook: React.FC<ImageCheckBookProps> = ({ onChange }) => {
   ];
 
   const [checkboxMixMain, setcheckboxMixMain] = useState<checkboxMixMain>({
+    mainId: mainId,
     Book: {
       count: 0,
       value: "Book",

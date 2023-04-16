@@ -31,8 +31,12 @@ const MixMode: React.FC<MixModeProps> = ({
             <ImageNumber
               id={""}
               onChange={(id, count) => {
-                setCount(count);
-                onChange?.(checkState, value, count);
+                if (checkState) {
+                  setCount(count);
+                  onChange?.(checkState, value, count);
+                } else {
+                  onChange?.(checkState, value, 0);
+                }
               }}
             ></ImageNumber>
           </div>
@@ -42,7 +46,11 @@ const MixMode: React.FC<MixModeProps> = ({
           //   defaultChecked={value == "File"}
           onChange={(e) => {
             setCheckState(e.target.checked);
-            onChange?.(e.target.value, value, count + 1);
+            if (e.target.checked) {
+              onChange?.(e.target.value, value, count + 1);
+            } else {
+              onChange?.(e.target.value, value, 0);
+            }
           }}
           value={value}
         >

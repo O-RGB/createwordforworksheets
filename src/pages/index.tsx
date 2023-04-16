@@ -18,9 +18,10 @@ import { WorkSheetsToOption } from "@/lib/worksheetsToOption";
 import { DeliveryFeeContext } from "@/context/deliveryFee";
 import { BookServiceContext } from "@/context/bookService";
 import { CheckRelatrionship } from "@/lib/relatrionship";
-import { CreateGoodName } from "@/lib/createGoodname";
+import { CreateGoodName } from "@/lib/createGood/createGoodname";
 import React from "react";
 import { SplitFileOutObj } from "@/lib/splitFileOutObj";
+import { CreateGoodNameMixMode } from "@/lib/createGood/createGoodnameMix";
 
 const Home: NextPage = () => {
   const [imageSrtting, setImageSetting] = useState<SettingOnFinish>({
@@ -58,12 +59,46 @@ const Home: NextPage = () => {
 
   const onFinishCheckBox = (x: any) => {
     GetResult(x, bookPrice).then((data) => {
-      let s = CheckRelatrionship(data);
-      let file = SplitFileOutObj(s);
-      let bookOrPrint = SplitFileOutObj(s, false);
-      let text = CreateGoodName(s);
-      console.log(file, bookOrPrint);
-      setResultText(text);
+      console.log(data);
+
+      if (!imageSrtting.mixData) {
+        let checkRealt = CheckRelatrionship(data);
+        let mainfile = SplitFileOutObj(checkRealt);
+        let mainbookOrPrint = SplitFileOutObj(checkRealt, false);
+        let result: string = ``;
+        let file = CreateGoodName(mainfile, "🔥🔥รายการ 💾 (ไฟล์) 🔥🔥\n");
+        let print = CreateGoodName(
+          mainbookOrPrint,
+          "🔥🔥รายการ 📘📕 (ชิ้นงาน) 🔥🔥\n"
+        );
+        if (mainfile.length > 0) {
+          result += file + "\n\n";
+        }
+        if (mainbookOrPrint.length > 0) {
+          result += print + "\n";
+        }
+        setResultText(result);
+      } else {
+        let perparDataForMixMode = CreateGoodNameMixMode(data);
+        let mixdata_File = CheckRelatrionship(perparDataForMixMode.File ?? []);
+        let mixdata_Print = CheckRelatrionship(
+          perparDataForMixMode.Print ?? []
+        );
+        let result: string = ``;
+        let file = CreateGoodName(mixdata_File, "🔥🔥รายการ 💾 (ไฟล์) 🔥🔥\n");
+        let print = CreateGoodName(
+          mixdata_Print,
+          "🔥🔥รายการ 📘📕 (ชิ้นงาน) 🔥🔥\n"
+        );
+        if (mixdata_File.length > 0) {
+          result += file + "\n\n";
+        }
+        if (mixdata_Print.length > 0) {
+          result += print + "\n";
+        }
+
+        setResultText(result);
+      }
     });
   };
 
