@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 interface CheckBoxCardProps {
   WorksheetsModel?: WorksheetsModel[];
   imageSrtting?: boolean;
+  mixMode?: boolean;
   label?: string;
   name?: string;
   form?: FormInstance<any>;
@@ -21,6 +22,7 @@ const CheckBoxCard: React.FC<CheckBoxCardProps> = ({
   name,
   form,
   relationship,
+  mixMode,
 }) => {
   const [worksheetsOption, setWorksheetsOption] = useState<
     CheckBoxGroupOptions<WorksheetsModelInput>[]
@@ -33,10 +35,11 @@ const CheckBoxCard: React.FC<CheckBoxCardProps> = ({
   }, [WorksheetsModel]);
   return (
     <>
-      <div className="layout-card">
+      <div className="layout-card ">
         <div className="layout-card-title">{label}</div>
         <CheckBoxCommon
-        relationship={relationship}
+          mixMode={mixMode}
+          relationship={relationship}
           form={form}
           name={name}
           CheckBoxGroupOptions={worksheetsOption}

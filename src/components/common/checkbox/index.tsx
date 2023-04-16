@@ -9,6 +9,7 @@ interface CheckBoxCommonProps {
   CheckBoxGroupOptions?: CheckBoxGroupOptions<WorksheetsModelInput>[];
   imageMode?: boolean;
   form?: FormInstance<any>;
+  mixMode?: boolean;
 }
 
 const CheckBoxCommon: React.FC<CheckBoxCommonProps> = ({
@@ -18,6 +19,7 @@ const CheckBoxCommon: React.FC<CheckBoxCommonProps> = ({
   imageMode,
   form,
   relationship,
+  mixMode,
 }) => {
   useEffect(() => {}, [form]);
 
@@ -57,6 +59,8 @@ const CheckBoxCommon: React.FC<CheckBoxCommonProps> = ({
         if (x.value == value.value) {
           x.mode = value.mode;
           x.number = value.number;
+          x.mixData = value.mixData;
+          x.mixMode = x.mixMode;
         }
         obj.push(x);
       });
@@ -79,6 +83,7 @@ const CheckBoxCommon: React.FC<CheckBoxCommonProps> = ({
               <React.Fragment key={`checkBox-key-${i}`}>
                 <div className="w-full">
                   <CheckBox
+                    mixMode={mixMode}
                     relationship={relationship}
                     WorksheetsModelInput={x.realData}
                     onUpdate={updateArraySelect}

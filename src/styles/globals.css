@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .layout-padding {
   @apply p-5;
 }
@@ -13,4 +12,9 @@
 
 .layout-card-title {
   @apply text-lg font-bold pb-2;
+}
+
+.ant-switch,
+.ant-btn-primary {
+  background: rgba(0, 0, 0, 0.25);
 }

@@ -1,15 +1,17 @@
 import { Checkbox } from "antd";
 import React, { useState } from "react";
-import CheckBoxImageLabel from "./image-image";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
-import ImageDetail from "./image-detail";
-import ImageCondition from "./image-condition";
-import ImageNumber from "./image-number";
+import ImageDetail from "./imageMode/image-detail";
+import ImageCondition from "./radioSelect/image-condition";
+import ImageNumber from "./element/image-number";
+import ImageCheckBook from "./mixMode";
+import CheckBoxImageLabel from "./imageMode/image-image";
 
 interface CheckBoxProps {
   value: string;
   label: string;
   imageMode?: boolean;
+  mixMode?: boolean;
   onSelect?: (
     value: CheckBoxGroupOptions<WorksheetsModelInput>,
     select: boolean
@@ -23,6 +25,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({
   value,
   label,
   imageMode = false,
+  mixMode = false,
   onSelect,
   onUpdate,
   WorksheetsModelInput,
@@ -32,6 +35,9 @@ const CheckBox: React.FC<CheckBoxProps> = ({
   const [countNumber, setCountNumber] = useState<number>(1);
   const [modeCheckBox, setModeCheckBox] =
     useState<ResultWorkSheetsMode>("File");
+  const [checkboxMixMain, setcheckboxMixMain] = useState<
+    checkboxMixMain | undefined
+  >();
   const onCheck = (e: CheckboxChangeEvent) => {
     if (e.target.checked) {
       setOnChange(true);
@@ -43,6 +49,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({
           mode: modeCheckBox,
           relationship: relationship,
           number: 1,
+          mixMode: !mixMode,
         },
         true
       );
@@ -56,6 +63,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({
           realData: WorksheetsModelInput,
           relationship: relationship,
           mode: modeCheckBox,
+          mixMode: !mixMode,
         },
         false
       );
@@ -70,6 +78,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({
       mode: result,
       relationship: relationship,
       number: 1,
+      mixMode: !mixMode,
     });
   };
 
@@ -83,6 +92,20 @@ const CheckBox: React.FC<CheckBoxProps> = ({
       mode: modeCheckBox,
       relationship: relationship,
       number: number,
+      mixMode: !mixMode,
+    });
+  };
+
+  const mixDataOnChange = (data: checkboxMixMain) => {
+    onUpdate?.({
+      label: label,
+      value: value,
+      realData: WorksheetsModelInput,
+      mode: modeCheckBox,
+      relationship: relationship,
+      number: 0,
+      mixMode: !mixMode,
+      mixData: data,
     });
   };
 
@@ -148,18 +171,29 @@ const CheckBox: React.FC<CheckBoxProps> = ({
                 </div>
               )}
 
-              <div className="flex pt-1 ">
-                {!imageMode && <br />}
-                <ImageCondition
-                  id={value}
-                  onChange={(id, value) => {
-                    if (checkBoxOnChange) {
-                      radioOnChange(value);
-                      setModeCheckBox(value);
-                    }
-                  }}
-                ></ImageCondition>
-              </div>
+              {mixMode ? (
+                <>
+                  <div className="flex pt-1 ">
+                    {!imageMode && <br />}
+                    <ImageCondition
+                      id={value}
+                      onChange={(id, value) => {
+                        if (checkBoxOnChange) {
+                          radioOnChange(value);
+                          setModeCheckBox(value);
+                        }
+                      }}
+                    ></ImageCondition>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex pt-1 ">
+                    {!imageMode && <br />}
+                    <ImageCheckBook onChange={mixDataOnChange}></ImageCheckBook>
+                  </div>
+                </>
+              )}
             </div>
           )}
         </div>

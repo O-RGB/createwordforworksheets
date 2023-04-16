@@ -4,7 +4,7 @@ import SettingApps from "@/apps/setting";
 import SearchApps from "@/apps/srarch";
 import CheckBoxCommon from "@/components/common/checkbox";
 import LayoutDisplay from "@/components/layout";
-import { FloatButton, Form, Modal } from "antd";
+import { FloatButton, Form, Modal, message } from "antd";
 import type { NextPage } from "next";
 import { createRef, useContext, useEffect, useRef, useState } from "react";
 
@@ -19,10 +19,13 @@ import { DeliveryFeeContext } from "@/context/deliveryFee";
 import { BookServiceContext } from "@/context/bookService";
 import { CheckRelatrionship } from "@/lib/relatrionship";
 import { CreateGoodName } from "@/lib/createGoodname";
+import React from "react";
+import { SplitFileOutObj } from "@/lib/splitFileOutObj";
 
 const Home: NextPage = () => {
   const [imageSrtting, setImageSetting] = useState<SettingOnFinish>({
     image: false,
+    mixData: false,
     delivery_fee: 0,
     book_price: 0,
   });
@@ -31,6 +34,14 @@ const Home: NextPage = () => {
   const [data, loadData] = useState<HeadWorkSheets[] | undefined>(undefined);
   const { deliveryFee, setDeliveryFee } = useContext(DeliveryFeeContext);
   const { bookPrice, setBookPrice } = useContext(BookServiceContext);
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const success = () => {
+    messageApi.open({
+      type: "success",
+      content: "ก็อปปี้ขึ้นคลิปบอร์ดแล้ว",
+    });
+  };
 
   const refResult: any = useRef(null);
 
@@ -48,8 +59,10 @@ const Home: NextPage = () => {
   const onFinishCheckBox = (x: any) => {
     GetResult(x, bookPrice).then((data) => {
       let s = CheckRelatrionship(data);
+      let file = SplitFileOutObj(s);
+      let bookOrPrint = SplitFileOutObj(s, false);
       let text = CreateGoodName(s);
-      console.log(text);
+      console.log(file, bookOrPrint);
       setResultText(text);
     });
   };
@@ -71,7 +84,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     let worksheets = WorkSheetsData(bookPrice);
     loadData(worksheets);
-  }, [bookPrice]);
+  }, [bookPrice, imageSrtting]);
 
   const result = () => {
     return (
@@ -106,6 +119,7 @@ const Home: NextPage = () => {
 
   return (
     <>
+      {contextHolder}
       <Modal
         title="รายการ"
         open={isModalOpen}
@@ -126,6 +140,7 @@ const Home: NextPage = () => {
           icon={<SaveOutlined />}
           onClick={() => {
             form.submit();
+            success();
             refResult.current.scrollIntoView({
               behavior: "smooth",
               block: "end",
@@ -148,11 +163,11 @@ const Home: NextPage = () => {
           onFinish={onFinishCheckBox}
           onFieldsChange={onFieldsChange}
         >
-          {data?.map((header) => {
+          {data?.map((header, i) => {
             let headerArray = header.getHeadWorksheets();
             if (headerArray.worksheets) {
               return (
-                <>
+                <React.Fragment key={`${headerArray.formName}-key-i-${i}`}>
                   {
                     <CheckBoxCard
                       relationship={headerArray.relationship}
@@ -160,10 +175,11 @@ const Home: NextPage = () => {
                       name={headerArray.formName}
                       label={headerArray.headerTitle}
                       imageSrtting={!imageSrtting.image}
+                      mixMode={!imageSrtting.mixData}
                       WorksheetsModel={headerArray.worksheets}
                     ></CheckBoxCard>
                   }
-                </>
+                </React.Fragment>
               );
             }
           })}

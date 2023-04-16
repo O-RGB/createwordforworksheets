@@ -1,7 +1,7 @@
-import { Button, Input, InputNumber } from "antd";
+import { Button, Form, Input, InputNumber } from "antd";
 import React, { useState } from "react";
-import InputCommon from "../input";
-import ButtonCommon from "../button";
+import InputCommon from "../../input";
+import ButtonCommon from "../../button";
 
 interface ImageNumberProps {
   id: string;

@@ -28,8 +28,9 @@ const SettingApps: React.FC<SettingAppsProps> = ({ onFinish }) => {
         layout="vertical"
       >
         <div className="flex flex-col gap-3 w-full">
-          <div>
+          <div className="flex gap-6">
             <SwitchCommon name="image" labal="แสดงรูปภาพ"></SwitchCommon>
+            <SwitchCommon name="mixData" labal="เลือกแบบผสม"></SwitchCommon>
           </div>
           <div className="flex gap-3 w-full">
             <InputCommon name="delivery_fee" label="ค่าส่ง"></InputCommon>
