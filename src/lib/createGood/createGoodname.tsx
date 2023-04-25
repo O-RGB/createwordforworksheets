@@ -91,7 +91,7 @@ export const CreateGoodName = (
     }
   });
 
-  if (mode == "Book" || mode == "Print") {
+  if (mode == "Print" && resultCheckRelationship.length > 0) {
     good += "✅ ค่าส่ง\n";
     good += `🟩 ${settingOnFinish.delivery_fee} บาท\n\n`;
     price += Number(settingOnFinish.delivery_fee);

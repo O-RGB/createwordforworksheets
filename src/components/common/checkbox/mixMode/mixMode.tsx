@@ -35,6 +35,7 @@ const MixMode: React.FC<MixModeProps> = ({
                   setCount(count);
                   onChange?.(checkState, value, count);
                 } else {
+                  setCount(0)
                   onChange?.(checkState, value, 0);
                 }
               }}
@@ -49,6 +50,7 @@ const MixMode: React.FC<MixModeProps> = ({
             if (e.target.checked) {
               onChange?.(e.target.value, value, count + 1);
             } else {
+              setCount(0)
               onChange?.(e.target.value, value, 0);
             }
           }}

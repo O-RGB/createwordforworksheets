@@ -79,8 +79,6 @@ const Home: NextPage = () => {
         }
         if (mainbookOrPrint.length > 0) {
           result += print.good + "\n";
-
-          result += "";
         }
         result += "🔴 ราคารวมทั้งหมด";
         result += `\n🔴 ${file.price + print.price} บาท`;

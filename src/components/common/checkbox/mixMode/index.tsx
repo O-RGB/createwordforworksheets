@@ -18,7 +18,7 @@ const ImageCheckBook: React.FC<ImageCheckBookProps> = ({
     { label: "เข้าเล่ม", value: "Book" },
   ];
 
-  const [checkboxMixMain, setcheckboxMixMain] = useState<checkboxMixMain>({
+  const defaultValue: checkboxMixMain = {
     mainId: mainId,
     Book: {
       count: 0,
@@ -32,7 +32,10 @@ const ImageCheckBook: React.FC<ImageCheckBookProps> = ({
       count: 0,
       value: "Print",
     },
-  });
+  };
+
+  const [checkboxMixMain, setcheckboxMixMain] =
+    useState<checkboxMixMain>(defaultValue);
   const [valuCchecked, setValueChecked] = useState<boolean>(false);
   const [checked, setChecked] = useState<string>("File");
 
@@ -47,13 +50,20 @@ const ImageCheckBook: React.FC<ImageCheckBookProps> = ({
                 strChecked={checked}
                 onChange={(e, value, count) => {
                   let temp = checkboxMixMain;
+                  // setTimeout(() => {
+                  // console.log(temp);
                   setChecked(value);
                   setValueChecked(e);
-                  console.log(e, value, count);
-                  temp[value].count = count;
+                  if (e) {
+                    temp[value].count = count;
+                  } else {
+                    temp[value].count = 0;
+                  }
                   temp[value].value = value;
+                  console.log(temp,count)
                   setcheckboxMixMain(temp);
                   onChange?.(temp);
+                  // }, 10);
                 }}
                 label={data.label}
                 value={data.value as ResultWorkSheetsMode}
