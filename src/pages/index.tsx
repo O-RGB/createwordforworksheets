@@ -77,7 +77,7 @@ const Home: NextPage = () => {
         if (mainbookOrPrint.length > 0) {
           result += print.good + "\n";
         }
-        result += "\n🔴 ราคารวมทั้งหมด";
+        result += "🔴 ราคารวมทั้งหมด";
         result += `\n🔴 ${file.price + print.price} บาท`;
         setResultText(result);
       } else {
@@ -98,7 +98,7 @@ const Home: NextPage = () => {
         if (mixdata_Print.length > 0) {
           result += print.good + "\n";
         }
-        result += "\n🔴 ราคารวมทั้งหมด";
+        result += "🔴 ราคารวมทั้งหมด";
         result += `\n🔴 ${file.price + print.price} บาท`;
 
         setResultText(result);

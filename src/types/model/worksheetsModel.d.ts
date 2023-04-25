@@ -15,6 +15,7 @@ interface WorksheetsModelInput {
   price: WorkSheetsDetailPrice;
   conditionStr?: string;
   relationship?: string[];
+  discount?:number
 }
 
 interface HeadWorkSheetsInput<T> {

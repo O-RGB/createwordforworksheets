@@ -17,8 +17,6 @@ export const CheckRelatrionship = (
         });
       });
 
-  
-
       if (checkStore.length == relatrionship?.length) {
         check = true;
       }

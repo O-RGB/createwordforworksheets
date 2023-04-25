@@ -13,8 +13,6 @@ export const CreateGoodName = (
   };
   let price = 0;
   let good: string = goodHeader;
-  let currentRelationship: string | undefined = undefined;
-  let lastRelationship: string[] | undefined = undefined;
   let relatrionshipCount: number = 0;
   resultCheckRelationship.map((child, i) => {
     console.log(child);
@@ -73,18 +71,24 @@ export const CreateGoodName = (
           : ""
       } บาท\n`;
 
-      if (child.relatrionship) {
+      console.log(child.relatrionship )
+      console.log(child.realData.realData.relationship)
+      console.log(child.relatrionship && child.realData.realData.relationship)
+      if (child.relatrionship && child.realData.realData.relationship) {
         relatrionshipCount = relatrionshipCount + 1;
         good += detail;
-        if (
-          child.realData.realData.relationship?.length == relatrionshipCount
-        ) {
-          good += `#this is type ${child.conditionStr}\n\n`;
-        }else{
+        if (child.realData.realData.relationship.length == relatrionshipCount) {
+          good += `💥${child.conditionStr}\n`;
+          good += `💥ลดราคา -${child.realData.realData.discount} บาท\n`;
+          good += `\n`;
+          if (child.realData.realData.discount) {
+            price += -child.realData.realData.discount;
+            relatrionshipCount = 0;
+          }
+        } else {
           good += "\n";
         }
       } else {
-        relatrionshipCount = 0;
         good += detail + "\n";
       }
     }

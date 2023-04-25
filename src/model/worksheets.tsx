@@ -6,6 +6,7 @@ export class WorksheetsModel {
   private price?: WorkSheetsDetailPrice;
   private conditionStr?: string;
   private relationship?: string[];
+  private discount?: number;
 
   constructor(worksheetsModelInput: WorksheetsModelInput) {
     this.workSheetsId = worksheetsModelInput.workSheetsId;
@@ -15,6 +16,7 @@ export class WorksheetsModel {
     this.price = worksheetsModelInput.price;
     this.conditionStr = worksheetsModelInput.conditionStr;
     this.relationship = worksheetsModelInput.relationship;
+    this.discount = worksheetsModelInput.discount;
   }
 
   public getWorksheets(): WorksheetsModelInput | undefined {
@@ -33,6 +35,7 @@ export class WorksheetsModel {
         price: this.price,
         conditionStr: this.conditionStr,
         relationship: this.relationship,
+        discount: this.discount,
       };
     } else {
       console.error("WorksheetsModelInput is null");
