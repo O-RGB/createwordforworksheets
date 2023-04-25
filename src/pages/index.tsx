@@ -72,11 +72,13 @@ const Home: NextPage = () => {
           "🔥🔥รายการ 📘📕 (ชิ้นงาน) 🔥🔥\n"
         );
         if (mainfile.length > 0) {
-          result += file + "\n\n";
+          result += file.good + "\n\n";
         }
         if (mainbookOrPrint.length > 0) {
-          result += print + "\n";
+          result += print.good + "\n";
         }
+        result += "\n🔴 ราคารวมทั้งหมด";
+        result += `\n🔴 ${file.price + print.price} บาท`;
         setResultText(result);
       } else {
         let perparDataForMixMode = CreateGoodNameMixMode(data);
@@ -91,11 +93,13 @@ const Home: NextPage = () => {
           "🔥🔥รายการ 📘📕 (ชิ้นงาน) 🔥🔥\n"
         );
         if (mixdata_File.length > 0) {
-          result += file + "\n\n";
+          result += file.good + "\n\n";
         }
         if (mixdata_Print.length > 0) {
-          result += print + "\n";
+          result += print.good + "\n";
         }
+        result += "\n🔴 ราคารวมทั้งหมด";
+        result += `\n🔴 ${file.price + print.price} บาท`;
 
         setResultText(result);
       }

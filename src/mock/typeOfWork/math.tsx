@@ -82,6 +82,7 @@ export const MathWorkSheets = (bookPrice: number) => {
     new WorksheetsModel({
       workSheetsId: "MATH006",
       relationship: ["MATH006", "MATH007"],
+      conditionStr: "ซื้อคณิตศาสตร์ครบ 2 เทอม",
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH4.png?alt=media&token=a507a7a5-b5b6-456e-a755-f7bab14a8065",
       name: "คณิตศาสตร์ ป.6 (เทอม 1)",
@@ -97,6 +98,7 @@ export const MathWorkSheets = (bookPrice: number) => {
     new WorksheetsModel({
       workSheetsId: "MATH007",
       relationship: ["MATH006", "MATH007"],
+      conditionStr: "ซื้อคณิตศาสตร์ครบ 2 เทอม",
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH4.png?alt=media&token=a507a7a5-b5b6-456e-a755-f7bab14a8065",
       name: "คณิตศาสตร์ ป.6 (เทอม 2)",

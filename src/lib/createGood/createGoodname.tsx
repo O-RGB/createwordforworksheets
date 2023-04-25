@@ -1,11 +1,23 @@
+interface CreateGoodNameStringPrice {
+  price: number;
+  good: string;
+}
+
 export const CreateGoodName = (
   resultCheckRelationship: ResultCheckRelationship[],
   goodHeader = "🔥🔥รายการนะครับ🔥🔥\n"
 ) => {
+  let returnData: CreateGoodNameStringPrice = {
+    good: "",
+    price: 0,
+  };
   let price = 0;
   let good: string = goodHeader;
+  let currentRelationship: string | undefined = undefined;
+  let lastRelationship: string[] | undefined = undefined;
+  let relatrionshipCount: number = 0;
   resultCheckRelationship.map((child, i) => {
-    console.log(child)
+    console.log(child);
     if (child.realData.number && child.realData.realData?.price) {
       let file = 0;
       let print = 0;
@@ -60,11 +72,26 @@ export const CreateGoodName = (
           ? `${book}`
           : ""
       } บาท\n`;
-      good += detail + "\n";
+
+      if (child.relatrionship) {
+        relatrionshipCount = relatrionshipCount + 1;
+        good += detail;
+        if (
+          child.realData.realData.relationship?.length == relatrionshipCount
+        ) {
+          good += `#this is type ${child.conditionStr}\n\n`;
+        }else{
+          good += "\n";
+        }
+      } else {
+        relatrionshipCount = 0;
+        good += detail + "\n";
+      }
     }
   });
 
   good += `🍀 ราคารวม \n🔴 ${price} บาทครับผม`;
-
-  return good;
+  returnData.good = good;
+  returnData.price = price;
+  return returnData;
 };
