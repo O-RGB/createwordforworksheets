@@ -5,6 +5,8 @@ interface CreateGoodNameStringPrice {
 
 export const CreateGoodName = (
   resultCheckRelationship: ResultCheckRelationship[],
+  mode: ResultWorkSheetsMode,
+  settingOnFinish: SettingOnFinish,
   goodHeader = "🔥🔥รายการนะครับ🔥🔥\n"
 ) => {
   let returnData: CreateGoodNameStringPrice = {
@@ -15,12 +17,10 @@ export const CreateGoodName = (
   let good: string = goodHeader;
   let relatrionshipCount: number = 0;
   resultCheckRelationship.map((child, i) => {
-    console.log(child);
     if (child.realData.number && child.realData.realData?.price) {
       let file = 0;
       let print = 0;
       let book = 0;
-
       if (
         child.realData.mode == "File" &&
         child.realData.realData?.price.file
@@ -71,9 +71,6 @@ export const CreateGoodName = (
           : ""
       } บาท\n`;
 
-      console.log(child.relatrionship )
-      console.log(child.realData.realData.relationship)
-      console.log(child.relatrionship && child.realData.realData.relationship)
       if (child.relatrionship && child.realData.realData.relationship) {
         relatrionshipCount = relatrionshipCount + 1;
         good += detail;
@@ -94,7 +91,13 @@ export const CreateGoodName = (
     }
   });
 
-  good += `🍀 ราคารวม \n🔴 ${price} บาทครับผม`;
+  if (mode == "Book" || mode == "Print") {
+    good += "✅ ค่าส่ง\n";
+    good += `🟩 ${settingOnFinish.delivery_fee} บาท\n\n`;
+    price += Number(settingOnFinish.delivery_fee);
+  }
+  good += `🍀 ราคารวม \n`;
+  good += `🔴 ${price} บาทครับผม\n`;
   returnData.good = good;
   returnData.price = price;
   return returnData;

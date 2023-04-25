@@ -2,19 +2,15 @@ import ResultTextApps from "@/apps/result";
 import ResultSettingApps from "@/apps/resultSetting";
 import SettingApps from "@/apps/setting";
 import SearchApps from "@/apps/srarch";
-import CheckBoxCommon from "@/components/common/checkbox";
 import LayoutDisplay from "@/components/layout";
 import { FloatButton, Form, Modal, message } from "antd";
 import type { NextPage } from "next";
-import { createRef, useContext, useEffect, useRef, useState } from "react";
-
+import { useContext, useEffect, useRef, useState } from "react";
 import { ShoppingOutlined, SaveOutlined } from "@ant-design/icons";
 import CheckBoxCard from "@/apps/checkBoxCard";
 import { GetResult } from "@/lib/getResult";
 import { WorkSheetsData } from "@/mock/workSheetsData";
-import { WorksheetsModel } from "@/model/worksheets";
 import { HeadWorkSheets } from "@/model/headworksheets";
-import { WorkSheetsToOption } from "@/lib/worksheetsToOption";
 import { DeliveryFeeContext } from "@/context/deliveryFee";
 import { BookServiceContext } from "@/context/bookService";
 import { CheckRelatrionship } from "@/lib/relatrionship";
@@ -24,18 +20,18 @@ import { SplitFileOutObj } from "@/lib/splitFileOutObj";
 import { CreateGoodNameMixMode } from "@/lib/createGood/createGoodnameMix";
 
 const Home: NextPage = () => {
-  const [imageSrtting, setImageSetting] = useState<SettingOnFinish>({
-    image: false,
-    mixData: false,
-    delivery_fee: 0,
-    book_price: 0,
-  });
   const [resultText, setResultText] = useState<string>("");
   const [shopCount, setShopCount] = useState<number>(0);
   const [data, loadData] = useState<HeadWorkSheets[] | undefined>(undefined);
   const { deliveryFee, setDeliveryFee } = useContext(DeliveryFeeContext);
   const { bookPrice, setBookPrice } = useContext(BookServiceContext);
   const [messageApi, contextHolder] = message.useMessage();
+  const [imageSrtting, setImageSetting] = useState<SettingOnFinish>({
+    image: false,
+    mixData: false,
+    delivery_fee: deliveryFee,
+    book_price: bookPrice,
+  });
 
   const success = () => {
     messageApi.open({
@@ -66,16 +62,25 @@ const Home: NextPage = () => {
         let mainfile = SplitFileOutObj(checkRealt);
         let mainbookOrPrint = SplitFileOutObj(checkRealt, false);
         let result: string = ``;
-        let file = CreateGoodName(mainfile, "🔥🔥รายการ 💾 (ไฟล์) 🔥🔥\n");
+        let file = CreateGoodName(
+          mainfile,
+          "File",
+          imageSrtting,
+          "🔥🔥รายการ 💾 (ไฟล์) 🔥🔥\n"
+        );
         let print = CreateGoodName(
           mainbookOrPrint,
+          "Print",
+          imageSrtting,
           "🔥🔥รายการ 📘📕 (ชิ้นงาน) 🔥🔥\n"
         );
         if (mainfile.length > 0) {
-          result += file.good + "\n\n";
+          result += file.good + "\n";
         }
         if (mainbookOrPrint.length > 0) {
           result += print.good + "\n";
+
+          result += "";
         }
         result += "🔴 ราคารวมทั้งหมด";
         result += `\n🔴 ${file.price + print.price} บาท`;
@@ -87,13 +92,20 @@ const Home: NextPage = () => {
           perparDataForMixMode.Print ?? []
         );
         let result: string = ``;
-        let file = CreateGoodName(mixdata_File, "🔥🔥รายการ 💾 (ไฟล์) 🔥🔥\n");
+        let file = CreateGoodName(
+          mixdata_File,
+          "File",
+          imageSrtting,
+          "🔥🔥รายการ 💾 (ไฟล์) 🔥🔥\n"
+        );
         let print = CreateGoodName(
           mixdata_Print,
+          "Print",
+          imageSrtting,
           "🔥🔥รายการ 📘📕 (ชิ้นงาน) 🔥🔥\n"
         );
         if (mixdata_File.length > 0) {
-          result += file.good + "\n\n";
+          result += file.good + "\n";
         }
         if (mixdata_Print.length > 0) {
           result += print.good + "\n";
