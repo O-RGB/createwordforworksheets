@@ -6,9 +6,11 @@ interface CreateGoodNameStringPrice {
 export const CreateGoodName = (
   resultCheckRelationship: ResultCheckRelationship[],
   mode: ResultWorkSheetsMode,
-  settingOnFinish: SettingOnFinish,
-  goodHeader = "🔥🔥รายการนะครับ🔥🔥\n"
+  settingOnFinish: InputSettingOnFinish,
+  goodHeader = "🔥🔥รายการนะครับ🔥🔥\n",
+  resultOnFinish: ResultSettingOnFinish
 ) => {
+  console.log(resultOnFinish);
   let returnData: CreateGoodNameStringPrice = {
     good: "",
     price: 0,
@@ -42,16 +44,21 @@ export const CreateGoodName = (
       }
 
       let detail = `✅ ${i + 1}. `;
-      detail += `${child.realData.label} \n`;
-      detail += `${
-        child.realData.mode == "File"
-          ? `💾 (ไฟล์)`
-          : child.realData.mode == "Print"
-          ? `📘 ${child.realData.number} ชุด (ปริ้น)`
-          : child.realData.mode == "Book"
-          ? `📕 ${child.realData.number} ชุด (เข้าเล่ม)`
-          : ""
-      }\n`;
+      detail += `${child.realData.label}`;
+      if (resultOnFinish.type) {
+        detail += `\n${
+          child.realData.mode == "File"
+            ? `💾 (ไฟล์)`
+            : child.realData.mode == "Print"
+            ? `📘 ${child.realData.number} ชุด (ปริ้น)`
+            : child.realData.mode == "Book"
+            ? `📕 ${child.realData.number} ชุด (เข้าเล่ม)`
+            : ""
+        }\n`;
+      } else {
+        detail += "\n";
+      }
+
       if (child.realData.number > 1) {
         detail += `${
           child.realData.mode == "Print"
@@ -61,15 +68,18 @@ export const CreateGoodName = (
             : ""
         }\n`;
       }
-      detail += `🟩 ${
-        child.realData.mode == "File"
-          ? `${file}`
-          : child.realData.mode == "Print"
-          ? `${print}`
-          : child.realData.mode == "Book"
-          ? `${book}`
-          : ""
-      } บาท\n`;
+
+      if (resultOnFinish.price) {
+        detail += `🟩 ${
+          child.realData.mode == "File"
+            ? `${file}`
+            : child.realData.mode == "Print"
+            ? `${print}`
+            : child.realData.mode == "Book"
+            ? `${book}`
+            : ""
+        } บาท\n`;
+      }
 
       if (child.relatrionship && child.realData.realData.relationship) {
         relatrionshipCount = relatrionshipCount + 1;
@@ -78,6 +88,7 @@ export const CreateGoodName = (
           good += `💥${child.conditionStr}\n`;
           good += `💥ลดราคา -${child.realData.realData.discount} บาท\n`;
           good += `\n`;
+
           if (child.realData.realData.discount) {
             price += -child.realData.realData.discount;
             relatrionshipCount = 0;
@@ -96,9 +107,15 @@ export const CreateGoodName = (
     good += `🟩 ${settingOnFinish.delivery_fee} บาท\n\n`;
     price += Number(settingOnFinish.delivery_fee);
   }
-  good += `🍀 ราคารวม \n`;
-  good += `🔴 ${price} บาทครับผม\n`;
+
+  if (resultOnFinish.price_all) {
+    good += `🍀 ราคารวม \n`;
+    good += `🔴 ${price} บาทครับผม\n`;
+  } else {
+    good = good.substring(0, good.lastIndexOf("\n"));
+  }
   returnData.good = good;
   returnData.price = price;
+
   return returnData;
 };

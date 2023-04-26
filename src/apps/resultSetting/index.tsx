@@ -1,14 +1,19 @@
 import SwitchCommon from "@/components/common/switch";
 import TextAreaCommon from "@/components/common/textArea";
 import { Form, Input } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface ResultSettingAppsProps {
-  onFinish?: (data: SettingOnFinish) => void;
+  onFinish?: (data: ResultSettingOnFinish) => void;
+  disabled?: boolean;
 }
 
-const ResultSettingApps: React.FC<ResultSettingAppsProps> = ({ onFinish }) => {
+const ResultSettingApps: React.FC<ResultSettingAppsProps> = ({
+  onFinish,
+  disabled,
+}) => {
   const [form] = Form.useForm();
+
   return (
     <>
       <Form
@@ -20,9 +25,30 @@ const ResultSettingApps: React.FC<ResultSettingAppsProps> = ({ onFinish }) => {
         layout="vertical"
         className="grid grid-cols-4"
       >
-        <SwitchCommon checked name="price" labal="ราคา"></SwitchCommon>
-        <SwitchCommon checked name="price" labal="หัวข้อ"></SwitchCommon>
-        <SwitchCommon checked name="price" labal="ราคารวม"></SwitchCommon>
+        <SwitchCommon
+          disabled={disabled}
+          defaultChecked
+          name="price"
+          labal="ราคา"
+        ></SwitchCommon>
+        <SwitchCommon
+          disabled={disabled}
+          defaultChecked
+          name="header"
+          labal="หัวข้อ"
+        ></SwitchCommon>
+        <SwitchCommon
+          disabled={disabled}
+          defaultChecked
+          name="price_all"
+          labal="ราคารวม"
+        ></SwitchCommon>
+        <SwitchCommon
+          disabled={disabled}
+          defaultChecked
+          name="type"
+          labal="ชนิดสินค้า"
+        ></SwitchCommon>
       </Form>
     </>
   );

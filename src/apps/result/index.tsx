@@ -6,17 +6,19 @@ interface ResultTextAppsProps {
   name?: string;
   label?: string;
   value?: string;
+  disabled?: boolean;
 }
 
 const ResultTextApps: React.FC<ResultTextAppsProps> = ({
   name,
   label,
   value,
+  disabled,
 }) => {
   return (
     <>
       <div>
-        <TextAreaCommon value={value}></TextAreaCommon>
+        <TextAreaCommon disabled={disabled} value={value}></TextAreaCommon>
       </div>
     </>
   );

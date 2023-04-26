@@ -6,17 +6,20 @@ interface TextAreaCommonProps {
   name?: string;
   label?: string;
   value?: string;
+  disabled?: boolean;
 }
 
 const TextAreaCommon: React.FC<TextAreaCommonProps> = ({
   name,
   label,
   value,
+  disabled,
 }) => {
   return (
     <>
       <Form.Item className="m-0 p-0" name={name} label={label}>
         <TextArea
+          readOnly={disabled}
           autoSize
           value={value}
           placeholder="Basic usage"

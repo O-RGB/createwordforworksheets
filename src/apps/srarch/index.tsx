@@ -3,6 +3,7 @@ import ButtonCommon from "@/components/common/button";
 import { Form } from "antd";
 
 import React from "react";
+import { BiSearch } from "react-icons/bi";
 
 interface SearchAppsProps {}
 
@@ -12,7 +13,9 @@ const SearchApps: React.FC<SearchAppsProps> = ({}) => {
       <Form>
         <div className="flex gap-2">
           <AutoCompleteCommon placeholder="ค้นหา"></AutoCompleteCommon>
-          <ButtonCommon>O</ButtonCommon>
+          <ButtonCommon>
+            <BiSearch></BiSearch>
+          </ButtonCommon>
         </div>
       </Form>
     </>

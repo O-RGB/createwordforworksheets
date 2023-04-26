@@ -3,7 +3,7 @@ import ResultSettingApps from "@/apps/resultSetting";
 import SettingApps from "@/apps/setting";
 import SearchApps from "@/apps/srarch";
 import LayoutDisplay from "@/components/layout";
-import { FloatButton, Form, Modal, message } from "antd";
+import { ConfigProvider, FloatButton, Form, Modal, message } from "antd";
 import type { NextPage } from "next";
 import { useContext, useEffect, useRef, useState } from "react";
 import { ShoppingOutlined, SaveOutlined } from "@ant-design/icons";
@@ -18,6 +18,7 @@ import { CreateGoodName } from "@/lib/createGood/createGoodname";
 import React from "react";
 import { SplitFileOutObj } from "@/lib/splitFileOutObj";
 import { CreateGoodNameMixMode } from "@/lib/createGood/createGoodnameMix";
+import InputSettingApps from "@/apps/setting/input-index";
 
 const Home: NextPage = () => {
   const [resultText, setResultText] = useState<string>("");
@@ -29,8 +30,15 @@ const Home: NextPage = () => {
   const [imageSrtting, setImageSetting] = useState<SettingOnFinish>({
     image: false,
     mixData: false,
-    delivery_fee: deliveryFee,
-    book_price: bookPrice,
+  });
+  const [saveResultAnyName, setResultAnyName] = useState<any | undefined>(
+    undefined
+  );
+  const [resultOnFinish, setResultOnFinish] = useState<ResultSettingOnFinish>({
+    header: true,
+    price: true,
+    price_all: true,
+    type: true,
   });
 
   const success = () => {
@@ -42,19 +50,46 @@ const Home: NextPage = () => {
 
   const refResult: any = useRef(null);
 
+  const onResultFinish = (ResultOnFinish: ResultSettingOnFinish) => {
+    if (saveResultAnyName) {
+      onFinishCheckBox(saveResultAnyName, ResultOnFinish);
+      setResultOnFinish(ResultOnFinish);
+    }
+  };
   const onSettingFinish = (SettingOnFinish: SettingOnFinish) => {
     setImageSetting(SettingOnFinish);
+    loadData(undefined);
+    setResultText("");
+    setResultAnyName(undefined);
+  };
+  const onInputSettingFinish = (SettingOnFinish: InputSettingOnFinish) => {
     setDeliveryFee(Number(SettingOnFinish.delivery_fee));
     loadData(undefined);
     setResultText("");
+    setResultAnyName(undefined);
     setTimeout(() => {
       let worksheets = WorkSheetsData(Number(SettingOnFinish.book_price));
       loadData(worksheets);
     }, 1);
   };
 
-  const onFinishCheckBox = (x: any) => {
-    GetResult(x, bookPrice).then((data) => {
+  const onFinishCheckBox = (
+    resultAnyName: any,
+    ResultOnFinish?: ResultSettingOnFinish
+  ) => {
+    let Resultsetting: ResultSettingOnFinish = {
+      header: true,
+      price: true,
+      price_all: true,
+      type: true,
+    };
+    if (!ResultOnFinish) {
+      Resultsetting = resultOnFinish;
+    } else {
+      Resultsetting = ResultOnFinish;
+    }
+    setResultAnyName(resultAnyName);
+    GetResult(resultAnyName, bookPrice).then((data) => {
       console.log(data);
 
       if (!imageSrtting.mixData) {
@@ -65,14 +100,22 @@ const Home: NextPage = () => {
         let file = CreateGoodName(
           mainfile,
           "File",
-          imageSrtting,
-          "🔥🔥รายการ 💾 (ไฟล์) 🔥🔥\n"
+          {
+            book_price: bookPrice,
+            delivery_fee: deliveryFee,
+          },
+          "🔥🔥รายการ 💾 (ไฟล์) 🔥🔥\n",
+          Resultsetting
         );
         let print = CreateGoodName(
           mainbookOrPrint,
           "Print",
-          imageSrtting,
-          "🔥🔥รายการ 📘📕 (ชิ้นงาน) 🔥🔥\n"
+          {
+            book_price: bookPrice,
+            delivery_fee: deliveryFee,
+          },
+          "🔥🔥รายการ 📘📕 (ชิ้นงาน) 🔥🔥\n",
+          Resultsetting
         );
         if (mainfile.length > 0) {
           result += file.good + "\n";
@@ -93,14 +136,22 @@ const Home: NextPage = () => {
         let file = CreateGoodName(
           mixdata_File,
           "File",
-          imageSrtting,
-          "🔥🔥รายการ 💾 (ไฟล์) 🔥🔥\n"
+          {
+            book_price: bookPrice,
+            delivery_fee: deliveryFee,
+          },
+          "🔥🔥รายการ 💾 (ไฟล์) 🔥🔥\n",
+          Resultsetting
         );
         let print = CreateGoodName(
           mixdata_Print,
           "Print",
-          imageSrtting,
-          "🔥🔥รายการ 📘📕 (ชิ้นงาน) 🔥🔥\n"
+          {
+            book_price: bookPrice,
+            delivery_fee: deliveryFee,
+          },
+          "🔥🔥รายการ 📘📕 (ชิ้นงาน) 🔥🔥\n",
+          Resultsetting
         );
         if (mixdata_File.length > 0) {
           result += file.good + "\n";
@@ -138,11 +189,14 @@ const Home: NextPage = () => {
   const result = () => {
     return (
       <>
-        <div className="layout-card">
-          <div className="layout-card-title">ตั้งค่าผลลัพธ์</div>
-          <ResultSettingApps onFinish={onSettingFinish}></ResultSettingApps>
-        </div>
         <div ref={refResult} className="layout-card">
+          <div className="layout-card-title">ตั้งค่าผลลัพธ์</div>
+          <ResultSettingApps
+            disabled={saveResultAnyName ? false : true}
+            onFinish={onResultFinish}
+          ></ResultSettingApps>
+        </div>
+        <div className="layout-card">
           <div className="layout-card-title">ผลลัพธ์</div>
           <ResultTextApps value={resultText}></ResultTextApps>
         </div>
@@ -185,22 +239,37 @@ const Home: NextPage = () => {
           badge={{ count: shopCount }}
           icon={<ShoppingOutlined />}
         />
-        <FloatButton
-          icon={<SaveOutlined />}
-          onClick={() => {
-            form.submit();
-            success();
-            refResult.current.scrollIntoView({
-              behavior: "smooth",
-              block: "end",
-            });
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: "#00b96b",
+            },
           }}
-        />
+        >
+          <FloatButton
+            type={shopCount > 0 ? "primary" : undefined}
+            icon={<SaveOutlined />}
+            onClick={() => {
+              form.submit();
+              success();
+              setTimeout(() => {
+                refResult.current.scrollIntoView({
+                  behavior: "smooth",
+                  block: "center",
+                });
+              }, 100);
+            }}
+          />
+        </ConfigProvider>
       </FloatButton.Group>
       <LayoutDisplay tabChildren={result()}>
         <div className="layout-card">
           <div className="layout-card-title">ตั้งค่า</div>
           <SettingApps onFinish={onSettingFinish}></SettingApps>
+        </div>
+        <div className="layout-card">
+          <div className="layout-card-title">ค่าธรรมเนียม</div>
+          <InputSettingApps onFinish={onInputSettingFinish}></InputSettingApps>
         </div>
         <div className="layout-card sticky -top-11 z-10 shadow-md ">
           <div className="layout-card-title">ค้นหา</div>
