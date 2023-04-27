@@ -1,3 +1,4 @@
+
 interface SettingOnFinish {
   image: boolean;
   mixData: boolean;
@@ -7,8 +8,8 @@ interface InputSettingOnFinish {
   book_price: number;
 }
 interface ResultSettingOnFinish {
-  price: boolean;
-  header: boolean;
-  price_all: boolean;
+  delivery: boolean;
   type: boolean;
+  price: boolean;
+  price_all: boolean;
 }

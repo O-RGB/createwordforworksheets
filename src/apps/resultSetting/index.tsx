@@ -34,9 +34,15 @@ const ResultSettingApps: React.FC<ResultSettingAppsProps> = ({
         <SwitchCommon
           disabled={disabled}
           defaultChecked
+          name="type"
+          labal="ชนิดสินค้า"
+        ></SwitchCommon>
+        {/* <SwitchCommon
+          disabled={disabled}
+          defaultChecked
           name="header"
           labal="หัวข้อ"
-        ></SwitchCommon>
+        ></SwitchCommon> */}
         <SwitchCommon
           disabled={disabled}
           defaultChecked
@@ -46,8 +52,8 @@ const ResultSettingApps: React.FC<ResultSettingAppsProps> = ({
         <SwitchCommon
           disabled={disabled}
           defaultChecked
-          name="type"
-          labal="ชนิดสินค้า"
+          name="delivery"
+          labal="ค่าส่ง"
         ></SwitchCommon>
       </Form>
     </>

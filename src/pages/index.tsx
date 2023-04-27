@@ -35,7 +35,7 @@ const Home: NextPage = () => {
     undefined
   );
   const [resultOnFinish, setResultOnFinish] = useState<ResultSettingOnFinish>({
-    header: true,
+    delivery: true,
     price: true,
     price_all: true,
     type: true,
@@ -78,7 +78,7 @@ const Home: NextPage = () => {
     ResultOnFinish?: ResultSettingOnFinish
   ) => {
     let Resultsetting: ResultSettingOnFinish = {
-      header: true,
+      delivery: true,
       price: true,
       price_all: true,
       type: true,
