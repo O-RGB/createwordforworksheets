@@ -19,6 +19,7 @@ import React from "react";
 import { SplitFileOutObj } from "@/lib/splitFileOutObj";
 import { CreateGoodNameMixMode } from "@/lib/createGood/createGoodnameMix";
 import InputSettingApps from "@/apps/setting/input-index";
+import CheckBoxClone from "@/components/common/checkbox-clone";
 
 const Home: NextPage = () => {
   const [resultText, setResultText] = useState<string>("");
@@ -43,6 +44,10 @@ const Home: NextPage = () => {
 
   const success = () => {
     messageApi.open({
+      style: {
+        position: "absolute",
+        bottom: 0,
+      },
       type: "success",
       content: "ก็อปปี้ขึ้นคลิปบอร์ดแล้ว",
     });
@@ -90,95 +95,97 @@ const Home: NextPage = () => {
     }
     setResultAnyName(resultAnyName);
     GetResult(resultAnyName, bookPrice).then((data) => {
-      console.log(data);
+      // console.log(data);
+      let checkRealt = CheckRelatrionship(data);
+      let mainfile = SplitFileOutObj(checkRealt);
+      let mainbookOrPrint = SplitFileOutObj(checkRealt, false);
+      console.log(mainfile, "MainFile");
+      console.log(mainbookOrPrint, "MainBookOrPrint");
+      let result: string = ``;
+      let file = CreateGoodName(
+        mainfile,
+        "File",
+        {
+          book_price: bookPrice,
+          delivery_fee: deliveryFee,
+        },
+        "🔥🔥รายการ 💾 (ไฟล์) 🔥🔥\n",
+        Resultsetting
+      );
+
+      let print = CreateGoodName(
+        mainbookOrPrint,
+        "Print",
+        {
+          book_price: bookPrice,
+          delivery_fee: deliveryFee,
+        },
+        "🔥🔥รายการ 📘📕 (ชิ้นงาน) 🔥🔥\n",
+        Resultsetting
+      );
+      if (mainfile.length > 0) {
+        result += file.good + "\n";
+      }
+      if (mainbookOrPrint.length > 0) {
+        result += print.good + "\n";
+      }
+      result += "🔴 ราคารวมทั้งหมด";
+      result += `\n🔴 ${file.price + print.price} บาท`;
+      setResultText(result);
 
       if (!imageSrtting.mixData) {
-        let checkRealt = CheckRelatrionship(data);
-        let mainfile = SplitFileOutObj(checkRealt);
-        let mainbookOrPrint = SplitFileOutObj(checkRealt, false);
-        let result: string = ``;
-        let file = CreateGoodName(
-          mainfile,
-          "File",
-          {
-            book_price: bookPrice,
-            delivery_fee: deliveryFee,
-          },
-          "🔥🔥รายการ 💾 (ไฟล์) 🔥🔥\n",
-          Resultsetting
-        );
-        let print = CreateGoodName(
-          mainbookOrPrint,
-          "Print",
-          {
-            book_price: bookPrice,
-            delivery_fee: deliveryFee,
-          },
-          "🔥🔥รายการ 📘📕 (ชิ้นงาน) 🔥🔥\n",
-          Resultsetting
-        );
-        if (mainfile.length > 0) {
-          result += file.good + "\n";
-        }
-        if (mainbookOrPrint.length > 0) {
-          result += print.good + "\n";
-        }
-        result += "🔴 ราคารวมทั้งหมด";
-        result += `\n🔴 ${file.price + print.price} บาท`;
-        setResultText(result);
       } else {
-        let perparDataForMixMode = CreateGoodNameMixMode(data);
-        let mixdata_File = CheckRelatrionship(perparDataForMixMode.File ?? []);
-        let mixdata_Print = CheckRelatrionship(
-          perparDataForMixMode.Print ?? []
-        );
-        let result: string = ``;
-        let file = CreateGoodName(
-          mixdata_File,
-          "File",
-          {
-            book_price: bookPrice,
-            delivery_fee: deliveryFee,
-          },
-          "🔥🔥รายการ 💾 (ไฟล์) 🔥🔥\n",
-          Resultsetting
-        );
-        let print = CreateGoodName(
-          mixdata_Print,
-          "Print",
-          {
-            book_price: bookPrice,
-            delivery_fee: deliveryFee,
-          },
-          "🔥🔥รายการ 📘📕 (ชิ้นงาน) 🔥🔥\n",
-          Resultsetting
-        );
-        if (mixdata_File.length > 0) {
-          result += file.good + "\n";
-        }
-        if (mixdata_Print.length > 0) {
-          result += print.good + "\n";
-        }
-        result += "🔴 ราคารวมทั้งหมด";
-        result += `\n🔴 ${file.price + print.price} บาท`;
-
-        setResultText(result);
+        //   let perparDataForMixMode = CreateGoodNameMixMode(data);
+        //   let mixdata_File = CheckRelatrionship(perparDataForMixMode.File ?? []);
+        //   let mixdata_Print = CheckRelatrionship(
+        //     perparDataForMixMode.Print ?? []
+        //   );
+        //   let result: string = ``;
+        //   let file = CreateGoodName(
+        //     mixdata_File,
+        //     "File",
+        //     {
+        //       book_price: bookPrice,
+        //       delivery_fee: deliveryFee,
+        //     },
+        //     "🔥🔥รายการ 💾 (ไฟล์) 🔥🔥\n",
+        //     Resultsetting
+        //   );
+        //   let print = CreateGoodName(
+        //     mixdata_Print,
+        //     "Print",
+        //     {
+        //       book_price: bookPrice,
+        //       delivery_fee: deliveryFee,
+        //     },
+        //     "🔥🔥รายการ 📘📕 (ชิ้นงาน) 🔥🔥\n",
+        //     Resultsetting
+        //   );
+        //   if (mixdata_File.length > 0) {
+        //     result += file.good + "\n";
+        //   }
+        //   if (mixdata_Print.length > 0) {
+        //     result += print.good + "\n";
+        //   }
+        //   result += "🔴 ราคารวมทั้งหมด";
+        //   result += `\n🔴 ${file.price + print.price} บาท`;
+        //   setResultText(result);
       }
     });
   };
 
   const onFieldsChange = () => {
-    setTimeout(() => {
-      let fieldData = form.getFieldsValue();
-      GetResult(fieldData, bookPrice).then((data) => {
-        let cout = 0;
-        data.map((x) => {
-          cout += x.length;
-        });
-        setShopCount(cout);
-      });
-      setShopCount;
-    }, 200);
+    // setTimeout(() => {
+    //   let fieldData = form.getFieldsValue();
+    //   // GetResult(fieldData, bookPrice).then((data) => {
+    //   //   let cout = 0;
+    //   //   data.map((x) => {
+    //   //     cout += x.length;
+    //   //   });
+    //   //   setShopCount(cout);
+    //   // });
+    //   setShopCount;
+    // }, 200);
   };
 
   useEffect(() => {
@@ -279,7 +286,18 @@ const Home: NextPage = () => {
         <Form
           form={form}
           onFinish={onFinishCheckBox}
-          onFieldsChange={onFieldsChange}
+          // onFieldsChange={onFieldsChange}
+          // onFinish={(e) => {
+          //   console.log(e);
+
+          //   Object.keys(e).forEach((key) => {
+          //     let value = e[key];
+          //     if (value) {
+
+          //     }
+          //   });
+
+          // }}
         >
           {data?.map((header, i) => {
             let headerArray = header.getHeadWorksheets();
@@ -287,20 +305,33 @@ const Home: NextPage = () => {
               return (
                 <React.Fragment key={`${headerArray.formName}-key-i-${i}`}>
                   {
-                    <CheckBoxCard
-                      relationship={headerArray.relationship}
-                      form={form}
-                      name={headerArray.formName}
-                      label={headerArray.headerTitle}
-                      imageSrtting={!imageSrtting.image}
-                      mixMode={!imageSrtting.mixData}
-                      WorksheetsModel={headerArray.worksheets}
-                    ></CheckBoxCard>
+                    <>
+                      {/* <CheckBoxCard
+                          relationship={headerArray.relationship}
+                          form={form}
+                          name={headerArray.formName}
+                          label={headerArray.headerTitle}
+                          imageSrtting={!imageSrtting.image}
+                          mixMode={!imageSrtting.mixData}
+                          WorksheetsModel={headerArray.worksheets}
+                        ></CheckBoxCard> */}
+                      <CheckBoxClone
+                        form={form}
+                        WorksheetsModel={headerArray.worksheets}
+                      ></CheckBoxClone>
+                    </>
                   }
                 </React.Fragment>
               );
             }
           })}
+          <div
+            onClick={() => {
+              form.submit();
+            }}
+          >
+            test
+          </div>
         </Form>
 
         <div className="block  lg:hidden">{result()}</div>

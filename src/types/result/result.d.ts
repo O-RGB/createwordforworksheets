@@ -10,7 +10,7 @@ interface ResultCheckRelationship {
   relatrionship: boolean;
   conditionStr?: string;
   mixMode?: boolean;
-  realData: CheckBoxGroupOptions<WorksheetsModelInput>;
+  realData: MapingFormResultToObj;
 }
 interface ResultCheckRelationshipSplitFileOutObj {
   relatrionship: boolean;
@@ -37,4 +37,10 @@ interface CreateGoodname {
   price?: string;
   special?: string;
   type?: ResultWorkSheetsMode;
+}
+
+interface MapingFormResultToObj {
+  key: string;
+  value: checkBoxSelect[];
+  WorksheetsModelInput?: WorksheetsModelInput;
 }

@@ -2,30 +2,41 @@ export const SplitFileOutObj = (
   resultCheckRelationship: ResultCheckRelationship[],
   file: boolean = true
 ) => {
-  let ResultCheckRelationshipMain: ResultCheckRelationship[] = [];
+  let output: ResultCheckRelationship[] = [];
   resultCheckRelationship.map((child) => {
-    let ResultCheckRelationshipChild: ResultCheckRelationship;
-    let RealDataChild: CheckBoxGroupOptions<WorksheetsModelInput> | undefined;
+    let only: MapingFormResultToObj;
+    let temp: ResultCheckRelationship;
 
-    if (file) {
-      if (child.realData.mode == "File") {
-        RealDataChild = child.realData;
-      }
-    } else {
-      if (child.realData.mode != "File") {
-        RealDataChild = child.realData;
-      }
-    }
+    let condition: checkBoxSelect[] = [];
+    let valueSelect = child.realData.value;
 
-    if (RealDataChild) {
-      ResultCheckRelationshipChild = {
-        realData: RealDataChild,
-        relatrionship: child.relatrionship,
-        conditionStr: child.conditionStr,
-      };
-      ResultCheckRelationshipMain.push(ResultCheckRelationshipChild);
-    }
+    valueSelect.map((x) => {
+      if (file) {
+        if (x.type === "File") {
+          condition.push(x);
+        }
+      } else {
+        if (x.type !== "File") {
+          condition.push(x);
+        }
+      }
+    });
+
+    only = {
+      key: child.realData.key,
+      value: condition,
+      WorksheetsModelInput: child.realData.WorksheetsModelInput,
+    };
+
+    temp = {
+      realData: only,
+      relatrionship: file ? child.relatrionship : false,
+      conditionStr: child.conditionStr,
+      mixMode: child.mixMode,
+    };
+
+    output.push(temp);
   });
 
-  return ResultCheckRelationshipMain;
+  return output;
 };

@@ -21,83 +21,78 @@ export const CreateGoodName = (
   let relatrionshipCount: number = 0;
   resultCheckRelationship.map((child, i) => {
     let goodTemp: CreateGoodname = {};
-    if (child.realData.number && child.realData.realData?.price) {
-      let file = 0;
-      let print = 0;
-      let book = 0;
-      if (
-        child.realData.mode == "File" &&
-        child.realData.realData?.price.file
-      ) {
-        file = child.realData.number * child.realData.realData?.price.file;
-        price += file;
-        goodTemp.type = "File";
-      } else if (
-        child.realData.mode == "Print" &&
-        child.realData.realData?.price.print
-      ) {
-        print = child.realData.number * child.realData.realData?.price.print;
-        price += print;
-        goodTemp.type = "Print";
-      } else if (
-        child.realData.mode == "Book" &&
-        child.realData.realData?.price.book
-      ) {
-        book = child.realData.number * child.realData.realData?.price.book;
-        price += book;
-        goodTemp.type = "Book";
-      }
 
-      goodTemp.header = child.realData.label;
-      let typeLabel = `${
-        child.realData.mode == "File"
-          ? `💾 (ไฟล์)`
-          : child.realData.mode == "Print"
-          ? `📘 ${child.realData.number} ชุด (ปริ้น)`
-          : child.realData.mode == "Book"
-          ? `📕 ${child.realData.number} ชุด (เข้าเล่ม)`
-          : ""
-      }`;
+    const Real = child.realData;
+    const Input = child.realData.WorksheetsModelInput;
 
-      goodTemp.typeLabel = typeLabel;
+    let file = 0;
+    let print = 0;
+    let book = 0;
 
-      if (child.realData.number > 1) {
-        let count = `${
-          child.realData.mode == "Print"
-            ? `📘 ราคาชุดละ ${child.realData.realData.price.print} บาท`
-            : child.realData.mode == "Book"
-            ? `📕 ราคาชุดละ ${child.realData.realData.price.book} บาท`
+    if (Real.value.length > 0 && Input) {
+      Real.value.map((value) => {
+        if (value.type == "File" && Input.price.file) {
+          file = value.count * Input.price.file;
+          price += file;
+          goodTemp.type = "File";
+        } else if (value.type == "Print" && Input.price.print) {
+          print = value.count * Input.price.print;
+          price += print;
+          goodTemp.type = "Print";
+        } else if (value.type == "Book" && Input.price.book) {
+          book = value.count * Input.price.book;
+          price += book;
+          goodTemp.type = "Book";
+        }
+
+        goodTemp.header = Input.name;
+
+        let typeLabel = `${
+          value.type == "File"
+            ? `💾 (ไฟล์)`
+            : value.type == "Print"
+            ? `📘 ${value.count} ชุด (ปริ้น)`
+            : value.type == "Book"
+            ? `📕 ${value.count} ชุด (เข้าเล่ม)`
             : ""
         }`;
-        goodTemp.count = count;
-      }
+        goodTemp.typeLabel = typeLabel;
+        if (value.count > 1) {
+          let count = `${
+            value.type == "Print"
+              ? `📘 ราคาชุดละ ${Input.price.print} บาท`
+              : value.type == "Book"
+              ? `📕 ราคาชุดละ ${Input.price.book} บาท`
+              : ""
+          }`;
+          goodTemp.count = count;
+        }
 
-      let priceTmp = `🟩 ${
-        child.realData.mode == "File"
-          ? `${file}`
-          : child.realData.mode == "Print"
-          ? `${print}`
-          : child.realData.mode == "Book"
-          ? `${book}`
-          : ""
-      } บาท`;
-      goodTemp.price = priceTmp;
-      if (child.relatrionship && child.realData.realData.relationship) {
-        relatrionshipCount = relatrionshipCount + 1;
-        if (child.realData.realData.relationship.length == relatrionshipCount) {
-          let special =
-            `💥 ${child.conditionStr}\n` +
-            `💥 ลดราคา -${child.realData.realData.discount} บาท`;
-          goodTemp.special = special;
-          if (child.realData.realData.discount) {
-            price += -child.realData.realData.discount;
-            relatrionshipCount = 0;
+        let priceTmp = `🟩 ${
+          value.type == "File"
+            ? `${file}`
+            : value.type == "Print"
+            ? `${print}`
+            : value.type == "Book"
+            ? `${book}`
+            : ""
+        } บาท`;
+        goodTemp.price = priceTmp;
+
+        if (child.relatrionship && Input.relationship) {
+          relatrionshipCount = relatrionshipCount + 1;
+          if (Input.relationship.length == relatrionshipCount) {
+            let special =
+              `💥 ${child.conditionStr}\n` + `💥 ลดราคา -${Input.discount} บาท`;
+            goodTemp.special = special;
+            if (Input.discount) {
+              price += -Input.discount;
+              relatrionshipCount = 0;
+            }
           }
         }
-      }
-    }
-    if (goodTemp) {
-      goodArray.push(goodTemp);
+        goodArray.push(goodTemp);
+      });
     }
   });
 
