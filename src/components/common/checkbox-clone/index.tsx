@@ -1,5 +1,5 @@
 import { Form, FormInstance } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import MainCheckBox from "./main-checkbox";
 import { WorksheetsModel } from "@/model/worksheets";
 
@@ -16,6 +16,10 @@ const CheckBoxClone: React.FC<CheckBoxCloneProps> = ({
   form,
   WorksheetsModel,
 }) => {
+  useEffect(() => {
+    console.log("render Test");
+  }, []);
+
   return (
     <>
       <div className="flex flex-col  justify-start items-start">
@@ -35,12 +39,8 @@ const CheckBoxClone: React.FC<CheckBoxCloneProps> = ({
 
           return (
             <React.Fragment key={`check-item-key-${i}`}>
-              <Form.Item
-                className="m-0 p-0 h-0"
-                initialValue={temp.headerArray}
-                name={`${temp.name}-real`}
-              ></Form.Item>
               <MainCheckBox
+                headerArray={temp.headerArray}
                 initialValue={temp.select}
                 name={temp.name}
                 title={temp.title}

@@ -7,6 +7,7 @@ interface MainCheckboxProps {
   title: string;
   form: FormInstance<any>;
   initialValue: checkBoxSelect[] | undefined;
+  headerArray: WorksheetsModelInput;
 }
 
 const MainCheckBox: React.FC<MainCheckboxProps> = ({
@@ -14,6 +15,7 @@ const MainCheckBox: React.FC<MainCheckboxProps> = ({
   title,
   initialValue,
   form,
+  headerArray,
 }) => {
   const [check, setCheck] = useState<boolean>(false);
 
@@ -25,10 +27,24 @@ const MainCheckBox: React.FC<MainCheckboxProps> = ({
         form.setFieldValue(`${name}-value`, initialValue);
       }
     }
-  }, []);
+    if (headerArray) {
+      form.resetFields([`${name}-real`]);
+      form.setFieldValue(`${name}-real`, headerArray);
+    }
+  }, [headerArray]);
   return (
     <>
       <Form.Item
+        className="m-0 p-0 h-0"
+        initialValue={headerArray}
+        name={`${name}-real`}
+      ></Form.Item>
+      <Form.Item
+        onReset={() => {
+          setCheck(false);
+          form.resetFields([`${name}-real`]);
+          form.setFieldValue(`${name}-real`, headerArray);
+        }}
         initialValue={
           initialValue ? (initialValue.length > 0 ? true : false) : false
         }

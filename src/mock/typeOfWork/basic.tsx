@@ -1,5 +1,5 @@
 import { WorksheetsModel } from "@/model/worksheets";
-export const BasicWorkSheets = (bookPrice: number) => {
+export const BasicWorkSheets = () => {
   let worksheetsModel: WorksheetsModel[] = [];
   worksheetsModel.push(
     new WorksheetsModel({
@@ -14,7 +14,7 @@ export const BasicWorkSheets = (bookPrice: number) => {
       price: {
         file: 99,
         print: 240,
-        book: 240 + bookPrice,
+        book: 240,
       },
     })
   );
@@ -31,7 +31,7 @@ export const BasicWorkSheets = (bookPrice: number) => {
       price: {
         file: 99,
         print: 240,
-        book: 240 + bookPrice,
+        book: 240,
       },
     })
   );
@@ -48,7 +48,7 @@ export const BasicWorkSheets = (bookPrice: number) => {
       price: {
         file: 99,
         print: 240,
-        book: 240 + bookPrice,
+        book: 240,
       },
     })
   );

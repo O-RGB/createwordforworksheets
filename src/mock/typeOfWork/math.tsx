@@ -1,6 +1,6 @@
 import { WorksheetsModel } from "@/model/worksheets";
 
-export const MathWorkSheets = (bookPrice: number) => {
+export const MathWorkSheets = () => {
   let worksheetsModel: WorksheetsModel[] = [];
   worksheetsModel.push(
     new WorksheetsModel({
@@ -15,7 +15,7 @@ export const MathWorkSheets = (bookPrice: number) => {
       price: {
         file: 99,
         print: 240,
-        book: 240 + bookPrice,
+        book: 240,
       },
     })
   );
@@ -30,7 +30,7 @@ export const MathWorkSheets = (bookPrice: number) => {
       name: "คณิตศาสตร์ อ.2",
       workSheetsType: "room",
       price: {
-        book: 240 + bookPrice,
+        book: 240,
         file: 99,
         print: 240,
       },
@@ -47,7 +47,7 @@ export const MathWorkSheets = (bookPrice: number) => {
       name: "คณิตศาสตร์ อ.3",
       workSheetsType: "room",
       price: {
-        book: 240 + bookPrice,
+        book: 240,
         file: 99,
         print: 240,
       },
@@ -61,7 +61,7 @@ export const MathWorkSheets = (bookPrice: number) => {
       name: "คณิตศาสตร์ ป.1 (เทอม 1)",
       workSheetsType: "room",
       price: {
-        book: 240 + bookPrice,
+        book: 240,
         file: 43,
         print: 49,
       },
@@ -75,7 +75,7 @@ export const MathWorkSheets = (bookPrice: number) => {
       name: "คณิตศาสตร์ ป.1 (เทอม 2)",
       workSheetsType: "room",
       price: {
-        book: 240 + bookPrice,
+        book: 240,
         file: 43,
         print: 49,
       },
@@ -92,7 +92,7 @@ export const MathWorkSheets = (bookPrice: number) => {
       name: "คณิตศาสตร์ ป.6 (เทอม 1)",
       workSheetsType: "room",
       price: {
-        book: 240 + bookPrice,
+        book: 240,
         file: 43,
         print: 49,
       },
@@ -109,7 +109,7 @@ export const MathWorkSheets = (bookPrice: number) => {
       name: "คณิตศาสตร์ ป.6 (เทอม 2)",
       workSheetsType: "room",
       price: {
-        book: 240 + bookPrice,
+        book: 240,
         file: 43,
         print: 49,
       },

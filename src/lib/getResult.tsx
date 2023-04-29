@@ -1,10 +1,7 @@
 import { WorkSheetsData } from "@/mock/workSheetsData";
 
-export const GetResult = async (
-  dataNoInterfaceFormName: any,
-  bookPrice: number
-) => {
-  let modelGetFormName = WorkSheetsData(bookPrice);
+export const GetResult = async (dataNoInterfaceFormName: any) => {
+  let modelGetFormName = WorkSheetsData();
   let selectKeyAll: MapingFormResultToObj[] = [];
 
   Object.keys(dataNoInterfaceFormName).forEach((key) => {

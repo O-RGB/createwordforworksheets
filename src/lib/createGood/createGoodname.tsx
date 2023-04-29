@@ -41,7 +41,7 @@ export const CreateGoodName = (
           goodTemp.type = "Print";
         } else if (value.type == "Book" && Input.price.book) {
           book = value.count * Input.price.book;
-          price += book;
+          price += book + settingOnFinish.book_price;
           goodTemp.type = "Book";
         }
 
@@ -62,7 +62,9 @@ export const CreateGoodName = (
             value.type == "Print"
               ? `📘 ราคาชุดละ ${Input.price.print} บาท`
               : value.type == "Book"
-              ? `📕 ราคาชุดละ ${Input.price.book} บาท`
+              ? `📕 ราคาชุดละ ${
+                  (Input.price.book ?? 0) + +settingOnFinish.book_price
+                } บาท`
               : ""
           }`;
           goodTemp.count = count;
@@ -74,7 +76,7 @@ export const CreateGoodName = (
             : value.type == "Print"
             ? `${print}`
             : value.type == "Book"
-            ? `${book}`
+            ? `${book + settingOnFinish.book_price}`
             : ""
         } บาท`;
         goodTemp.price = priceTmp;
@@ -99,7 +101,7 @@ export const CreateGoodName = (
   mainResult.goodName = goodArray;
 
   if (mode == "Print" && resultCheckRelationship.length > 0) {
-    let delivery = "✅ ค่าส่ง\n" + `🟩 ${settingOnFinish.delivery_fee} บาท`;
+    let delivery = "✅ ค่าส่ง\n" + `🟩 ${settingOnFinish.book_price} บาท`;
     mainResult.delivery = delivery;
   }
 

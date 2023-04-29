@@ -10,7 +10,7 @@ export const SplitFileOutObj = (
     let condition: checkBoxSelect[] = [];
     let valueSelect = child.realData.value;
 
-    valueSelect.map((x) => {
+    valueSelect?.map((x) => {
       if (file) {
         if (x.type === "File") {
           condition.push(x);

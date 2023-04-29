@@ -7,7 +7,6 @@ import { ConfigProvider, FloatButton, Form, Modal, message } from "antd";
 import type { NextPage } from "next";
 import { useContext, useEffect, useRef, useState } from "react";
 import { ShoppingOutlined, SaveOutlined } from "@ant-design/icons";
-import CheckBoxCard from "@/apps/checkBoxCard";
 import { GetResult } from "@/lib/getResult";
 import { WorkSheetsData } from "@/mock/workSheetsData";
 import { HeadWorkSheets } from "@/model/headworksheets";
@@ -17,7 +16,6 @@ import { CheckRelatrionship } from "@/lib/relatrionship";
 import { CreateGoodName } from "@/lib/createGood/createGoodname";
 import React from "react";
 import { SplitFileOutObj } from "@/lib/splitFileOutObj";
-import { CreateGoodNameMixMode } from "@/lib/createGood/createGoodnameMix";
 import InputSettingApps from "@/apps/setting/input-index";
 import CheckBoxClone from "@/components/common/checkbox-clone";
 
@@ -63,19 +61,16 @@ const Home: NextPage = () => {
   };
   const onSettingFinish = (SettingOnFinish: SettingOnFinish) => {
     setImageSetting(SettingOnFinish);
-    loadData(undefined);
     setResultText("");
     setResultAnyName(undefined);
+    form.resetFields();
   };
   const onInputSettingFinish = (SettingOnFinish: InputSettingOnFinish) => {
     setDeliveryFee(Number(SettingOnFinish.delivery_fee));
-    loadData(undefined);
+    setBookPrice(Number(SettingOnFinish.book_price));
     setResultText("");
     setResultAnyName(undefined);
-    setTimeout(() => {
-      let worksheets = WorkSheetsData(Number(SettingOnFinish.book_price));
-      loadData(worksheets);
-    }, 1);
+    form.resetFields();
   };
 
   const onFinishCheckBox = (
@@ -94,43 +89,54 @@ const Home: NextPage = () => {
       Resultsetting = ResultOnFinish;
     }
     setResultAnyName(resultAnyName);
-    GetResult(resultAnyName, bookPrice).then((data) => {
-      // console.log(data);
+    GetResult(resultAnyName).then((data) => {
       let checkRealt = CheckRelatrionship(data);
       let mainfile = SplitFileOutObj(checkRealt);
       let mainbookOrPrint = SplitFileOutObj(checkRealt, false);
-      console.log(mainfile, "MainFile");
-      console.log(mainbookOrPrint, "MainBookOrPrint");
-      let result: string = ``;
-      let file = CreateGoodName(
-        mainfile,
-        "File",
-        {
-          book_price: bookPrice,
-          delivery_fee: deliveryFee,
-        },
-        "🔥🔥รายการ 💾 (ไฟล์) 🔥🔥\n",
-        Resultsetting
-      );
 
-      let print = CreateGoodName(
-        mainbookOrPrint,
-        "Print",
-        {
-          book_price: bookPrice,
-          delivery_fee: deliveryFee,
-        },
-        "🔥🔥รายการ 📘📕 (ชิ้นงาน) 🔥🔥\n",
-        Resultsetting
-      );
+      let pay: number = 0;
+      let result: string = ``;
       if (mainfile.length > 0) {
-        result += file.good + "\n";
+        console.log(mainfile, "mainfile");
+
+        let checkLength = mainfile.some((x) => x.realData.value.length > 0);
+        if (checkLength) {
+          let file = CreateGoodName(
+            mainfile,
+            "File",
+            {
+              book_price: bookPrice,
+              delivery_fee: deliveryFee,
+            },
+            "🔥🔥รายการ 💾 (ไฟล์) 🔥🔥\n",
+            Resultsetting
+          );
+          result += file.good + "\n";
+          pay += file.price;
+        }
       }
       if (mainbookOrPrint.length > 0) {
+        let print = CreateGoodName(
+          mainbookOrPrint,
+          "Print",
+          {
+            book_price: bookPrice,
+            delivery_fee: deliveryFee,
+          },
+          "🔥🔥รายการ 📘📕 (ชิ้นงาน) 🔥🔥\n",
+          Resultsetting
+        );
         result += print.good + "\n";
+        pay += print.price;
       }
+      // if (mainfile.length > 0) {
+      //   result += file.good + "\n";
+      // }
+      // if (mainbookOrPrint.length > 0) {
+      //   result += print.good + "\n";
+      // }
       result += "🔴 ราคารวมทั้งหมด";
-      result += `\n🔴 ${file.price + print.price} บาท`;
+      result += `\n🔴 ${pay} บาท`;
       setResultText(result);
 
       if (!imageSrtting.mixData) {
@@ -174,24 +180,12 @@ const Home: NextPage = () => {
     });
   };
 
-  const onFieldsChange = () => {
-    // setTimeout(() => {
-    //   let fieldData = form.getFieldsValue();
-    //   // GetResult(fieldData, bookPrice).then((data) => {
-    //   //   let cout = 0;
-    //   //   data.map((x) => {
-    //   //     cout += x.length;
-    //   //   });
-    //   //   setShopCount(cout);
-    //   // });
-    //   setShopCount;
-    // }, 200);
-  };
-
   useEffect(() => {
-    let worksheets = WorkSheetsData(bookPrice);
-    loadData(worksheets);
-  }, [bookPrice, imageSrtting]);
+    if (!data) {
+      let worksheets = WorkSheetsData();
+      loadData(worksheets);
+    }
+  }, [data]);
 
   const result = () => {
     return (
@@ -283,56 +277,25 @@ const Home: NextPage = () => {
           <SearchApps></SearchApps>
         </div>
 
-        <Form
-          form={form}
-          onFinish={onFinishCheckBox}
-          // onFieldsChange={onFieldsChange}
-          // onFinish={(e) => {
-          //   console.log(e);
-
-          //   Object.keys(e).forEach((key) => {
-          //     let value = e[key];
-          //     if (value) {
-
-          //     }
-          //   });
-
-          // }}
-        >
-          {data?.map((header, i) => {
-            let headerArray = header.getHeadWorksheets();
-            if (headerArray.worksheets) {
-              return (
-                <React.Fragment key={`${headerArray.formName}-key-i-${i}`}>
-                  {
-                    <>
-                      {/* <CheckBoxCard
-                          relationship={headerArray.relationship}
-                          form={form}
-                          name={headerArray.formName}
-                          label={headerArray.headerTitle}
-                          imageSrtting={!imageSrtting.image}
-                          mixMode={!imageSrtting.mixData}
-                          WorksheetsModel={headerArray.worksheets}
-                        ></CheckBoxCard> */}
+        {data && (
+          <Form form={form} onFinish={onFinishCheckBox}>
+            {data.map((header, i) => {
+              let headerArray = header.getHeadWorksheets();
+              if (headerArray.worksheets) {
+                return (
+                  <React.Fragment key={`${headerArray.formName}-key-i-${i}`}>
+                    {
                       <CheckBoxClone
                         form={form}
                         WorksheetsModel={headerArray.worksheets}
                       ></CheckBoxClone>
-                    </>
-                  }
-                </React.Fragment>
-              );
-            }
-          })}
-          <div
-            onClick={() => {
-              form.submit();
-            }}
-          >
-            test
-          </div>
-        </Form>
+                    }
+                  </React.Fragment>
+                );
+              }
+            })}
+          </Form>
+        )}
 
         <div className="block  lg:hidden">{result()}</div>
       </LayoutDisplay>
