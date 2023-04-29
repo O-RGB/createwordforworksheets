@@ -55,17 +55,34 @@ const MainCheckBox: React.FC<MainCheckboxProps> = ({
         <Checkbox
           onChange={(e) => {
             setCheck(e.target.checked);
+            if (!e.target.checked) {
+              form.resetFields([`${name}-value`]);
+            } else {
+              form.setFieldValue(`${name}-value`, [
+                {
+                  count: 1,
+                  id: `${name}-file`,
+                  type: "File",
+                  bool: true,
+                },
+              ]);
+            }
           }}
-          className="w-full py-2 !m-0"
+          className="w-full p-3 !m-0 rounded-md hover:bg-slate-100 duration-300"
         >
           {title}
         </Checkbox>
       </Form.Item>
 
       {check && (
-        <Form.Item className="m-0 p-0" name={`${name}-value`}>
-          <ChlidCheckBox name={`${name}-value`} form={form}></ChlidCheckBox>
-        </Form.Item>
+        <>
+          <Form.Item className="m-0 p-0" name={`${name}-value`}>
+            <ChlidCheckBox name={`${name}-value`} form={form}></ChlidCheckBox>
+          </Form.Item>
+          <div className="w-full">
+            <hr />
+          </div>
+        </>
       )}
     </>
   );

@@ -97,8 +97,6 @@ const Home: NextPage = () => {
       let pay: number = 0;
       let result: string = ``;
       if (mainfile.length > 0) {
-        console.log(mainfile, "mainfile");
-
         let checkLength = mainfile.some((x) => x.realData.value.length > 0);
         if (checkLength) {
           let file = CreateGoodName(
@@ -116,18 +114,23 @@ const Home: NextPage = () => {
         }
       }
       if (mainbookOrPrint.length > 0) {
-        let print = CreateGoodName(
-          mainbookOrPrint,
-          "Print",
-          {
-            book_price: bookPrice,
-            delivery_fee: deliveryFee,
-          },
-          "🔥🔥รายการ 📘📕 (ชิ้นงาน) 🔥🔥\n",
-          Resultsetting
+        let checkLength = mainbookOrPrint.some(
+          (x) => x.realData.value.length > 0
         );
-        result += print.good + "\n";
-        pay += print.price;
+        if (checkLength) {
+          let print = CreateGoodName(
+            mainbookOrPrint,
+            "Print",
+            {
+              book_price: bookPrice,
+              delivery_fee: deliveryFee,
+            },
+            "🔥🔥รายการ 📘📕 (ชิ้นงาน) 🔥🔥\n",
+            Resultsetting
+          );
+          result += print.good + "\n";
+          pay += print.price;
+        }
       }
       // if (mainfile.length > 0) {
       //   result += file.good + "\n";
@@ -285,10 +288,15 @@ const Home: NextPage = () => {
                 return (
                   <React.Fragment key={`${headerArray.formName}-key-i-${i}`}>
                     {
-                      <CheckBoxClone
-                        form={form}
-                        WorksheetsModel={headerArray.worksheets}
-                      ></CheckBoxClone>
+                      <div className="layout-card">
+                        <div className="layout-card-title">
+                          {headerArray.headerTitle}
+                        </div>
+                        <CheckBoxClone
+                          form={form}
+                          WorksheetsModel={headerArray.worksheets}
+                        ></CheckBoxClone>
+                      </div>
                     }
                   </React.Fragment>
                 );

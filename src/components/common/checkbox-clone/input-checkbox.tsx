@@ -6,6 +6,7 @@ interface InputCheckboxProps {
   label: string;
   type: ResultWorkSheetsMode;
   checked?: boolean | undefined;
+  className?: string;
   onChange?: (
     select: boolean,
     value: number,
@@ -17,6 +18,7 @@ const InputCheckbox: React.FC<InputCheckboxProps> = ({
   label,
   onChange,
   checked,
+  className,
   type,
 }) => {
   const [onCheck, setCheck] = useState<boolean>(false);
@@ -29,7 +31,7 @@ const InputCheckbox: React.FC<InputCheckboxProps> = ({
 
   return (
     <>
-      <div className="flex flex-col gap-3">
+      <div className={`flex gap-3 ${className}`}>
         <Checkbox
           checked={checked}
           onChange={(e) => {
@@ -40,12 +42,14 @@ const InputCheckbox: React.FC<InputCheckboxProps> = ({
           {label}
         </Checkbox>
         {onCheck && (
-          <ImageNumber
-            onChange={(e, input) => {
-              onChange?.(true, input, type);
-            }}
-            id={""}
-          ></ImageNumber>
+          <div className="-mt-[3px]">
+            <ImageNumber
+              onChange={(e, input) => {
+                onChange?.(true, input, type);
+              }}
+              id={""}
+            ></ImageNumber>
+          </div>
         )}
       </div>
     </>
