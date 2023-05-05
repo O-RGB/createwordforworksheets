@@ -11,6 +11,7 @@ export const CreateGoodName = (
   goodHeader = "🔥🔥รายการนะครับ🔥🔥\n",
   resultOnFinish: ResultSettingOnFinish
 ) => {
+  resultCheckRelationship;
   let mainResult: ResultCreateGoodname = {};
   let goodArray: CreateGoodname[] = [];
   let returnData: CreateGoodNameStringPrice = {
@@ -20,8 +21,6 @@ export const CreateGoodName = (
   let price = 0;
   let relatrionshipCount: number = 0;
   resultCheckRelationship.map((child, i) => {
-    let goodTemp: CreateGoodname = {};
-
     const Real = child.realData;
     const Input = child.realData.WorksheetsModelInput;
 
@@ -31,13 +30,15 @@ export const CreateGoodName = (
 
     if (Real.value.length > 0 && Input) {
       Real.value.map((value) => {
+        let goodTemp: CreateGoodname = {};
+        // console.log(value)
         if (value.type == "File" && Input.price.file) {
           file = value.count * Input.price.file;
           price += file;
           goodTemp.type = "File";
         } else if (value.type == "Print" && Input.price.print) {
           print = value.count * Input.price.print;
-          price += print;
+          price += print + settingOnFinish.delivery_fee;
           goodTemp.type = "Print";
         } else if (value.type == "Book" && Input.price.book) {
           book = value.count * Input.price.book;
@@ -56,6 +57,7 @@ export const CreateGoodName = (
             ? `📕 ${value.count} ชุด (เข้าเล่ม)`
             : ""
         }`;
+
         goodTemp.typeLabel = typeLabel;
         if (value.count > 1) {
           let count = `${
@@ -101,7 +103,7 @@ export const CreateGoodName = (
   mainResult.goodName = goodArray;
 
   if (mode == "Print" && resultCheckRelationship.length > 0) {
-    let delivery = "✅ ค่าส่ง\n" + `🟩 ${settingOnFinish.book_price} บาท`;
+    let delivery = "✅ ค่าส่ง\n" + `🟩 ${settingOnFinish.delivery_fee} บาท`;
     mainResult.delivery = delivery;
   }
 

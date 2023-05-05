@@ -132,54 +132,10 @@ const Home: NextPage = () => {
           pay += print.price;
         }
       }
-      // if (mainfile.length > 0) {
-      //   result += file.good + "\n";
-      // }
-      // if (mainbookOrPrint.length > 0) {
-      //   result += print.good + "\n";
-      // }
+
       result += "🔴 ราคารวมทั้งหมด";
       result += `\n🔴 ${pay} บาท`;
       setResultText(result);
-
-      if (!imageSrtting.mixData) {
-      } else {
-        //   let perparDataForMixMode = CreateGoodNameMixMode(data);
-        //   let mixdata_File = CheckRelatrionship(perparDataForMixMode.File ?? []);
-        //   let mixdata_Print = CheckRelatrionship(
-        //     perparDataForMixMode.Print ?? []
-        //   );
-        //   let result: string = ``;
-        //   let file = CreateGoodName(
-        //     mixdata_File,
-        //     "File",
-        //     {
-        //       book_price: bookPrice,
-        //       delivery_fee: deliveryFee,
-        //     },
-        //     "🔥🔥รายการ 💾 (ไฟล์) 🔥🔥\n",
-        //     Resultsetting
-        //   );
-        //   let print = CreateGoodName(
-        //     mixdata_Print,
-        //     "Print",
-        //     {
-        //       book_price: bookPrice,
-        //       delivery_fee: deliveryFee,
-        //     },
-        //     "🔥🔥รายการ 📘📕 (ชิ้นงาน) 🔥🔥\n",
-        //     Resultsetting
-        //   );
-        //   if (mixdata_File.length > 0) {
-        //     result += file.good + "\n";
-        //   }
-        //   if (mixdata_Print.length > 0) {
-        //     result += print.good + "\n";
-        //   }
-        //   result += "🔴 ราคารวมทั้งหมด";
-        //   result += `\n🔴 ${file.price + print.price} บาท`;
-        //   setResultText(result);
-      }
     });
   };
 
@@ -188,7 +144,7 @@ const Home: NextPage = () => {
       let worksheets = WorkSheetsData();
       loadData(worksheets);
     }
-  }, [data]);
+  }, []);
 
   const result = () => {
     return (
@@ -277,11 +233,17 @@ const Home: NextPage = () => {
         </div>
         <div className="layout-card sticky -top-11 z-10 shadow-md ">
           <div className="layout-card-title">ค้นหา</div>
-          <SearchApps></SearchApps>
+          <SearchApps data={data}></SearchApps>
         </div>
 
         {data && (
-          <Form form={form} onFinish={onFinishCheckBox}>
+          <Form
+            form={form}
+            onFinish={onFinishCheckBox}
+            onFieldsChange={(e) => {
+              // console.log(form.getFieldsValue());
+            }}
+          >
             {data.map((header, i) => {
               let headerArray = header.getHeadWorksheets();
               if (headerArray.worksheets) {
@@ -293,6 +255,7 @@ const Home: NextPage = () => {
                           {headerArray.headerTitle}
                         </div>
                         <CheckBoxClone
+                          setting={imageSrtting}
                           form={form}
                           WorksheetsModel={headerArray.worksheets}
                         ></CheckBoxClone>
