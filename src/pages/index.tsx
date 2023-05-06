@@ -18,13 +18,24 @@ import React from "react";
 import { SplitFileOutObj } from "@/lib/splitFileOutObj";
 import InputSettingApps from "@/apps/setting/input-index";
 import CheckBoxClone from "@/components/common/checkbox-clone";
+import ModeSetting from "@/apps/modeSetting";
 
 const Home: NextPage = () => {
+  const [fieldsValue, setFieldsValue] = useState<any>(undefined);
+
   const [resultText, setResultText] = useState<string>("");
   const [shopCount, setShopCount] = useState<number>(0);
   const [data, loadData] = useState<HeadWorkSheets[] | undefined>(undefined);
-  const { deliveryFee, setDeliveryFee } = useContext(DeliveryFeeContext);
-  const { bookPrice, setBookPrice } = useContext(BookServiceContext);
+
+  // const [deliveryFee, setDeliveryFee] = useState<number>(40);
+  // const [bookPrice, setBookPrice] = useState<number>(40);
+
+  const [fee, setFee] = useState<InputSettingOnFinish>({
+    book_price: 40,
+    delivery_fee: 40,
+  });
+  // const { deliveryFee, setDeliveryFee } = useContext(DeliveryFeeContext);
+  // const { bookPrice, setBookPrice } = useContext(BookServiceContext);
   const [messageApi, contextHolder] = message.useMessage();
   const [imageSrtting, setImageSetting] = useState<SettingOnFinish>({
     image: false,
@@ -33,11 +44,16 @@ const Home: NextPage = () => {
   const [saveResultAnyName, setResultAnyName] = useState<any | undefined>(
     undefined
   );
+
   const [resultOnFinish, setResultOnFinish] = useState<ResultSettingOnFinish>({
     delivery: true,
     price: true,
     price_all: true,
     type: true,
+  });
+
+  const [modeOnFinish, setModeOnFinish] = useState<ResultModeOnFinish>({
+    mode: 1,
   });
 
   const success = () => {
@@ -53,24 +69,49 @@ const Home: NextPage = () => {
 
   const refResult: any = useRef(null);
 
+  const _resetForm = () => {
+    // let data = form.getFieldsValue();
+    // setFieldsValue(data);
+    form.resetFields();
+
+    // form.setFieldsValue(data);
+  };
+
   const onResultFinish = (ResultOnFinish: ResultSettingOnFinish) => {
     if (saveResultAnyName) {
       onFinishCheckBox(saveResultAnyName, ResultOnFinish);
       setResultOnFinish(ResultOnFinish);
     }
   };
+
+  const onModeSettingFinish = (mode: ResultModeOnFinish) => {
+    setModeOnFinish(mode);
+    let image = imageSrtting;
+    if (mode.mode == 4) {
+      image.mixData = true;
+    } else {
+      image.mixData = false;
+    }
+    setImageSetting(image);
+    _resetForm();
+  };
+
   const onSettingFinish = (SettingOnFinish: SettingOnFinish) => {
     setImageSetting(SettingOnFinish);
     setResultText("");
     setResultAnyName(undefined);
-    form.resetFields();
+    _resetForm();
   };
   const onInputSettingFinish = (SettingOnFinish: InputSettingOnFinish) => {
-    setDeliveryFee(Number(SettingOnFinish.delivery_fee));
-    setBookPrice(Number(SettingOnFinish.book_price));
+    // setDeliveryFee(Number(SettingOnFinish.delivery_fee));
+    // setBookPrice(Number(SettingOnFinish.book_price));
+    setFee({
+      book_price: Number(SettingOnFinish.book_price),
+      delivery_fee: Number(SettingOnFinish.delivery_fee),
+    });
     setResultText("");
     setResultAnyName(undefined);
-    form.resetFields();
+    _resetForm();
   };
 
   const onFinishCheckBox = (
@@ -103,8 +144,8 @@ const Home: NextPage = () => {
             mainfile,
             "File",
             {
-              book_price: bookPrice,
-              delivery_fee: deliveryFee,
+              book_price: fee.book_price,
+              delivery_fee: fee.delivery_fee,
             },
             "🔥🔥รายการ 💾 (ไฟล์) 🔥🔥\n",
             Resultsetting
@@ -122,8 +163,8 @@ const Home: NextPage = () => {
             mainbookOrPrint,
             "Print",
             {
-              book_price: bookPrice,
-              delivery_fee: deliveryFee,
+              book_price: fee.book_price,
+              delivery_fee: fee.delivery_fee,
             },
             "🔥🔥รายการ 📘📕 (ชิ้นงาน) 🔥🔥\n",
             Resultsetting
@@ -231,7 +272,11 @@ const Home: NextPage = () => {
           <div className="layout-card-title">ค่าธรรมเนียม</div>
           <InputSettingApps onFinish={onInputSettingFinish}></InputSettingApps>
         </div>
-        <div className="layout-card sticky -top-11 z-10 shadow-md ">
+        <div className="layout-card">
+          <div className="layout-card-title">ชนิดสินค้า</div>
+          <ModeSetting onFinish={onModeSettingFinish}></ModeSetting>
+        </div>
+        <div className="layout-card sticky -top-11 z-30 shadow-md ">
           <div className="layout-card-title">ค้นหา</div>
           <SearchApps data={data}></SearchApps>
         </div>
@@ -255,6 +300,7 @@ const Home: NextPage = () => {
                           {headerArray.headerTitle}
                         </div>
                         <CheckBoxClone
+                          modeOnFinish={modeOnFinish}
                           setting={imageSrtting}
                           form={form}
                           WorksheetsModel={headerArray.worksheets}

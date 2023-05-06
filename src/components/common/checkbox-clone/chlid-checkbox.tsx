@@ -6,9 +6,14 @@ import InputCheckbox from "./input-checkbox";
 interface ChlidCheckboxProps {
   form: FormInstance<any>;
   name: string;
+  mainName: string;
 }
 
-const ChlidCheckBox: React.FC<ChlidCheckboxProps> = ({ form, name }) => {
+const ChlidCheckBox: React.FC<ChlidCheckboxProps> = ({
+  form,
+  name,
+  mainName,
+}) => {
   const [fileSetting, setFileSerring] = useState<checkBoxSelect>({
     count: 0,
     id: `${name}-file`,
@@ -74,10 +79,13 @@ const ChlidCheckBox: React.FC<ChlidCheckboxProps> = ({ form, name }) => {
         checkBoxSelect?.push(get.book);
       }
     }
-
-    form.setFieldValue(name, checkBoxSelect);
+    if (checkBoxSelect.length > 0) {
+      form.setFieldValue(name, checkBoxSelect);
+    } else {
+      form.resetFields([mainName]);
+      form.setFieldValue(mainName, undefined);
+    }
   };
-
   useEffect(() => {
     let get = getCheckInForm();
     let checkFile: checkBoxSelect | undefined = get.file;
@@ -134,27 +142,27 @@ const ChlidCheckBox: React.FC<ChlidCheckboxProps> = ({ form, name }) => {
     <>
       <div className="w-full flex flex-col md:flex-row gap-2 select-none pb-3 p-3 divide-x">
         <Checkbox
-          className=""
+          className="w-full md:w-auto"
           checked={fileSetting.bool}
           onChange={(e) => {
             onChange(e.target.checked, e.target.checked ? 1 : 0, "File");
           }}
         >
-          ไฟล์
+          💾 ไฟล์
         </Checkbox>
         <InputCheckbox
-          className="pl-4"
+          className="pl-4 pr-0 md:pr-3"
           checked={printSetting.bool}
           type="Print"
           onChange={onChange}
-          label={"ปริ้น"}
+          label={"📘 ปริ้น"}
         ></InputCheckbox>
         <InputCheckbox
-          className="px-4"
+          className="px-0 md:px-4 pl-4 "
           checked={BookSetting.bool}
           type="Book"
           onChange={onChange}
-          label={"เข้าเล่ม"}
+          label={"📕 เข้าเล่ม"}
         ></InputCheckbox>
       </div>
     </>

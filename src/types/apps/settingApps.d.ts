@@ -1,4 +1,3 @@
-
 interface SettingOnFinish {
   image: boolean;
   mixData: boolean;
@@ -12,4 +11,7 @@ interface ResultSettingOnFinish {
   type: boolean;
   price: boolean;
   price_all: boolean;
+}
+interface ResultModeOnFinish {
+  mode: number;
 }

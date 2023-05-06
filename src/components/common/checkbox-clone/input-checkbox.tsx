@@ -33,6 +33,7 @@ const InputCheckbox: React.FC<InputCheckboxProps> = ({
     <>
       <div className={`flex gap-3 ${className}`}>
         <Checkbox
+          className="w-full md:w-auto"
           checked={checked}
           onChange={(e) => {
             setCheck(e.target.checked);

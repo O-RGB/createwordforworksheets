@@ -1,4 +1,4 @@
-import { Checkbox, Form, FormInstance } from "antd";
+import { Checkbox, Form, FormInstance, Input } from "antd";
 import React, { useEffect, useState } from "react";
 import ChlidCheckBox from "./chlid-checkbox";
 import { CheckCircleOutlined } from "@ant-design/icons";
@@ -11,6 +11,7 @@ interface MainCheckboxProps {
   initialValue: checkBoxSelect[] | undefined;
   headerArray: WorksheetsModelInput;
   setting?: SettingOnFinish;
+  modeOnFinish: ResultModeOnFinish;
 }
 
 const MainCheckBox: React.FC<MainCheckboxProps> = ({
@@ -21,6 +22,7 @@ const MainCheckBox: React.FC<MainCheckboxProps> = ({
   headerArray,
   setting,
   image,
+  modeOnFinish,
 }) => {
   const [check, setCheck] = useState<boolean>(false);
 
@@ -40,10 +42,12 @@ const MainCheckBox: React.FC<MainCheckboxProps> = ({
   return (
     <>
       <Form.Item
-        className="m-0 p-0 h-0"
+        className="m-0 p-0 h-0 opacity-0"
         initialValue={headerArray}
         name={`${name}-real`}
-      ></Form.Item>
+      >
+        <Input></Input>
+      </Form.Item>
       <Form.Item
         onReset={() => {
           setCheck(false);
@@ -63,14 +67,37 @@ const MainCheckBox: React.FC<MainCheckboxProps> = ({
             if (!e.target.checked) {
               form.resetFields([`${name}-value`]);
             } else {
-              form.setFieldValue(`${name}-value`, [
-                {
+              let modeObj = {};
+              if (modeOnFinish.mode == 1) {
+                modeObj = {
                   count: 1,
                   id: `${name}-file`,
                   type: "File",
                   bool: true,
-                },
-              ]);
+                };
+              } else if (modeOnFinish.mode == 2) {
+                modeObj = {
+                  count: 1,
+                  id: `${name}-print`,
+                  type: "Print",
+                  bool: true,
+                };
+              } else if (modeOnFinish.mode == 3) {
+                modeObj = {
+                  count: 1,
+                  id: `${name}-book`,
+                  type: "Book",
+                  bool: true,
+                };
+              } else if (modeOnFinish.mode == 4) {
+                modeObj = {
+                  count: 1,
+                  id: `${name}-file`,
+                  type: "File",
+                  bool: true,
+                };
+              }
+              form.setFieldValue(`${name}-value`, [modeObj]);
             }
           }}
           className="w-full p-3 !m-0 rounded-md hover:bg-slate-100 duration-300"
@@ -105,18 +132,24 @@ const MainCheckBox: React.FC<MainCheckboxProps> = ({
 
       {check && (
         <div className="relative">
-          <div className="absolute left-5 h-[50%] w-[0.05rem] bg-[#E4E7EB]"></div>
-          <div className="absolute left-5 h-[0.05rem] w-3 bg-[#E4E7EB] bottom-[50%]"></div>
+          <div className="absolute left-5 h-[40%] w-[0.05rem] bg-[#E4E7EB]"></div>
+          <div className="absolute left-5 h-[0.05rem] w-3 bg-[#E4E7EB] bottom-[60%]"></div>
 
           <div className="pl-6">
             <Form.Item
-              className={`m-0 p-0 ${setting?.mixData ? "" : "h-0 opacity-0"}`}
+              className={`m-0 p-0 w-full ${
+                setting?.mixData ? "" : "h-0 opacity-0"
+              }`}
               name={`${name}-value`}
             >
-              <ChlidCheckBox name={`${name}-value`} form={form}></ChlidCheckBox>
+              <ChlidCheckBox
+                mainName={name}
+                name={`${name}-value`}
+                form={form}
+              ></ChlidCheckBox>
             </Form.Item>
             {setting?.mixData && (
-              <div className="w-full">
+              <div className="w-full py-2">
                 <hr />
               </div>
             )}

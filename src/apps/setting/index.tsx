@@ -31,11 +31,11 @@ const SettingApps: React.FC<SettingAppsProps> = ({ onFinish }) => {
               name="image"
               labal="แสดงรูปภาพ"
             ></SwitchCommon>
-            <SwitchCommon
+            {/* <SwitchCommon
               icon={<RxMixerHorizontal className="mt-1" />}
               name="mixData"
               labal="เลือกแบบผสม"
-            ></SwitchCommon>
+            ></SwitchCommon> */}
           </div>
         </div>
       </Form>

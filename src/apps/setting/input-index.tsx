@@ -13,18 +13,18 @@ interface InputSettingAppsProps {
 }
 
 const InputSettingApps: React.FC<InputSettingAppsProps> = ({ onFinish }) => {
-  const { deliveryFee } = useContext(DeliveryFeeContext);
-  const { bookPrice } = useContext(BookServiceContext);
+  // const { deliveryFee } = useContext(DeliveryFeeContext);
+  // const { bookPrice } = useContext(BookServiceContext);
   const [form] = Form.useForm();
   useEffect(() => {
-    form.setFieldValue("delivery_fee", deliveryFee.toString());
-    form.setFieldValue("book_price", bookPrice.toString());
+    form.setFieldValue("delivery_fee", "40");
+    form.setFieldValue("book_price", "40");
   }, []);
   return (
     <>
       <Form
         form={form}
-        onFieldsChange={() => {
+        onFieldsChange={(e) => {
           let temp = form.getFieldsValue();
           onFinish?.(temp);
         }}
