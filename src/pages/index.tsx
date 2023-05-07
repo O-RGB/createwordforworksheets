@@ -5,13 +5,11 @@ import SearchApps from "@/apps/srarch";
 import LayoutDisplay from "@/components/layout";
 import { ConfigProvider, FloatButton, Form, Modal, message } from "antd";
 import type { NextPage } from "next";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ShoppingOutlined, SaveOutlined } from "@ant-design/icons";
 import { GetResult } from "@/lib/getResult";
 import { WorkSheetsData } from "@/mock/workSheetsData";
 import { HeadWorkSheets } from "@/model/headworksheets";
-import { DeliveryFeeContext } from "@/context/deliveryFee";
-import { BookServiceContext } from "@/context/bookService";
 import { CheckRelatrionship } from "@/lib/relatrionship";
 import { CreateGoodName } from "@/lib/createGood/createGoodname";
 import React from "react";
@@ -19,28 +17,28 @@ import { SplitFileOutObj } from "@/lib/splitFileOutObj";
 import InputSettingApps from "@/apps/setting/input-index";
 import CheckBoxClone from "@/components/common/checkbox-clone";
 import ModeSetting from "@/apps/modeSetting";
+import { GetResultFromForm } from "@/lib/getResultFromForm/getResultFormForm";
 
 const Home: NextPage = () => {
-  const [fieldsValue, setFieldsValue] = useState<any>(undefined);
+  const [fieldsValue, setFieldsValue] = useState<
+    Record<string, FormResult> | undefined
+  >(undefined);
 
   const [resultText, setResultText] = useState<string>("");
   const [shopCount, setShopCount] = useState<number>(0);
   const [data, loadData] = useState<HeadWorkSheets[] | undefined>(undefined);
 
-  // const [deliveryFee, setDeliveryFee] = useState<number>(40);
-  // const [bookPrice, setBookPrice] = useState<number>(40);
-
   const [fee, setFee] = useState<InputSettingOnFinish>({
     book_price: 40,
     delivery_fee: 40,
   });
-  // const { deliveryFee, setDeliveryFee } = useContext(DeliveryFeeContext);
-  // const { bookPrice, setBookPrice } = useContext(BookServiceContext);
+
   const [messageApi, contextHolder] = message.useMessage();
   const [imageSrtting, setImageSetting] = useState<SettingOnFinish>({
     image: false,
     mixData: false,
   });
+
   const [saveResultAnyName, setResultAnyName] = useState<any | undefined>(
     undefined
   );
@@ -69,12 +67,40 @@ const Home: NextPage = () => {
 
   const refResult: any = useRef(null);
 
-  const _resetForm = () => {
+  const _resetForm = (restoreData: boolean = false) => {
     // let data = form.getFieldsValue();
     // setFieldsValue(data);
     form.resetFields();
+    // if (restoreData) {
+    //   setTimeout(() => {
+    //     form.setFieldsValue(data);
+    //   }, 1000);
+    // }
+  };
 
-    // form.setFieldsValue(data);
+  const testReset = () => {
+    let fors = {};
+    let temp = imageSrtting;
+    if (fieldsValue) {
+      Object.entries(fieldsValue).forEach(([key, value]) => {
+        console.log(value.value);
+        if (value.value) {
+          temp.mixData = true;
+          setImageSetting(temp);
+        }
+        form.setFieldValue(`${key}`, value.select);
+        form.setFieldValue(`${key}-real`, value.WorksheetsModelInput);
+        form.setFieldValue(`${key}-value`, value.value);
+      });
+    }
+
+    setResultAnyName(form.getFieldsValue());
+  };
+
+  const getReusltForm = () => {
+    let test = GetResultFromForm(form);
+    console.log(test);
+    setFieldsValue(test);
   };
 
   const onResultFinish = (ResultOnFinish: ResultSettingOnFinish) => {
@@ -97,10 +123,12 @@ const Home: NextPage = () => {
   };
 
   const onSettingFinish = (SettingOnFinish: SettingOnFinish) => {
+    let mixMode = imageSrtting;
+    SettingOnFinish.mixData = mixMode.mixData;
     setImageSetting(SettingOnFinish);
     setResultText("");
     setResultAnyName(undefined);
-    _resetForm();
+    _resetForm(true);
   };
   const onInputSettingFinish = (SettingOnFinish: InputSettingOnFinish) => {
     // setDeliveryFee(Number(SettingOnFinish.delivery_fee));
@@ -111,13 +139,14 @@ const Home: NextPage = () => {
     });
     setResultText("");
     setResultAnyName(undefined);
-    _resetForm();
+    _resetForm(true);
   };
 
   const onFinishCheckBox = (
     resultAnyName: any,
     ResultOnFinish?: ResultSettingOnFinish
   ) => {
+    console.log(resultAnyName);
     let Resultsetting: ResultSettingOnFinish = {
       delivery: true,
       price: true,
@@ -190,6 +219,7 @@ const Home: NextPage = () => {
   const result = () => {
     return (
       <>
+        {/* <div onClick={() => testReset()}>test</div> */}
         <div ref={refResult} className="layout-card">
           <div className="layout-card-title">ตั้งค่าผลลัพธ์</div>
           <ResultSettingApps
@@ -286,7 +316,7 @@ const Home: NextPage = () => {
             form={form}
             onFinish={onFinishCheckBox}
             onFieldsChange={(e) => {
-              // console.log(form.getFieldsValue());
+              getReusltForm();
             }}
           >
             {data.map((header, i) => {
@@ -300,6 +330,7 @@ const Home: NextPage = () => {
                           {headerArray.headerTitle}
                         </div>
                         <CheckBoxClone
+                          getReusltForm={getReusltForm}
                           modeOnFinish={modeOnFinish}
                           setting={imageSrtting}
                           form={form}

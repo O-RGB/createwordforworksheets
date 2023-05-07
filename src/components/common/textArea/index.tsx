@@ -5,6 +5,7 @@ const { TextArea } = Input;
 interface TextAreaCommonProps {
   name?: string;
   label?: string;
+  placeholder?: string;
   value?: string;
   disabled?: boolean;
 }
@@ -14,6 +15,7 @@ const TextAreaCommon: React.FC<TextAreaCommonProps> = ({
   label,
   value,
   disabled,
+  placeholder,
 }) => {
   return (
     <>
@@ -22,7 +24,7 @@ const TextAreaCommon: React.FC<TextAreaCommonProps> = ({
           readOnly={disabled}
           autoSize
           value={value}
-          placeholder="Basic usage"
+          placeholder={placeholder}
           style={{ width: "100%" }}
         />
       </Form.Item>

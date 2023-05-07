@@ -44,3 +44,10 @@ interface MapingFormResultToObj {
   value: checkBoxSelect[];
   WorksheetsModelInput?: WorksheetsModelInput;
 }
+
+interface FormResult {
+  key: string;
+  select?: boolean;
+  value?: checkBoxSelect[];
+  WorksheetsModelInput?: WorksheetsModelInput;
+}

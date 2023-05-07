@@ -18,7 +18,11 @@ const ResultTextApps: React.FC<ResultTextAppsProps> = ({
   return (
     <>
       <div>
-        <TextAreaCommon disabled={disabled} value={value}></TextAreaCommon>
+        <TextAreaCommon
+          placeholder="ผลลัพธ์"
+          disabled={disabled}
+          value={value}
+        ></TextAreaCommon>
       </div>
     </>
   );

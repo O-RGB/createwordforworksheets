@@ -105,9 +105,10 @@ export const CreateGoodName = (
   if (mode == "Print" && resultCheckRelationship.length > 0) {
     let delivery = "✅ ค่าส่ง\n" + `🟩 ${settingOnFinish.delivery_fee} บาท`;
     mainResult.delivery = delivery;
+    price += settingOnFinish.delivery_fee;
   }
 
-  let priceAll = `🍀 ราคารวม \n` + `🔴 ${price} บาทครับผม\n`;
+  let priceAll = `🍀 ราคารวม \n` + `🟠 ${price} บาทครับผม\n`;
   mainResult.priceAll = priceAll;
 
   let string: string = goodHeader;
@@ -116,9 +117,9 @@ export const CreateGoodName = (
     string += `${data.header}`;
     string += "\n";
 
-    if (!resultOnFinish.price && !resultOnFinish.type) {
-      string = string.substring(0, string.lastIndexOf("\n"));
-    }
+    // if (!resultOnFinish.price && !resultOnFinish.type) {
+    //   string = string.substring(0, string.lastIndexOf("\n"));
+    // }
 
     if (resultOnFinish.type) {
       string += `${data.typeLabel}`;
@@ -132,10 +133,10 @@ export const CreateGoodName = (
       string += data.count;
       string += "\n";
     }
-    if (resultOnFinish.price) {
-      string += data.price;
-      string += "\n";
-    }
+    // if (resultOnFinish.price) {
+    string += data.price;
+    string += "\n";
+    // }
     if (data.special != undefined) {
       if (!resultOnFinish.price && !resultOnFinish.type) {
         string += "\n";

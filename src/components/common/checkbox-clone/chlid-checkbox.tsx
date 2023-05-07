@@ -7,12 +7,14 @@ interface ChlidCheckboxProps {
   form: FormInstance<any>;
   name: string;
   mainName: string;
+  getReusltForm: () => void;
 }
 
 const ChlidCheckBox: React.FC<ChlidCheckboxProps> = ({
   form,
   name,
   mainName,
+  getReusltForm,
 }) => {
   const [fileSetting, setFileSerring] = useState<checkBoxSelect>({
     count: 0,
@@ -85,6 +87,8 @@ const ChlidCheckBox: React.FC<ChlidCheckboxProps> = ({
       form.resetFields([mainName]);
       form.setFieldValue(mainName, undefined);
     }
+    getReusltForm.call("");
+    // console.log(form.getFieldsValue());
   };
   useEffect(() => {
     let get = getCheckInForm();

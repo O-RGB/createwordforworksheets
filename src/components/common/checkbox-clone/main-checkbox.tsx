@@ -12,6 +12,7 @@ interface MainCheckboxProps {
   headerArray: WorksheetsModelInput;
   setting?: SettingOnFinish;
   modeOnFinish: ResultModeOnFinish;
+  getReusltForm: () => void;
 }
 
 const MainCheckBox: React.FC<MainCheckboxProps> = ({
@@ -23,6 +24,7 @@ const MainCheckBox: React.FC<MainCheckboxProps> = ({
   setting,
   image,
   modeOnFinish,
+  getReusltForm,
 }) => {
   const [check, setCheck] = useState<boolean>(false);
 
@@ -48,6 +50,7 @@ const MainCheckBox: React.FC<MainCheckboxProps> = ({
       >
         <Input></Input>
       </Form.Item>
+
       <Form.Item
         onReset={() => {
           setCheck(false);
@@ -98,6 +101,7 @@ const MainCheckBox: React.FC<MainCheckboxProps> = ({
                 };
               }
               form.setFieldValue(`${name}-value`, [modeObj]);
+              getReusltForm()
             }
           }}
           className="w-full p-3 !m-0 rounded-md hover:bg-slate-100 duration-300"
@@ -143,6 +147,7 @@ const MainCheckBox: React.FC<MainCheckboxProps> = ({
               name={`${name}-value`}
             >
               <ChlidCheckBox
+                getReusltForm={getReusltForm}
                 mainName={name}
                 name={`${name}-value`}
                 form={form}

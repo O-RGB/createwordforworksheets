@@ -11,6 +11,7 @@ interface CheckBoxCloneProps {
   WorksheetsModel?: WorksheetsModel[];
   setting?: SettingOnFinish;
   modeOnFinish: ResultModeOnFinish;
+  getReusltForm: () => void;
 }
 
 const CheckBoxClone: React.FC<CheckBoxCloneProps> = ({
@@ -18,6 +19,7 @@ const CheckBoxClone: React.FC<CheckBoxCloneProps> = ({
   WorksheetsModel,
   setting,
   modeOnFinish,
+  getReusltForm,
 }) => {
   useEffect(() => {}, []);
 
@@ -42,6 +44,7 @@ const CheckBoxClone: React.FC<CheckBoxCloneProps> = ({
             <React.Fragment key={`check-item-key-${i}`}>
               <div id={`${get.workSheetsId}`} className="w-full duration-300">
                 <MainCheckBox
+                  getReusltForm={getReusltForm}
                   modeOnFinish={modeOnFinish}
                   image={temp.headerArray.imageUrl}
                   headerArray={temp.headerArray}
