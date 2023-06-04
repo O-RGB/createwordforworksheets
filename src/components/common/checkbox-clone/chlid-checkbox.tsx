@@ -8,6 +8,10 @@ interface ChlidCheckboxProps {
   name: string;
   mainName: string;
   getReusltForm: () => void;
+  fileMode?: boolean;
+  printMode?: boolean;
+  bookMode?: boolean;
+  inputOnly?: boolean;
 }
 
 const ChlidCheckBox: React.FC<ChlidCheckboxProps> = ({
@@ -15,6 +19,10 @@ const ChlidCheckBox: React.FC<ChlidCheckboxProps> = ({
   name,
   mainName,
   getReusltForm,
+  fileMode = false,
+  printMode = false,
+  bookMode = false,
+  inputOnly = false,
 }) => {
   const [fileSetting, setFileSerring] = useState<checkBoxSelect>({
     count: 0,
@@ -145,29 +153,37 @@ const ChlidCheckBox: React.FC<ChlidCheckboxProps> = ({
   return (
     <>
       <div className="w-full flex flex-col md:flex-row gap-2 select-none pb-3 p-3 divide-x">
-        <Checkbox
-          className="w-full md:w-auto"
-          checked={fileSetting.bool}
-          onChange={(e) => {
-            onChange(e.target.checked, e.target.checked ? 1 : 0, "File");
-          }}
-        >
-          💾 ไฟล์
-        </Checkbox>
-        <InputCheckbox
-          className="pl-4 pr-0 md:pr-3"
-          checked={printSetting.bool}
-          type="Print"
-          onChange={onChange}
-          label={"📘 ปริ้น"}
-        ></InputCheckbox>
-        <InputCheckbox
-          className="px-0 md:px-4 pl-4 "
-          checked={BookSetting.bool}
-          type="Book"
-          onChange={onChange}
-          label={"📕 เข้าเล่ม"}
-        ></InputCheckbox>
+        {fileMode && (
+          <Checkbox
+            className="w-full md:w-auto"
+            checked={fileSetting.bool}
+            onChange={(e) => {
+              onChange(e.target.checked, e.target.checked ? 1 : 0, "File");
+            }}
+          >
+            💾 ไฟล์
+          </Checkbox>
+        )}
+        {printMode && (
+          <InputCheckbox
+            inputOnly={inputOnly}
+            className="pl-4 pr-0 md:pr-3"
+            checked={printSetting.bool}
+            type="Print"
+            onChange={onChange}
+            label={"📘 ปริ้น"}
+          ></InputCheckbox>
+        )}
+        {bookMode && (
+          <InputCheckbox
+            inputOnly={inputOnly}
+            className="px-0 md:px-4 pl-4 "
+            checked={BookSetting.bool}
+            type="Book"
+            onChange={onChange}
+            label={"📕 เข้าเล่ม"}
+          ></InputCheckbox>
+        )}
       </div>
     </>
   );

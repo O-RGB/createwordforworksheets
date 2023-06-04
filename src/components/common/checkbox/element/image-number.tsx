@@ -1,7 +1,5 @@
-import { Button, Form, Input, InputNumber } from "antd";
+import { Button, Input } from "antd";
 import React, { useEffect, useState } from "react";
-import InputCommon from "../../input";
-import ButtonCommon from "../../button";
 
 interface ImageNumberProps {
   id: string;
@@ -11,9 +9,9 @@ interface ImageNumberProps {
 const ImageNumber: React.FC<ImageNumberProps> = ({ onChange, id }) => {
   const [number, onCheck] = useState<string>("1");
 
-  useEffect(() => {
-    onCheck("1");
-  }, []);
+  // onCheck("1");
+  // useEffect(() => {
+  // }, []);
   return (
     <>
       <div className=" flex m-0 p-0 gap-0.5 mt-0.5">

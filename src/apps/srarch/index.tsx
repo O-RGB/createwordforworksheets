@@ -51,7 +51,7 @@ const SearchApps: React.FC<SearchAppsProps> = ({ data }) => {
                       }
                     }, 2000);
                     window.scrollTo({
-                      top: element.offsetTop - 600,
+                      top: element.offsetTop - 300,
                       behavior: "smooth",
                     });
                   }

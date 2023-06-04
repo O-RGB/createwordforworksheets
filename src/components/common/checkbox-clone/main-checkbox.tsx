@@ -70,7 +70,7 @@ const MainCheckBox: React.FC<MainCheckboxProps> = ({
             if (!e.target.checked) {
               form.resetFields([`${name}-value`]);
             } else {
-              let modeObj = {};
+              let modeObj = undefined;
               if (modeOnFinish.mode == 1) {
                 modeObj = {
                   count: 1,
@@ -93,15 +93,18 @@ const MainCheckBox: React.FC<MainCheckboxProps> = ({
                   bool: true,
                 };
               } else if (modeOnFinish.mode == 4) {
-                modeObj = {
-                  count: 1,
-                  id: `${name}-file`,
-                  type: "File",
-                  bool: true,
-                };
+                // modeObj = {
+                //   count: 1,
+                //   id: `${name}-file`,
+                //   type: "File",
+                //   bool: true,
+                // };
               }
-              form.setFieldValue(`${name}-value`, [modeObj]);
-              getReusltForm()
+              form.setFieldValue(
+                `${name}-value`,
+                modeObj ? [modeObj] : undefined
+              );
+              getReusltForm();
             }
           }}
           className="w-full p-3 !m-0 rounded-md hover:bg-slate-100 duration-300"
@@ -139,26 +142,73 @@ const MainCheckBox: React.FC<MainCheckboxProps> = ({
           <div className="absolute left-5 h-[40%] w-[0.05rem] bg-[#E4E7EB]"></div>
           <div className="absolute left-5 h-[0.05rem] w-3 bg-[#E4E7EB] bottom-[60%]"></div>
 
-          <div className="pl-6">
-            <Form.Item
-              className={`m-0 p-0 w-full ${
-                setting?.mixData ? "" : "h-0 opacity-0"
-              }`}
-              name={`${name}-value`}
-            >
-              <ChlidCheckBox
-                getReusltForm={getReusltForm}
-                mainName={name}
-                name={`${name}-value`}
-                form={form}
-              ></ChlidCheckBox>
-            </Form.Item>
-            {setting?.mixData && (
-              <div className="w-full py-2">
-                <hr />
+          {/* Mix MODE == 4 */}
+          {modeOnFinish.mode == 4 ? (
+            <>
+              <div className="pl-6">
+                <Form.Item
+                  rules={[
+                    { required: true, message: "ไม่สามารถให้ชนิดงานว่างไว้!" },
+                  ]}
+                  required
+                  className={`m-0 p-0 w-full ${
+                    modeOnFinish.mode == 4 ? "" : "h-0 opacity-0"
+                  }`}
+                  name={`${name}-value`}
+                >
+                  <ChlidCheckBox
+                    bookMode
+                    fileMode
+                    printMode
+                    getReusltForm={getReusltForm}
+                    mainName={name}
+                    name={`${name}-value`}
+                    form={form}
+                  ></ChlidCheckBox>
+                </Form.Item>
+
+                <div className="w-full py-2">
+                  <hr />
+                </div>
               </div>
-            )}
-          </div>
+            </>
+          ) : modeOnFinish.mode == 3 ? (
+            <>
+              <Form.Item
+                className={`m-0 p-0 w-full ${
+                  modeOnFinish.mode == 3 ? "" : "h-0 opacity-0"
+                }`}
+                name={`${name}-value`}
+              >
+                <ChlidCheckBox
+                  inputOnly
+                  bookMode
+                  getReusltForm={getReusltForm}
+                  mainName={name}
+                  name={`${name}-value`}
+                  form={form}
+                ></ChlidCheckBox>
+              </Form.Item>
+            </>
+          ) : (
+            <>
+              <Form.Item
+                className={`m-0 p-0 w-full ${
+                  modeOnFinish.mode == 2 ? "" : "h-0 opacity-0"
+                }`}
+                name={`${name}-value`}
+              >
+                <ChlidCheckBox
+                  inputOnly
+                  printMode
+                  getReusltForm={getReusltForm}
+                  mainName={name}
+                  name={`${name}-value`}
+                  form={form}
+                ></ChlidCheckBox>
+              </Form.Item>
+            </>
+          )}
         </div>
       )}
     </>

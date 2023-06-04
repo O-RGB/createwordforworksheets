@@ -74,11 +74,11 @@ export const CreateGoodName = (
 
         let priceTmp = `🟩 ${
           value.type == "File"
-            ? `${file}`
+            ? `${file.toLocaleString()}`
             : value.type == "Print"
-            ? `${print}`
+            ? `${print.toLocaleString()}`
             : value.type == "Book"
-            ? `${book + settingOnFinish.book_price}`
+            ? `${book + settingOnFinish.book_price}`.toLocaleString()
             : ""
         } บาท`;
         goodTemp.price = priceTmp;
@@ -87,7 +87,8 @@ export const CreateGoodName = (
           relatrionshipCount = relatrionshipCount + 1;
           if (Input.relationship.length == relatrionshipCount) {
             let special =
-              `💥 ${child.conditionStr}\n` + `💥 ลดราคา -${Input.discount} บาท`;
+              `💥 ${child.conditionStr}\n` +
+              `💥 ลดราคา -${`${Input.discount}`.toLocaleString()} บาท`;
             goodTemp.special = special;
             if (Input.discount) {
               price += -Input.discount;
@@ -108,7 +109,7 @@ export const CreateGoodName = (
     price += settingOnFinish.delivery_fee;
   }
 
-  let priceAll = `🍀 ราคารวม \n` + `🟠 ${price} บาทครับผม\n`;
+  let priceAll = `🍀 ราคารวม \n` + `🟠 ${price.toLocaleString()} บาทครับผม\n`;
   mainResult.priceAll = priceAll;
 
   let string: string = goodHeader;
@@ -134,7 +135,7 @@ export const CreateGoodName = (
       string += "\n";
     }
     // if (resultOnFinish.price) {
-    string += data.price;
+    string += `${data.price}`.toLocaleString();
     string += "\n";
     // }
     if (data.special != undefined) {
@@ -155,7 +156,7 @@ export const CreateGoodName = (
     }
   }
   if (resultOnFinish.price) {
-    string += mainResult.priceAll;
+    string += mainResult.priceAll.toLocaleString();
   }
 
   returnData.good = string;

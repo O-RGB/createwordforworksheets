@@ -6,6 +6,7 @@ interface InputCheckboxProps {
   label: string;
   type: ResultWorkSheetsMode;
   checked?: boolean | undefined;
+  inputOnly?: boolean;
   className?: string;
   onChange?: (
     select: boolean,
@@ -20,6 +21,7 @@ const InputCheckbox: React.FC<InputCheckboxProps> = ({
   checked,
   className,
   type,
+  inputOnly,
 }) => {
   const [onCheck, setCheck] = useState<boolean>(false);
 
@@ -33,7 +35,7 @@ const InputCheckbox: React.FC<InputCheckboxProps> = ({
     <>
       <div className={`flex gap-3 ${className}`}>
         <Checkbox
-          className="w-full md:w-auto"
+          className={`w-full md:w-auto ${inputOnly ? " hidden" : ""}`}
           checked={checked}
           onChange={(e) => {
             setCheck(e.target.checked);

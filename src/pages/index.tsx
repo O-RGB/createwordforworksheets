@@ -204,7 +204,7 @@ const Home: NextPage = () => {
       }
 
       result += "🔴 ราคารวมทั้งหมด";
-      result += `\n🔴 ${pay} บาท`;
+      result += `\n🔴 ${pay.toLocaleString()} บาท`;
       setResultText(result);
     });
   };
@@ -281,14 +281,20 @@ const Home: NextPage = () => {
             type={shopCount > 0 ? "primary" : undefined}
             icon={<SaveOutlined />}
             onClick={() => {
-              form.submit();
-              success();
-              setTimeout(() => {
-                refResult.current.scrollIntoView({
-                  behavior: "smooth",
-                  block: "center",
+              try {
+                form.validateFields().then((data) => {
+                  form.submit();
+                  success();
+                  setTimeout(() => {
+                    refResult.current.scrollIntoView({
+                      behavior: "smooth",
+                      block: "center",
+                    });
+                  }, 100);
                 });
-              }, 100);
+              } catch (error) {
+                console.error(error);
+              }
             }}
           />
         </ConfigProvider>
@@ -345,7 +351,7 @@ const Home: NextPage = () => {
           </Form>
         )}
 
-        <div className="block  lg:hidden">{result()}</div>
+        <div className="block lg:hidden">{result()}</div>
       </LayoutDisplay>
     </>
   );
