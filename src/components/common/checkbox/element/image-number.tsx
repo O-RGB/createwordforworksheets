@@ -3,11 +3,18 @@ import React, { useEffect, useState } from "react";
 
 interface ImageNumberProps {
   id: string;
+  value?: string;
   onChange?: (id: string, value: number) => void;
 }
 
-const ImageNumber: React.FC<ImageNumberProps> = ({ onChange, id }) => {
+const ImageNumber: React.FC<ImageNumberProps> = ({ onChange, id, value }) => {
   const [number, onCheck] = useState<string>("1");
+
+  useEffect(() => {
+    if (value) {
+      onCheck(value + "");
+    }
+  }, []);
 
   // onCheck("1");
   // useEffect(() => {

@@ -57,8 +57,7 @@ const Home: NextPage = () => {
   const success = () => {
     messageApi.open({
       style: {
-        position: "absolute",
-        bottom: 0,
+        zIndex: 999,
       },
       type: "success",
       content: "ก็อปปี้ขึ้นคลิปบอร์ดแล้ว",
@@ -281,8 +280,9 @@ const Home: NextPage = () => {
             type={shopCount > 0 ? "primary" : undefined}
             icon={<SaveOutlined />}
             onClick={() => {
-              try {
-                form.validateFields().then((data) => {
+              form
+                .validateFields()
+                .then((data) => {
                   form.submit();
                   success();
                   setTimeout(() => {
@@ -291,10 +291,30 @@ const Home: NextPage = () => {
                       block: "center",
                     });
                   }, 100);
+                })
+                .catch((error: any) => {
+                  if (error.errorFields.length > 0) {
+                    let keyname: string = error.errorFields[0].name[0];
+                    let keynameList = keyname.split("-");
+                    setTimeout(() => {
+                      let element = document.getElementById(keynameList[0]);
+                      if (element) {
+                        element.classList.add("bg-red-100");
+                        element.classList.add("rounded-md");
+                        setTimeout(() => {
+                          if (element) {
+                            element.classList.remove("bg-red-100");
+                            element.classList.remove("rounded-md");
+                          }
+                        }, 2000);
+                        window.scrollTo({
+                          top: element.offsetTop - 300,
+                          behavior: "smooth",
+                        });
+                      }
+                    }, 100);
+                  }
                 });
-              } catch (error) {
-                console.error(error);
-              }
             }}
           />
         </ConfigProvider>

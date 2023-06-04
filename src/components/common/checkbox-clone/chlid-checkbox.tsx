@@ -166,6 +166,7 @@ const ChlidCheckBox: React.FC<ChlidCheckboxProps> = ({
         )}
         {printMode && (
           <InputCheckbox
+            value={printSetting.count + ""}
             inputOnly={inputOnly}
             className="pl-4 pr-0 md:pr-3"
             checked={printSetting.bool}
@@ -176,6 +177,7 @@ const ChlidCheckBox: React.FC<ChlidCheckboxProps> = ({
         )}
         {bookMode && (
           <InputCheckbox
+            value={BookSetting.count + ""}
             inputOnly={inputOnly}
             className="px-0 md:px-4 pl-4 "
             checked={BookSetting.bool}

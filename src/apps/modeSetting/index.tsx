@@ -23,7 +23,10 @@ const ModeSetting: React.FC<ModeSettingProps> = ({ onFinish, disabled }) => {
         className="w-full"
       >
         <Form.Item name={"mode"} initialValue={1} className="m-0 p-0">
-          <Radio.Group className="md:flex items-center  w-full" value={value}>
+          <Radio.Group
+            className="grid gap-2 grid-cols-2 md:grid-cols-4    w-full"
+            value={value}
+          >
             <Radio className="px-3" value={1}>
               💾 ไฟล์
             </Radio>

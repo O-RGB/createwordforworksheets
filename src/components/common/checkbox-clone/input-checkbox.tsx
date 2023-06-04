@@ -8,6 +8,7 @@ interface InputCheckboxProps {
   checked?: boolean | undefined;
   inputOnly?: boolean;
   className?: string;
+  value?: string;
   onChange?: (
     select: boolean,
     value: number,
@@ -22,6 +23,7 @@ const InputCheckbox: React.FC<InputCheckboxProps> = ({
   className,
   type,
   inputOnly,
+  value,
 }) => {
   const [onCheck, setCheck] = useState<boolean>(false);
 
@@ -47,6 +49,7 @@ const InputCheckbox: React.FC<InputCheckboxProps> = ({
         {onCheck && (
           <div className="-mt-[3px]">
             <ImageNumber
+              value={value}
               onChange={(e, input) => {
                 onChange?.(true, input, type);
               }}

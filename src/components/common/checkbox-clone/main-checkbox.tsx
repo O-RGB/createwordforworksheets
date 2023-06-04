@@ -160,7 +160,9 @@ const MainCheckBox: React.FC<MainCheckboxProps> = ({
                     bookMode
                     fileMode
                     printMode
-                    getReusltForm={getReusltForm}
+                    getReusltForm={() => {
+                      getReusltForm();
+                    }}
                     mainName={name}
                     name={`${name}-value`}
                     form={form}
