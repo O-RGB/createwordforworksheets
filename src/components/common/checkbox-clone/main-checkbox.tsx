@@ -28,19 +28,29 @@ const MainCheckBox: React.FC<MainCheckboxProps> = ({
 }) => {
   const [check, setCheck] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (initialValue) {
-      if (initialValue.length > 0) {
-        setCheck(true);
-        form.resetFields([`${name}-value`]);
-        form.setFieldValue(`${name}-value`, initialValue);
-      }
-    }
-    if (headerArray) {
-      form.resetFields([`${name}-real`]);
-      form.setFieldValue(`${name}-real`, headerArray);
-    }
-  }, [headerArray]);
+  // useEffect(() => {
+  //   let data = form.getFieldValue(`${name}-value`);
+  //   if (data) {
+  //     console.log(data, "check data is null");
+  //     setCheck(true);
+  //     form.setFieldValue(`${name}-value`, data);
+  //   }
+
+  //   //   if (initialValue) {
+  //   //     if (initialValue.length > 0) {
+  //   //       console.log(initialValue,"initialValue")
+  //   //       setCheck(true);
+  //   //       form.resetFields([`${name}-value`]);
+  //   //       form.setFieldValue(`${name}-value`, initialValue);
+  //   //     }
+  //   //   }
+
+  //   if (headerArray) {
+  //     form.resetFields([`${name}-real`]);
+  //     form.setFieldValue(`${name}-real`, headerArray);
+  //   }
+  // }, [headerArray,form]);
+
   return (
     <>
       <Form.Item

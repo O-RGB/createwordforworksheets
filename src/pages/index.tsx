@@ -78,20 +78,21 @@ const Home: NextPage = () => {
   };
 
   const testReset = () => {
-    let fors = {};
-    let temp = imageSrtting;
-    if (fieldsValue) {
-      Object.entries(fieldsValue).forEach(([key, value]) => {
-        console.log(value.value);
-        if (value.value) {
-          temp.mixData = true;
-          setImageSetting(temp);
-        }
-        form.setFieldValue(`${key}`, value.select);
-        form.setFieldValue(`${key}-real`, value.WorksheetsModelInput);
-        form.setFieldValue(`${key}-value`, value.value);
-      });
-    }
+    // let fors = {};
+    // let temp = imageSrtting;
+    // if (fieldsValue) {
+    //   Object.entries(fieldsValue).forEach(([key, value]) => {
+    //     console.log(value.value,'on finde save');
+    //     console.log(form.getFieldsValue(),'get field on field save');
+    //     // if (value.value) {
+    //     //   temp.mixData = true;
+    //     //   setImageSetting(temp);
+    //     // }
+    //     // form.setFieldValue(`${key}`, value.select);
+    //     // form.setFieldValue(`${key}-real`, value.WorksheetsModelInput);
+    //     // form.setFieldValue(`${key}-value`, value.value);
+    //   });
+    // }
 
     setResultAnyName(form.getFieldsValue());
   };
@@ -157,7 +158,7 @@ const Home: NextPage = () => {
     } else {
       Resultsetting = ResultOnFinish;
     }
-    setResultAnyName(resultAnyName);
+    // setResultAnyName(resultAnyName);
     GetResult(resultAnyName).then((data) => {
       let checkRealt = CheckRelatrionship(data);
       let mainfile = SplitFileOutObj(checkRealt);
@@ -205,6 +206,10 @@ const Home: NextPage = () => {
       result += "🔴 ราคารวมทั้งหมด";
       result += `\n🔴 ${pay.toLocaleString()} บาท`;
       setResultText(result);
+      if (!saveResultAnyName) {
+        setResultAnyName(form.getFieldsValue());
+      }
+      // testReset()
     });
   };
 
@@ -370,6 +375,27 @@ const Home: NextPage = () => {
             })}
           </Form>
         )}
+
+        {/* <div>{JSON.stringify(saveResultAnyName)}</div>
+        <br /><br /><br /><br />
+        <div>{JSON.stringify(form.getFieldsValue())}</div> */}
+
+        {/* <div
+          onClick={() => {
+            console.log(form.getFieldsValue());
+          }}
+        >
+          print form value
+        </div>
+
+        <div
+          onClick={() => {
+            form.resetFields();
+            form.setFieldsValue(saveResultAnyName);
+          }}
+        >
+          test retrue old data
+        </div> */}
 
         <div className="block lg:hidden">{result()}</div>
       </LayoutDisplay>

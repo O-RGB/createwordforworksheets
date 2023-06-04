@@ -21,8 +21,6 @@ const CheckBoxClone: React.FC<CheckBoxCloneProps> = ({
   modeOnFinish,
   getReusltForm,
 }) => {
-  useEffect(() => {}, []);
-
   return (
     <>
       <div className="flex flex-col  justify-start items-start">
@@ -64,6 +62,3 @@ const CheckBoxClone: React.FC<CheckBoxCloneProps> = ({
 };
 
 export default CheckBoxClone;
-
-{
-}
