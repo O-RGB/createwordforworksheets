@@ -29,8 +29,8 @@ const Home: NextPage = () => {
   const [data, loadData] = useState<HeadWorkSheets[] | undefined>(undefined);
 
   const [fee, setFee] = useState<InputSettingOnFinish>({
-    book_price: 40,
-    delivery_fee: 40,
+    book_price: 20,
+    delivery_fee: 30,
   });
 
   const [messageApi, contextHolder] = message.useMessage();

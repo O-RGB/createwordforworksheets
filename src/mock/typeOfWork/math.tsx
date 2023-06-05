@@ -30,8 +30,8 @@ export const MathWorkSheets = () => {
       name: "คณิตศาสตร์ อ.2",
       workSheetsType: "room",
       price: {
-        book: 240,
         file: 99,
+        book: 240,
         print: 240,
       },
     })
@@ -47,8 +47,8 @@ export const MathWorkSheets = () => {
       name: "คณิตศาสตร์ อ.3",
       workSheetsType: "room",
       price: {
-        book: 240,
         file: 99,
+        book: 240,
         print: 240,
       },
     })
@@ -61,9 +61,9 @@ export const MathWorkSheets = () => {
       name: "คณิตศาสตร์ ป.1 (เทอม 1)",
       workSheetsType: "room",
       price: {
-        book: 240,
-        file: 43,
-        print: 49,
+        file: 150,
+        // book: 240,
+        // print: 49,
       },
     })
   );
@@ -75,43 +75,43 @@ export const MathWorkSheets = () => {
       name: "คณิตศาสตร์ ป.1 (เทอม 2)",
       workSheetsType: "room",
       price: {
-        book: 240,
-        file: 43,
-        print: 49,
+        file: 150,
+        // book: 240,
+        // print: 49,
       },
     })
   );
   worksheetsModel.push(
     new WorksheetsModel({
       workSheetsId: "MATH006",
-      relationship: ["MATH006", "MATH007"],
-      conditionStr: "ซื้อคณิตศาสตร์ ป.6 ครบ 2 เทอม",
-      discount: 10,
+      // relationship: ["MATH006", "MATH007"],
+      // conditionStr: "ซื้อคณิตศาสตร์ ป.6 ครบ 2 เทอม",
+      // discount: 10,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH4.png?alt=media&token=a507a7a5-b5b6-456e-a755-f7bab14a8065",
       name: "คณิตศาสตร์ ป.6 (เทอม 1)",
       workSheetsType: "room",
       price: {
-        book: 240,
-        file: 43,
-        print: 49,
+        file: 100,
+        // book: 240,
+        // print: 49,
       },
     })
   );
   worksheetsModel.push(
     new WorksheetsModel({
       workSheetsId: "MATH007",
-      relationship: ["MATH006", "MATH007"],
-      conditionStr: "ซื้อคณิตศาสตร์ ป.6 ครบ 2 เทอม",
-      discount: 10,
+      // relationship: ["MATH006", "MATH007"],
+      // conditionStr: "ซื้อคณิตศาสตร์ ป.6 ครบ 2 เทอม",
+      // discount: 10,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH4.png?alt=media&token=a507a7a5-b5b6-456e-a755-f7bab14a8065",
       name: "คณิตศาสตร์ ป.6 (เทอม 2)",
       workSheetsType: "room",
       price: {
-        book: 240,
-        file: 43,
-        print: 49,
+        file: 100,
+        // book: 240,
+        // print: 49,
       },
     })
   );

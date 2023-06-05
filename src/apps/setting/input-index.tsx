@@ -17,8 +17,8 @@ const InputSettingApps: React.FC<InputSettingAppsProps> = ({ onFinish }) => {
   // const { bookPrice } = useContext(BookServiceContext);
   const [form] = Form.useForm();
   useEffect(() => {
-    form.setFieldValue("delivery_fee", "40");
-    form.setFieldValue("book_price", "40");
+    form.setFieldValue("delivery_fee", "30");
+    form.setFieldValue("book_price", "20");
   }, []);
   return (
     <>

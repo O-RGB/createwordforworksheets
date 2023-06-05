@@ -75,6 +75,17 @@ const MainCheckBox: React.FC<MainCheckboxProps> = ({
         className="w-full p-0 m-0"
       >
         <Checkbox
+          disabled={
+            modeOnFinish.mode == 2
+              ? headerArray.price.print
+                ? false
+                : true
+              : modeOnFinish.mode == 3
+              ? headerArray.price.book
+                ? false
+                : true
+              : false
+          }
           onChange={(e) => {
             setCheck(e.target.checked);
             if (!e.target.checked) {
@@ -167,9 +178,9 @@ const MainCheckBox: React.FC<MainCheckboxProps> = ({
                   name={`${name}-value`}
                 >
                   <ChlidCheckBox
-                    bookMode
                     fileMode
-                    printMode
+                    printMode={headerArray.price.print ? true : false}
+                    bookMode={headerArray.price.book ? true : false}
                     getReusltForm={() => {
                       getReusltForm();
                     }}
