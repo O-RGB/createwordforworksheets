@@ -23,7 +23,13 @@ const CheckBoxClone: React.FC<CheckBoxCloneProps> = ({
 }) => {
   return (
     <>
-      <div className="flex flex-col  justify-start items-start">
+      <div
+        className={
+          setting?.grid
+            ? `grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3`
+            : ""
+        }
+      >
         {WorksheetsModel?.map((data, i) => {
           let get = data.getWorksheets();
           if (!get) {

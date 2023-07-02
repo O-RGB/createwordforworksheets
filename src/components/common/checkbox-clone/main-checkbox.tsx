@@ -72,7 +72,7 @@ const MainCheckBox: React.FC<MainCheckboxProps> = ({
         }
         valuePropName="checked"
         name={name}
-        className="w-full p-0 m-0"
+        className=" w-full p-0 m-0"
       >
         <Checkbox
           disabled={
@@ -128,7 +128,7 @@ const MainCheckBox: React.FC<MainCheckboxProps> = ({
               getReusltForm();
             }
           }}
-          className="w-full p-3 !m-0 rounded-md hover:bg-slate-100 duration-300"
+          className="flex w-full p-3 !m-0 rounded-md hover:bg-slate-100 duration-300"
         >
           <div>{title}</div>
           {setting?.image && (

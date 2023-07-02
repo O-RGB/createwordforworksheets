@@ -37,6 +37,7 @@ const Home: NextPage = () => {
   const [imageSrtting, setImageSetting] = useState<SettingOnFinish>({
     image: false,
     mixData: false,
+    grid:false
   });
 
   const [saveResultAnyName, setResultAnyName] = useState<any | undefined>(
@@ -345,6 +346,7 @@ const Home: NextPage = () => {
         {data && (
           <Form
             form={form}
+            
             onFinish={onFinishCheckBox}
             onFieldsChange={(e) => {
               getReusltForm();

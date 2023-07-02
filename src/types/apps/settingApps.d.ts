@@ -1,6 +1,7 @@
 interface SettingOnFinish {
   image: boolean;
   mixData: boolean;
+  grid: boolean;
 }
 interface InputSettingOnFinish {
   delivery_fee: number;
