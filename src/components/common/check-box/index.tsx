@@ -2,39 +2,6 @@ import { Checkbox, CheckboxProps, Form, FormInstance, Input } from "antd";
 import React, { useEffect, useState } from "react";
 import ImageNumber from "../input-number";
 
-const File: InputValue[] = [
-  {
-    name: "File",
-    value: "1",
-  },
-];
-const Print: InputValue[] = [
-  {
-    name: "Print",
-    value: "1",
-  },
-];
-const Book: InputValue[] = [
-  {
-    name: "Book",
-    value: "1",
-  },
-];
-const Mix: InputValue[] = [
-  {
-    name: "File",
-    value: "1",
-  },
-  {
-    name: "Print",
-    value: "1",
-  },
-  {
-    name: "Book",
-    value: "1",
-  },
-];
-
 interface CheckBoxCustomProps extends CheckboxProps {
   image?: string;
   label: string;
@@ -54,10 +21,42 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
   onChangeCheckBox,
   display,
   form,
-  // onChange,
   name,
   ...props
 }) => {
+  let File: InputValue[] = [
+    {
+      name: "File",
+      value: "1",
+    },
+  ];
+  let Print: InputValue[] = [
+    {
+      name: "Print",
+      value: "1",
+    },
+  ];
+  let Book: InputValue[] = [
+    {
+      name: "Book",
+      value: "1",
+    },
+  ];
+  let Mix: InputValue[] = [
+    {
+      name: "File",
+      value: "1",
+    },
+    {
+      name: "Print",
+      value: "1",
+    },
+    {
+      name: "Book",
+      value: "1",
+    },
+  ];
+
   const [onCheck, setCheck] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<InputValue[] | undefined>(
     undefined
@@ -67,9 +66,9 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
   let textSize = "text-md";
 
   const resetInputValue = () => {
+    setInputValue([]);
     let obj: InputValue[] = [];
     setTimeout(() => {
-      setInputValue([]);
       setTimeout(() => {
         if (name) {
           if (modeSetting == 1) {
@@ -102,7 +101,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
 
   useEffect(() => {
     resetInputValue();
-  }, [modeSetting, display]); // Detect Mode Setting on top page changed
+  }, [modeSetting, display, form]); // Detect Mode Setting on top page changed
 
   if (!id) {
     return <></>;
@@ -110,9 +109,8 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
 
   return (
     <div>
-      <div className="flex flex-col gap-2">
-        <div className="break-all">{JSON.stringify(value)}</div>
-      </div>
+      <div>{JSON.stringify(value)}</div>
+      <div className="flex flex-col gap-2"></div>
       <div className="m-0 h-0 w-0 p-0">
         <Form.Item name={name}>
           <Input className="m-0 w-0 h-0 p-0 opacity-0"></Input>
@@ -135,6 +133,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
                 setValue(obj);
                 onChangeCheckBox?.(obj);
               } else {
+                // resetInputValue();
                 let obj = {
                   checked: false,
                   formName: name,
@@ -180,7 +179,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
               {inputValue?.map((data, inputkey) => {
                 return (
                   <div
-                    key={`input-number-key-${inputkey}`}
+                    key={`input-number-${name}-key-${inputkey}`}
                     className="flex gap-2"
                   >
                     {modeSetting == 4 && (
@@ -195,17 +194,18 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
                       </>
                     )}
                     <ImageNumber
-                      onChange={(id: string, value: number) => {
+                      name={name}
+                      onChange={(id: string, input: number) => {
+                        console.log(input);
                         let clone = inputValue;
                         if (clone && clone.length > 0) {
                           if (id == "0") {
-                            clone[0].value = String(value);
+                            clone[0].value = String(input);
                           } else if (id == "1") {
-                            clone[1].value = String(value);
+                            clone[1].value = String(input);
                           } else if (id == "2") {
-                            clone[2].value = String(value);
+                            clone[2].value = String(input);
                           }
-
                           if (onCheck && name) {
                             let obj = {
                               checked: onCheck,
@@ -220,8 +220,9 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
                         }
                       }}
                       value={data.value}
-                      id={String(inputkey)}
+                      id={`${String(inputkey)}`}
                     ></ImageNumber>
+                    {JSON.stringify(data)}
                   </div>
                 );
               })}

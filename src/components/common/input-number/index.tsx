@@ -3,11 +3,17 @@ import React, { useEffect, useState } from "react";
 
 interface ImageNumberProps {
   id: string;
+  name?: string;
   onChange?: (id: string, value: number) => void;
   value?: string;
 }
 
-const ImageNumber: React.FC<ImageNumberProps> = ({ onChange, id, value }) => {
+const ImageNumber: React.FC<ImageNumberProps> = ({
+  onChange,
+  id,
+  value,
+  name,
+}) => {
   const [number, onCheck] = useState<string | undefined>(undefined);
 
   useEffect(() => {
@@ -16,7 +22,7 @@ const ImageNumber: React.FC<ImageNumberProps> = ({ onChange, id, value }) => {
     }
   }, [value]);
   return (
-    <>
+    <div key={`${id}-${name}`}>
       <div className=" flex m-0 p-0 gap-0.5 mt-0.5 select-none">
         <div className="-mt-[1px]">
           <Input
@@ -55,7 +61,7 @@ const ImageNumber: React.FC<ImageNumberProps> = ({ onChange, id, value }) => {
           </Button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

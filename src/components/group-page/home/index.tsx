@@ -63,10 +63,11 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
       let onlyChecked: CheckboxResult[] = [];
       keyMockup.map((key) => {
         let get = checkBox[key];
-        if (get.checked) {
+        if (get?.checked) {
           onlyChecked.push(checkBox[key]);
         }
       });
+      console.log(checkBox);
       setTextAreaResult(onlyChecked);
     }, 100);
   };
@@ -204,7 +205,31 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
             })}
           </div>
         </Form>
-        <div>Result:{JSON.stringify(textAreaResult)}</div>
+        <div
+          onClick={() => console.log(form.getFieldsValue())}
+          className="break-all"
+        >
+          Result:
+          <div>
+            {textAreaResult.map((data) => {
+              return (
+                <div>
+                  <div>{data.formName}</div>
+                  <div>
+                    {data.inputNumber?.map((x) => {
+                      return (
+                        <div className="flex gap-2">
+                          <div>{x.name}</div>
+                          <div>{x.value}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </>
   );
