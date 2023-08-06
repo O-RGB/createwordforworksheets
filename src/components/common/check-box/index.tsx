@@ -2,18 +2,6 @@ import { Checkbox, CheckboxProps, Form, FormInstance, Input } from "antd";
 import React, { useEffect, useState } from "react";
 import ImageNumber from "../input-number";
 
-interface CheckboxResult {
-  id: string;
-  formName: string;
-  checked: boolean;
-  inputNumber?: InputValue[];
-}
-
-interface InputValue {
-  value: string;
-  name: string;
-}
-
 const File: InputValue[] = [
   {
     name: "File",
@@ -56,7 +44,6 @@ interface CheckBoxCustomProps extends CheckboxProps {
   onChangeCheckBox?: (result: CheckboxResult) => void;
   form?: FormInstance<any>;
   name: string;
-  // onChange?: (result: CheckboxResult) => void;
 }
 
 const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
@@ -99,19 +86,15 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
             setInputValue(Mix);
           }
 
-          form?.setFieldValue(name, {
+          let cloneObj = {
             checked: onCheck,
             formName: name,
             id: name,
             inputNumber: onCheck ? obj : undefined,
-          });
+          };
 
-          setValue({
-            checked: onCheck,
-            formName: name,
-            id: name,
-            inputNumber: onCheck ? obj : undefined,
-          });
+          form?.setFieldValue(name, cloneObj);
+          setValue(cloneObj);
         }
       }, 0);
     }, 0);
@@ -183,7 +166,6 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
           </div>
         </Checkbox>
 
-        {/* <div className=""></div> */}
         <div className="">
           <div className="-mt-2">
             <div
@@ -265,15 +247,14 @@ const ImageForChange: React.FC<ImageForChangeProps> = ({ show, image }) => {
   useEffect(() => {
     setShow(show);
   }, [show]);
+
   return (
-    <>
-      <div
-        className={`overflow-hidden rounded-md aspect-square  ${
-          getShow ? imageSize : "w-20 h-0"
-        } duration-300 transition-all`}
-      >
-        <img src={image} alt="" className="w-full h-full object-cover" />
-      </div>
-    </>
+    <div
+      className={`overflow-hidden rounded-md aspect-square  ${
+        getShow ? imageSize : "w-20 h-0"
+      } duration-300 transition-all`}
+    >
+      <img src={image} alt="" className="w-full h-full object-cover" />
+    </div>
   );
 };

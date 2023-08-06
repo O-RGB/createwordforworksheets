@@ -9,15 +9,19 @@ import React, { useEffect, useState } from "react";
 const InterFaceTest: NextPage = () => {
   const [getMockup, setMockup] = useState<HeadWorkSheets[]>([]);
   const [optionMockup, setOptionMockup] = useState<Option[]>([]);
+  const [keyMockup, setKeyMockup] = useState<string[]>([]);
+
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     WorkSheetsData().then((data) => {
       let optionForSearch: Option[] = [];
+      let ketMockup: string[] = [];
       data.map((work) => {
         work.getHeadWorksheets().worksheets?.map((elem) => {
           let element = elem.getWorksheets();
           if (element) {
+            ketMockup.push(element.workSheetsId);
             optionForSearch.push({
               label: element?.name,
               value: element?.workSheetsId,
@@ -26,6 +30,7 @@ const InterFaceTest: NextPage = () => {
         });
       });
 
+      setKeyMockup(ketMockup);
       setOptionMockup(optionForSearch);
       setMockup(data);
 
@@ -39,6 +44,7 @@ const InterFaceTest: NextPage = () => {
     <>
       {loading && (
         <HomeGroup
+          keyMockup={keyMockup}
           optionMockup={optionMockup}
           getMockup={getMockup}
         ></HomeGroup>

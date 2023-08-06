@@ -1,21 +1,25 @@
 import AutoCompleteCustom from "@/components/common/auto-complete";
 import CardCustom from "@/components/common/card";
 import CheckBoxCustom from "@/components/common/check-box";
-import InputCustom from "@/components/common/input";
 import RadioCustom from "@/components/common/radio";
 import SwitchCustom from "@/components/common/switch";
 import FeeFrom from "@/components/form/fee-from";
 import { getLocal, setLocal } from "@/lib/local";
 import { HeadWorkSheets } from "@/model/headworksheets";
-import { Form, Radio } from "antd";
+import { Form } from "antd";
 import React, { useEffect, useState } from "react";
 
 interface HomeGroupProps {
   getMockup: HeadWorkSheets[];
   optionMockup: Option[];
+  keyMockup: string[];
 }
 
-const HomeGroup: React.FC<HomeGroupProps> = ({ getMockup, optionMockup }) => {
+const HomeGroup: React.FC<HomeGroupProps> = ({
+  getMockup,
+  optionMockup,
+  keyMockup,
+}) => {
   //SETTING DISPLAY
   const debug = true;
 
@@ -32,7 +36,6 @@ const HomeGroup: React.FC<HomeGroupProps> = ({ getMockup, optionMockup }) => {
     grid: false,
     image: false,
   });
-  const [formResult, setFormResult] = useState<any>();
 
   // FUCNTON
   const scrollToEleemtById = (id: string) => {
@@ -165,9 +168,6 @@ const HomeGroup: React.FC<HomeGroupProps> = ({ getMockup, optionMockup }) => {
                               id={getEleemtnModel.workSheetsId}
                             >
                               <CheckBoxCustom
-                                onChangeCheckBox={(result) => {
-                                  setFormResult(result);
-                                }}
                                 name={getEleemtnModel.workSheetsId}
                                 form={form}
                                 display={display}
@@ -189,10 +189,18 @@ const HomeGroup: React.FC<HomeGroupProps> = ({ getMockup, optionMockup }) => {
         </Form>
         <div
           onClick={() => {
-            console.log(form.getFieldsValue());
+            let checkBox: FormCheckboxResult = form.getFieldsValue();
+            keyMockup.map((key) => {
+              let get = checkBox[key];
+              if (get.checked) {
+                console.log(key);
+                console.log(checkBox[key]);
+              }
+            });
           }}
         >
-          Result:{JSON.stringify(form.getFieldsValue())}
+          test
+          {/* Result:{JSON.stringify(form.getFieldsValue())} */}
         </div>
       </div>
     </>
