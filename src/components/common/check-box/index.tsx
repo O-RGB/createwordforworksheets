@@ -50,6 +50,7 @@ interface CheckBoxCustomProps extends CheckboxProps {
   label: string;
   id?: string;
   modeSetting?: ModeOnFinish;
+  display?: DisplaySetting;
   onChangeCheckBox?: (id: string, value: string) => void;
 }
 
@@ -59,6 +60,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
   id,
   modeSetting = 1, // File
   onChangeCheckBox,
+  display,
   ...props
 }) => {
   const [onCheck, setCheck] = useState<boolean>(false);
@@ -89,7 +91,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
 
   useEffect(() => {
     resetInputValue();
-  }, [modeSetting]); // Detect Mode Setting on top page changed
+  }, [modeSetting, display]); // Detect Mode Setting on top page changed
 
   if (!id) {
     return <></>;
@@ -110,26 +112,39 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
           onCheck ? "bg-gray-200" : "bg-transparent"
         } hover:bg-gray-200 duration-300 border border-solid w-full`}
       >
-        <div className="ml-1.5 pb-1 select-none flex flex-col gap-1.5">
+        <div
+          className={`ml-1.5  select-none  flex flex-col ${
+            display?.image ? "gap-1.5 pb-1" : ""
+          } duration-300 transition-all`}
+        >
           <div className={textSize}>{label}</div>
-          {image && (
-            <div
-              className={`overflow-hidden rounded-md aspect-square ${imageSize}`}
-            >
-              <img src={image} alt="" className="w-full h-full object-cover" />
-            </div>
+          {image && display && (
+            // <div
+            //   className={`overflow-hidden rounded-md aspect-square  ${
+            //     display?.image ? imageSize : "w-0 h-0"
+            //   }`}
+            // >
+            //   <img src={image} alt="" className="w-full h-full object-cover" />
+            // </div>
+            <ImageForChange
+              show={display?.image}
+              image={image}
+            ></ImageForChange>
           )}
         </div>
       </Checkbox>
+
       {/* <div className=""></div> */}
       <div className="">
         <div className="-mt-2">
           <div
-            className={`w-full flex gap-4 px-3 rounded-md overflow-hidden ${
+            className={`w-full flex flex-col lg:flex-row gap-4 px-3 rounded-md overflow-hidden ${
               onCheck && modeSetting != 1
-                ? "h-14 py-4 border border-solid "
+                ? ` ${
+                    modeSetting == 4 ? "h-36" : "h-14"
+                  }  lg:h-14  py-4 border border-solid `
                 : "h-0"
-            }  duration-100 transition-all`}
+            }  duration-300 transition-all`}
           >
             {inputValue?.map((data, inputkey) => {
               return (
@@ -160,3 +175,28 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
 };
 
 export default CheckBoxCustom;
+
+interface ImageForChangeProps {
+  show: boolean;
+  image: string;
+}
+
+const ImageForChange: React.FC<ImageForChangeProps> = ({ show, image }) => {
+  let imageSize = "w-20 h-20";
+  const [getShow, setShow] = useState<boolean>(false);
+
+  useEffect(() => {
+    setShow(show);
+  }, [show]);
+  return (
+    <>
+      <div
+        className={`overflow-hidden rounded-md aspect-square  ${
+          getShow ? imageSize : "w-0 h-0"
+        } duration-300 transition-all`}
+      >
+        <img src={image} alt="" className="w-full h-full object-cover" />
+      </div>
+    </>
+  );
+};

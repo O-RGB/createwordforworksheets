@@ -65,8 +65,8 @@ const HomeGroup: React.FC<HomeGroupProps> = ({ getMockup, optionMockup }) => {
                 setDisplay(displayTemp);
               }}
               switchOption={[
-                { value: "grid", label: "Image" },
-                { value: "image", label: "Grid" },
+                { value: "image", label: "Image" },
+                { value: "grid", label: "Grid" },
               ]}
             ></SwitchCustom>
             {debug && <div>Display Selection: {JSON.stringify(display)}</div>}
@@ -113,6 +113,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({ getMockup, optionMockup }) => {
                             id={getEleemtnModel.workSheetsId}
                           >
                             <CheckBoxCustom
+                              display={display}
                               modeSetting={modeSetting}
                               id={getEleemtnModel.workSheetsId}
                               image={getEleemtnModel.imageUrl}
