@@ -1,10 +1,12 @@
 import AutoCompleteCustom from "@/components/common/auto-complete";
+import ButtonCustom from "@/components/common/button";
 import CardCustom from "@/components/common/card";
-import CheckBox from "@/components/common/check-box";
 import CheckBoxCustom from "@/components/common/check-box";
 import RadioCustom from "@/components/common/radio";
 import SwitchCustom from "@/components/common/switch";
+import TextAreaCustom from "@/components/common/text-area";
 import FeeFrom from "@/components/form/fee-from";
+import { MapFormToString } from "@/function/mapFormToString";
 import { getLocal, setLocal } from "@/lib/local";
 import { HeadWorkSheets } from "@/model/headworksheets";
 import { Checkbox, Form } from "antd";
@@ -27,6 +29,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   // ELEMENT
   const [form] = Form.useForm();
   const [modeSetting, setModeSetting] = useState<ModeOnFinish>(1);
+  const [WorksheetsModelInput, setWorksheetsModelInput] = useState<IResult[]>();
   const [feeSetting, setFeeSetting] = useState<
     InputSettingOnFinish | undefined
   >({
@@ -37,7 +40,6 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
     grid: false,
     image: false,
   });
-  const [textAreaResult, setTextAreaResult] = useState<CheckboxResult[]>([]);
 
   // FUCNTON
   const scrollToEleemtById = (id: string) => {
@@ -56,21 +58,6 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         inline: "nearest",
       });
     }
-  };
-
-  const getValueByForm = () => {
-    setTimeout(() => {
-      let checkBox: FormCheckboxResult = form.getFieldsValue();
-      let onlyChecked: CheckboxResult[] = [];
-      keyMockup.map((key) => {
-        let get = checkBox[key];
-        if (get?.checked) {
-          onlyChecked.push(checkBox[key]);
-        }
-      });
-      console.log(checkBox);
-      setTextAreaResult(onlyChecked);
-    }, 100);
   };
 
   const LocalSaveFee = (book_price: number, delivery_fee: number) => {
@@ -128,7 +115,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
               value={modeSetting}
               onChange={(e) => {
                 setModeSetting(e.target.value);
-                getValueByForm();
+                // getValueByForm();
               }}
               radioOption={[
                 { value: 1, label: "File" },
@@ -157,7 +144,6 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                         );
                       }
                     }, 0);
-                    console.log(cloneFee);
                   }
                 }}
               ></FeeFrom>
@@ -199,7 +185,6 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                             >
                               <CheckBoxCustom
                                 debug={debug}
-                                onChangeCheckBox={getValueByForm}
                                 name={getEleemtnModel.workSheetsId}
                                 form={form}
                                 display={display}
@@ -219,31 +204,31 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
             })}
           </div>
         </Form>
-        <div
-          onClick={() => console.log(form.getFieldsValue())}
-          className="break-all "
-        >
-          Result:
-          <div>
-            {textAreaResult.map((data, i) => {
-              return (
-                <div key={`text-main-${i}`}>
-                  <div>{data.formName}</div>
-                  <div>
-                    {data.inputNumber?.map((x, j) => {
-                      return (
-                        <div key={`min-text-${j}`} className="flex gap-2">
-                          <div>{x.name}</div>
-                          <div>{x.value}</div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
+
+        <div className="p-5 flex justify-center items-center">
+          <ButtonCustom
+            onClick={() => {
+              let map = MapFormToString(
+                form.getFieldsValue(),
+                keyMockup,
+                getMockup
               );
-            })}
-          </div>
+              setWorksheetsModelInput(map);
+            }}
+          >
+            Get Result
+          </ButtonCustom>
         </div>
+
+        <div>
+          {WorksheetsModelInput?.map((x, i) => {
+            return <div key={`index-${i}`}>{x.real.name}</div>;
+          })}
+        </div>
+
+        {/* <div>
+          <TextAreaCustom></TextAreaCustom>
+        </div> */}
       </div>
     </>
   );
