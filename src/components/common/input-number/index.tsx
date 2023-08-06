@@ -8,10 +8,12 @@ interface ImageNumberProps {
 }
 
 const ImageNumber: React.FC<ImageNumberProps> = ({ onChange, id, value }) => {
-  const [number, onCheck] = useState<string>("1");
+  const [number, onCheck] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    onCheck("1");
+    if (!number) {
+      onCheck(value);
+    }
   }, [value]);
   return (
     <>

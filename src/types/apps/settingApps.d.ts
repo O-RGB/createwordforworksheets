@@ -10,15 +10,17 @@ type DisplayOnFinish = "image" | "grid";
 // 4 == mix
 
 interface InputSettingOnFinish {
-  delivery_fee: number;
   book_price: number;
+  delivery_fee: number;
 }
-interface ResultSettingOnFinish {
-  delivery: boolean;
-  type: boolean;
-  price: boolean;
-  price_all: boolean;
-}
+
+type InputSetting = "delivery_fee" | "book_price";
+// interface ResultSettingOnFinish {
+//   delivery: boolean;
+//   type: boolean;
+//   price: boolean;
+//   price_all: boolean;
+// }
 interface ModeSetting {
   mode: ModeOnFinish;
 }

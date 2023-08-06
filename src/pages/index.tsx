@@ -28,6 +28,7 @@ const InterFaceTest: NextPage = () => {
 
       setOptionMockup(optionForSearch);
       setMockup(data);
+
       setTimeout(() => {
         setLoading(true);
       }, 100);

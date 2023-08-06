@@ -1,10 +1,12 @@
-import { Checkbox, CheckboxProps } from "antd";
+import { Checkbox, CheckboxProps, Form, FormInstance, Input } from "antd";
 import React, { useEffect, useState } from "react";
 import ImageNumber from "../input-number";
 
 interface CheckboxResult {
-  formName: string;
   id: string;
+  formName: string;
+  checked: boolean;
+  inputNumber?: InputValue[];
 }
 
 interface InputValue {
@@ -51,7 +53,10 @@ interface CheckBoxCustomProps extends CheckboxProps {
   id?: string;
   modeSetting?: ModeOnFinish;
   display?: DisplaySetting;
-  onChangeCheckBox?: (id: string, value: string) => void;
+  onChangeCheckBox?: (result: CheckboxResult) => void;
+  form?: FormInstance<any>;
+  name: string;
+  // onChange?: (result: CheckboxResult) => void;
 }
 
 const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
@@ -61,29 +66,52 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
   modeSetting = 1, // File
   onChangeCheckBox,
   display,
+  form,
+  // onChange,
+  name,
   ...props
 }) => {
   const [onCheck, setCheck] = useState<boolean>(false);
-  const [onCheckDelay, setCheckDelay] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<InputValue[] | undefined>(
     undefined
   );
+  const [value, setValue] = useState<CheckboxResult>();
 
   let textSize = "text-md";
-  let imageSize = "w-20 h-20";
 
   const resetInputValue = () => {
+    let obj: InputValue[] = [];
     setTimeout(() => {
       setInputValue([]);
       setTimeout(() => {
-        if (modeSetting == 1) {
-          setInputValue(File);
-        } else if (modeSetting == 2) {
-          setInputValue(Print);
-        } else if (modeSetting == 3) {
-          setInputValue(Book);
-        } else if (modeSetting == 4) {
-          setInputValue(Mix);
+        if (name) {
+          if (modeSetting == 1) {
+            obj = File;
+            setInputValue(File);
+          } else if (modeSetting == 2) {
+            obj = Print;
+            setInputValue(Print);
+          } else if (modeSetting == 3) {
+            obj = Book;
+            setInputValue(Book);
+          } else if (modeSetting == 4) {
+            obj = Mix;
+            setInputValue(Mix);
+          }
+
+          form?.setFieldValue(name, {
+            checked: onCheck,
+            formName: name,
+            id: name,
+            inputNumber: onCheck ? obj : undefined,
+          });
+
+          setValue({
+            checked: onCheck,
+            formName: name,
+            id: name,
+            inputNumber: onCheck ? obj : undefined,
+          });
         }
       }, 0);
     }, 0);
@@ -98,68 +126,124 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
   }
 
   return (
-    <div className={`relative flex flex-col w-full ${props.className}`}>
-      <Checkbox
-        {...props}
-        onChange={(e) => {
-          setCheck(e.target.checked);
-          resetInputValue();
-          setTimeout(() => {
-            setCheckDelay(e.target.checked);
-          }, 600);
-        }}
-        className={`p-3 rounded-md ${
-          onCheck ? "bg-gray-200" : "bg-transparent"
-        } hover:bg-gray-200 duration-300 border border-solid w-full z-20`}
-      >
-        <div
-          className={`ml-1.5  select-none  flex flex-col ${
-            display?.image ? "gap-1.5 pb-1" : ""
-          } duration-300 transition-all`}
+    <div>
+      <div className="flex flex-col gap-2">
+        <div className="break-all">{JSON.stringify(value)}</div>
+      </div>
+      <div className="m-0 h-0 w-0 p-0">
+        <Form.Item name={name}>
+          <Input className="m-0 w-0 h-0 p-0 opacity-0"></Input>
+        </Form.Item>
+      </div>
+      <div className={`relative flex flex-col w-full ${props.className}`}>
+        <Checkbox
+          {...props}
+          onChange={(e) => {
+            setCheck(e.target.checked);
+            if (name) {
+              if (e.target.checked) {
+                let obj = {
+                  checked: e.target.checked,
+                  formName: name,
+                  id: name,
+                  inputNumber: inputValue,
+                };
+                form?.setFieldValue(name, obj);
+                setValue(obj);
+                onChangeCheckBox?.(obj);
+              } else {
+                let obj = {
+                  checked: false,
+                  formName: name,
+                  id: name,
+                  inputNumber: undefined,
+                };
+                form?.setFieldValue(name, obj);
+                onChangeCheckBox?.(obj);
+                setValue(obj);
+              }
+            }
+          }}
+          className={`p-3 rounded-md ${
+            onCheck ? "bg-gray-200" : "bg-transparent"
+          } hover:bg-gray-200 duration-300 border border-solid w-full z-20`}
         >
-          <div className={textSize}>{label}</div>
-          {image && display && (
-            <ImageForChange
-              show={display?.image}
-              image={image}
-            ></ImageForChange>
-          )}
-        </div>
-      </Checkbox>
-
-      {/* <div className=""></div> */}
-      <div className="">
-        <div className="-mt-2">
           <div
-            className={`z-10 w-full flex flex-col lg:flex-row gap-4 px-3 rounded-md overflow-hidden bg-blue-200 ${
-              onCheck && modeSetting != 1
-                ? ` ${
-                    modeSetting == 4 ? "h-36" : "h-14"
-                  }  lg:h-14  py-4 border border-solid `
-                : "h-0"
-            }  duration-300 transition-all`}
+            className={`ml-1.5  select-none  flex flex-col ${
+              display?.image ? "gap-1.5 pb-1" : ""
+            } duration-300 transition-all`}
           >
-            {inputValue?.map((data, inputkey) => {
-              return (
-                <div
-                  key={`input-number-key-${inputkey}`}
-                  className="flex gap-2"
-                >
-                  {modeSetting == 4 && (
-                    <>
-                      {inputkey == 0
-                        ? "Print"
-                        : inputkey == 1
-                        ? "Book"
-                        : inputkey == 2
-                        ? "Mix"
-                        : ""}
-                    </>
-                  )}
-                  <ImageNumber value={data.value} id={id}></ImageNumber>
-                </div>
-              );
-            })}
+            <div className={textSize}>{label}</div>
+            {image && display && (
+              <ImageForChange
+                show={display?.image}
+                image={image}
+              ></ImageForChange>
+            )}
+          </div>
+        </Checkbox>
+
+        {/* <div className=""></div> */}
+        <div className="">
+          <div className="-mt-2">
+            <div
+              className={`z-10 w-full flex flex-col lg:flex-row gap-4 px-3 rounded-md overflow-hidden bg-blue-200 ${
+                onCheck && modeSetting != 1
+                  ? ` ${
+                      modeSetting == 4 ? "h-36" : "h-14"
+                    }  lg:h-14  py-4 border border-solid `
+                  : "h-0"
+              }  duration-300 transition-all`}
+            >
+              {inputValue?.map((data, inputkey) => {
+                return (
+                  <div
+                    key={`input-number-key-${inputkey}`}
+                    className="flex gap-2"
+                  >
+                    {modeSetting == 4 && (
+                      <>
+                        {inputkey == 0
+                          ? "Print"
+                          : inputkey == 1
+                          ? "Book"
+                          : inputkey == 2
+                          ? "Mix"
+                          : ""}
+                      </>
+                    )}
+                    <ImageNumber
+                      onChange={(id: string, value: number) => {
+                        let clone = inputValue;
+                        if (clone && clone.length > 0) {
+                          if (id == "0") {
+                            clone[0].value = String(value);
+                          } else if (id == "1") {
+                            clone[1].value = String(value);
+                          } else if (id == "2") {
+                            clone[2].value = String(value);
+                          }
+
+                          if (onCheck && name) {
+                            let obj = {
+                              checked: onCheck,
+                              formName: name,
+                              id: name,
+                              inputNumber: clone,
+                            };
+                            form?.setFieldValue(name, obj);
+                            onChangeCheckBox?.(obj);
+                            setValue(obj);
+                          }
+                        }
+                      }}
+                      value={data.value}
+                      id={String(inputkey)}
+                    ></ImageNumber>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
@@ -185,7 +269,7 @@ const ImageForChange: React.FC<ImageForChangeProps> = ({ show, image }) => {
     <>
       <div
         className={`overflow-hidden rounded-md aspect-square  ${
-          getShow ? imageSize : "w-0 h-0"
+          getShow ? imageSize : "w-20 h-0"
         } duration-300 transition-all`}
       >
         <img src={image} alt="" className="w-full h-full object-cover" />
