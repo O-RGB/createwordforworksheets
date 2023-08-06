@@ -109,7 +109,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
 
   return (
     <div>
-      <div>{JSON.stringify(value)}</div>
+      <div className="break-all">{JSON.stringify(value)}</div>
       <div className="flex flex-col gap-2"></div>
       <div className="m-0 h-0 w-0 p-0">
         <Form.Item name={name}>
@@ -133,7 +133,6 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
                 setValue(obj);
                 onChangeCheckBox?.(obj);
               } else {
-                // resetInputValue();
                 let obj = {
                   checked: false,
                   formName: name,
@@ -196,7 +195,6 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
                     <ImageNumber
                       name={name}
                       onChange={(id: string, input: number) => {
-                        console.log(input);
                         let clone = inputValue;
                         if (clone && clone.length > 0) {
                           if (id == "0") {
@@ -222,7 +220,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
                       value={data.value}
                       id={`${String(inputkey)}`}
                     ></ImageNumber>
-                    {JSON.stringify(data)}
+                    <div className="break-all">{JSON.stringify(data)}</div>
                   </div>
                 );
               })}

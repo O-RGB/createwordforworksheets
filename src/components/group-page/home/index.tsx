@@ -207,7 +207,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         </Form>
         <div
           onClick={() => console.log(form.getFieldsValue())}
-          className="break-all"
+          className="break-all "
         >
           Result:
           <div>
