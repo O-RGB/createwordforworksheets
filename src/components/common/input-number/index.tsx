@@ -16,7 +16,7 @@ const ImageNumber: React.FC<ImageNumberProps> = ({ onChange, id, value }) => {
   return (
     <>
       <div className=" flex m-0 p-0 gap-0.5 mt-0.5 select-none">
-        <div>
+        <div className="-mt-[1px]">
           <Input
             value={number}
             readOnly
@@ -33,7 +33,7 @@ const ImageNumber: React.FC<ImageNumberProps> = ({ onChange, id, value }) => {
               onCheck((temp + 1).toString());
               onChange?.(id, temp + 1);
             }}
-            className=""
+            className="bg-white"
             size="small"
           >
             +
@@ -46,7 +46,7 @@ const ImageNumber: React.FC<ImageNumberProps> = ({ onChange, id, value }) => {
                 onChange?.(id, temp - 1);
               }
             }}
-            className=""
+            className="bg-white"
             size="small"
           >
             -

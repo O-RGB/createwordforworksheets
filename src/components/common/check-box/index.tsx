@@ -98,7 +98,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
   }
 
   return (
-    <div className={`flex flex-col w-full ${props.className}`}>
+    <div className={`relative flex flex-col w-full ${props.className}`}>
       <Checkbox
         {...props}
         onChange={(e) => {
@@ -110,7 +110,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
         }}
         className={`p-3 rounded-md ${
           onCheck ? "bg-gray-200" : "bg-transparent"
-        } hover:bg-gray-200 duration-300 border border-solid w-full`}
+        } hover:bg-gray-200 duration-300 border border-solid w-full z-20`}
       >
         <div
           className={`ml-1.5  select-none  flex flex-col ${
@@ -119,13 +119,6 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
         >
           <div className={textSize}>{label}</div>
           {image && display && (
-            // <div
-            //   className={`overflow-hidden rounded-md aspect-square  ${
-            //     display?.image ? imageSize : "w-0 h-0"
-            //   }`}
-            // >
-            //   <img src={image} alt="" className="w-full h-full object-cover" />
-            // </div>
             <ImageForChange
               show={display?.image}
               image={image}
@@ -138,7 +131,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
       <div className="">
         <div className="-mt-2">
           <div
-            className={`w-full flex flex-col lg:flex-row gap-4 px-3 rounded-md overflow-hidden ${
+            className={`z-10 w-full flex flex-col lg:flex-row gap-4 px-3 rounded-md overflow-hidden bg-blue-200 ${
               onCheck && modeSetting != 1
                 ? ` ${
                     modeSetting == 4 ? "h-36" : "h-14"

@@ -24,10 +24,9 @@ const HomeGroup: React.FC<HomeGroupProps> = ({ getMockup, optionMockup }) => {
     image: false,
   });
 
-  // Fuction
+  // FUCNTON
   const scrollToEleemtById = (id: string) => {
     var my_element: HTMLElement | null = document.getElementById(id);
-
     if (my_element) {
       my_element.className =
         "bg-amber-400 rounded-md duration-300 hover:bg-amber-400";
@@ -103,7 +102,11 @@ const HomeGroup: React.FC<HomeGroupProps> = ({ getMockup, optionMockup }) => {
             return (
               <div key={`header-key-${IKey}`}>
                 <CardCustom Header={<div>Header: {getModel.headerTitle}</div>}>
-                  <div className="grid lg:grid-cols-2 gap-2  ">
+                  <div
+                    className={`grid gap-2 ${
+                      display.grid ? " lg:grid-cols-2 " : '"'
+                    } transition-all`}
+                  >
                     {getModel.worksheets?.map((element, JKey) => {
                       let getEleemtnModel = element.getWorksheets();
                       if (getEleemtnModel) {
