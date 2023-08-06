@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <ConfigProvider theme={themeConfig}>
       <DeliveryFeeProvider>
         <BookProvider>
-          <Component {...pageProps} />{" "}
+          <Component {...pageProps} />
         </BookProvider>
       </DeliveryFeeProvider>
     </ConfigProvider>

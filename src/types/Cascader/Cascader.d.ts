@@ -1,6 +1,7 @@
 interface Option {
-  value: string;
+  value: string | number;
   label: string;
   children?: Option[];
   disabled?: boolean;
+  select?: boolean;
 }

@@ -26,7 +26,7 @@ const SettingApps: React.FC<SettingAppsProps> = ({ onFinish }) => {
         layout="vertical"
       >
         <div className="flex flex-col gap-3 w-full">
-          <div className="grid grid-cols-4 w-full">
+          <div className="grid grid-cols-2 md:grid-cols-4 w-full">
             <SwitchCommon
               icon={<BsImage className="mt-1" />}
               name="image"

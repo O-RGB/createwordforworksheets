@@ -2,7 +2,7 @@ import { Form, Radio, RadioChangeEvent } from "antd";
 import React, { useState } from "react";
 
 interface ModeSettingProps {
-  onFinish?: (data: ResultModeOnFinish) => void;
+  onFinish?: (data: ModeSetting) => void;
   disabled?: boolean;
 }
 
@@ -37,7 +37,7 @@ const ModeSetting: React.FC<ModeSettingProps> = ({ onFinish, disabled }) => {
               📕 เข้าเล่ม
             </Radio>
             <Radio className="px-3" value={4}>
-              ผสม
+              📚 ผสม
             </Radio>
           </Radio.Group>
         </Form.Item>

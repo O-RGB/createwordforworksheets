@@ -1,50 +1,49 @@
-import { Form, Switch } from "antd";
-import React from "react";
+import { Switch } from "antd";
+import React, { useEffect, useState } from "react";
 
-interface SwitchCommonProps {
-  labal?: string;
-  name?: string;
-  checked?: boolean;
-  defaultChecked?: boolean;
-  icon?: React.ReactNode;
-  disabled?: boolean;
+interface SwitchCustomProps {
+  switchOption: Option[];
+  value?: any;
+  onChange?: (value: Option[]) => void;
+  className?: string;
 }
 
-const SwitchCommon: React.FC<SwitchCommonProps> = ({
-  labal,
-  name,
-  checked = undefined,
-  icon,
-  defaultChecked,
-  disabled,
+const SwitchCustom: React.FC<SwitchCustomProps> = ({
+  switchOption,
+  value,
+  onChange,
+  className,
 }) => {
+  const [option, setOption] = useState<Option[]>();
+
+  useEffect(() => {
+    if (switchOption) {
+      setOption(switchOption);
+    }
+  }, [switchOption]);
+
   return (
-    <>
-      <Form.Item
-        name={name}
-        initialValue={defaultChecked}
-        label={
-          <>
-            {icon ? (
-              <div className="flex gap-2">
-                <div>{icon}</div>
-                <div>{labal}</div>
-              </div>
-            ) : (
-              labal
-            )}
-          </>
-        }
-        className="m-0 p-0"
-      >
-        <Switch
-          disabled={disabled}
-          defaultChecked={defaultChecked}
-          checked={checked}
-        />
-      </Form.Item>
-    </>
+    <div className={className}>
+      {switchOption.map((data, swindex) => {
+        return (
+          <div key={`sw-index-key-${swindex}`} className="flex flex-col gap-1 ">
+            <label className="text-sm">{data.label}</label>
+            <Switch
+              className="w-fit"
+              onChange={(e) => {
+                let clone = option;
+                if (clone) {
+                  clone[swindex].select = e;
+                  onChange?.(clone);
+                }
+              }}
+              defaultChecked={data.value == value}
+            />
+          </div>
+        );
+      })}
+    </div>
   );
 };
 
-export default SwitchCommon;
+export default SwitchCustom;

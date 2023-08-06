@@ -1,6 +1,6 @@
 import { WorksheetsModel } from "@/model/worksheets";
 
-export const MathWorkSheets = () => {
+export const MathWorkSheets = async () => {
   let worksheetsModel: WorksheetsModel[] = [];
   worksheetsModel.push(
     new WorksheetsModel({
