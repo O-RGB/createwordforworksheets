@@ -225,14 +225,14 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         >
           Result:
           <div>
-            {textAreaResult.map((data) => {
+            {textAreaResult.map((data, i) => {
               return (
-                <div>
+                <div key={`text-main-${i}`}>
                   <div>{data.formName}</div>
                   <div>
-                    {data.inputNumber?.map((x) => {
+                    {data.inputNumber?.map((x, j) => {
                       return (
-                        <div className="flex gap-2">
+                        <div key={`min-text-${j}`} className="flex gap-2">
                           <div>{x.name}</div>
                           <div>{x.value}</div>
                         </div>
