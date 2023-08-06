@@ -1,12 +1,13 @@
 import AutoCompleteCustom from "@/components/common/auto-complete";
 import CardCustom from "@/components/common/card";
+import CheckBox from "@/components/common/check-box";
 import CheckBoxCustom from "@/components/common/check-box";
 import RadioCustom from "@/components/common/radio";
 import SwitchCustom from "@/components/common/switch";
 import FeeFrom from "@/components/form/fee-from";
 import { getLocal, setLocal } from "@/lib/local";
 import { HeadWorkSheets } from "@/model/headworksheets";
-import { Form } from "antd";
+import { Checkbox, Form } from "antd";
 import React, { useEffect, useState } from "react";
 
 interface HomeGroupProps {
@@ -21,7 +22,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   keyMockup,
 }) => {
   //SETTING DISPLAY
-  const debug = true;
+  const [debug, setDebug] = useState<boolean>(true);
 
   // ELEMENT
   const [form] = Form.useForm();
@@ -85,8 +86,20 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   return (
     <>
       {debug && <div className=" text-2xl font-bold">Version: DEBUG</div>}
+
       <div className="p-5">
         <div className="flex flex-col gap-2">
+          <CardCustom Header={"Debug"}>
+            <Checkbox
+              defaultChecked
+              onChange={(e) => {
+                setDebug(e.target.checked);
+              }}
+            >
+              Debug mode : {JSON.stringify(debug)}
+            </Checkbox>
+          </CardCustom>
+
           <CardCustom Header={"Display"}>
             <SwitchCustom
               className="flex gap-6 "
@@ -185,6 +198,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                               id={getEleemtnModel.workSheetsId}
                             >
                               <CheckBoxCustom
+                                debug={debug}
                                 onChangeCheckBox={getValueByForm}
                                 name={getEleemtnModel.workSheetsId}
                                 form={form}

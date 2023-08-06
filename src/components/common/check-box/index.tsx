@@ -11,6 +11,7 @@ interface CheckBoxCustomProps extends CheckboxProps {
   onChangeCheckBox?: (result: CheckboxResult) => void;
   form?: FormInstance<any>;
   name: string;
+  debug: boolean;
 }
 
 const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
@@ -22,6 +23,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
   display,
   form,
   name,
+  debug,
   ...props
 }) => {
   let File: InputValue[] = [
@@ -109,7 +111,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
 
   return (
     <div>
-      <div className="break-all">{JSON.stringify(value)}</div>
+      {debug && <div className="break-all">{JSON.stringify(value)}</div>}
       <div className="flex flex-col gap-2"></div>
       <div className="m-0 h-0 w-0 p-0">
         <Form.Item name={name}>
@@ -220,7 +222,9 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
                       value={data.value}
                       id={`${String(inputkey)}`}
                     ></ImageNumber>
-                    <div className="break-all">{JSON.stringify(data)}</div>
+                    {debug && (
+                      <div className="break-all">{JSON.stringify(data)}</div>
+                    )}
                   </div>
                 );
               })}
