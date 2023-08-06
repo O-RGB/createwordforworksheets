@@ -36,6 +36,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
     grid: false,
     image: false,
   });
+  const [textAreaResult, setTextAreaResult] = useState<CheckboxResult[]>([]);
 
   // FUCNTON
   const scrollToEleemtById = (id: string) => {
@@ -54,6 +55,20 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         inline: "nearest",
       });
     }
+  };
+
+  const getValueByForm = () => {
+    setTimeout(() => {
+      let checkBox: FormCheckboxResult = form.getFieldsValue();
+      let onlyChecked: CheckboxResult[] = [];
+      keyMockup.map((key) => {
+        let get = checkBox[key];
+        if (get.checked) {
+          onlyChecked.push(checkBox[key]);
+        }
+      });
+      setTextAreaResult(onlyChecked);
+    }, 100);
   };
 
   const LocalSaveFee = (book_price: number, delivery_fee: number) => {
@@ -99,6 +114,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
               value={modeSetting}
               onChange={(e) => {
                 setModeSetting(e.target.value);
+                getValueByForm();
               }}
               radioOption={[
                 { value: 1, label: "File" },
@@ -134,7 +150,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
 
               {debug && <div>Fee Selection: {JSON.stringify(feeSetting)}</div>}
             </CardCustom>
-          </div>{" "}
+          </div>
         </div>
 
         <div className="flex flex-col gap-2 py-2 ">
@@ -168,6 +184,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                               id={getEleemtnModel.workSheetsId}
                             >
                               <CheckBoxCustom
+                                onChangeCheckBox={getValueByForm}
                                 name={getEleemtnModel.workSheetsId}
                                 form={form}
                                 display={display}
@@ -187,21 +204,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
             })}
           </div>
         </Form>
-        <div
-          onClick={() => {
-            let checkBox: FormCheckboxResult = form.getFieldsValue();
-            keyMockup.map((key) => {
-              let get = checkBox[key];
-              if (get.checked) {
-                console.log(key);
-                console.log(checkBox[key]);
-              }
-            });
-          }}
-        >
-          test
-          {/* Result:{JSON.stringify(form.getFieldsValue())} */}
-        </div>
+        <div>Result:{JSON.stringify(textAreaResult)}</div>
       </div>
     </>
   );
