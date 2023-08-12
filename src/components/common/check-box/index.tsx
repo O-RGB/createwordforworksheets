@@ -12,59 +12,97 @@ interface CheckBoxCustomProps extends CheckboxProps {
   form?: FormInstance<any>;
   name: string;
   debug: boolean;
+  InputDisable?: InputDisable;
 }
 
 const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
   image,
   label,
   id,
-  modeSetting = 1, // File
+  modeSetting = "file", // File
   onChangeCheckBox,
   display,
   form,
   name,
   debug,
+  InputDisable,
   ...props
 }) => {
   let File: InputValue[] = [
     {
-      name: "File",
-      value: "1",
+      value: "file",
+      label: "File",
+      count: "1",
+      disabled: InputDisable
+        ? InputDisable.file
+          ? InputDisable.file
+          : false
+        : false,
     },
   ];
   let Print: InputValue[] = [
     {
-      name: "Print",
-      value: "1",
+      value: "print",
+      label: "Print",
+      count: "1",
+      disabled: InputDisable
+        ? InputDisable.print
+          ? InputDisable.print
+          : false
+        : false,
     },
   ];
   let Book: InputValue[] = [
     {
-      name: "Book",
-      value: "1",
+      value: "book",
+      label: "Book",
+      count: "1",
+      disabled: InputDisable
+        ? InputDisable.book
+          ? InputDisable.book
+          : false
+        : false,
     },
   ];
   let Mix: InputValue[] = [
     {
-      name: "File",
-      value: "1",
+      value: "file",
+      label: "File",
+      count: "0",
+      disabled: InputDisable
+        ? InputDisable.file
+          ? InputDisable.file
+          : false
+        : false,
     },
     {
-      name: "Print",
-      value: "1",
+      value: "print",
+      label: "Print",
+      count: "0",
+      disabled: InputDisable
+        ? InputDisable.print
+          ? InputDisable.print
+          : false
+        : false,
     },
     {
-      name: "Book",
-      value: "1",
+      value: "book",
+      label: "Book",
+      count: "0",
+      disabled: InputDisable
+        ? InputDisable.book
+          ? InputDisable.book
+          : false
+        : false,
     },
   ];
 
+  const [disableAll, setDsiabledAll] = useState<boolean>(false);
   const [onCheck, setCheck] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<InputValue[] | undefined>(
     undefined
   );
   const [value, setValue] = useState<CheckboxResult>();
-
   let textSize = "text-md";
 
   const resetInputValue = () => {
@@ -73,27 +111,47 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
     setTimeout(() => {
       setTimeout(() => {
         if (name) {
-          if (modeSetting == 1) {
+          if (modeSetting == "file") {
             obj = File;
             setInputValue(File);
-          } else if (modeSetting == 2) {
+
+            obj.map((x) => {
+              if (x.value == "file") {
+                setDsiabledAll(x.disabled ? x.disabled : false);
+                // setCheck(false);
+              }
+            });
+          } else if (modeSetting == "print") {
             obj = Print;
             setInputValue(Print);
-          } else if (modeSetting == 3) {
+            obj.map((x) => {
+              if (x.value == "print") {
+                setDsiabledAll(x.disabled ? x.disabled : false);
+              }
+            });
+          } else if (modeSetting == "book") {
             obj = Book;
             setInputValue(Book);
-          } else if (modeSetting == 4) {
+            obj.map((x) => {
+              if (x.value == "book") {
+                setDsiabledAll(x.disabled ? x.disabled : false);
+              }
+            });
+          } else if (modeSetting == "mix") {
             obj = Mix;
             setInputValue(Mix);
+            let checkAll = obj.every((x) => x.disabled == true);
+            // setDsiabledAll(checkAll);
+            if (checkAll) {
+            }
+            setDsiabledAll(Mix.every((x) => x.disabled == true));
           }
-
           let cloneObj = {
             checked: onCheck,
             formName: name,
             id: name,
             inputNumber: onCheck ? obj : undefined,
           };
-
           form?.setFieldValue(name, cloneObj);
           setValue(cloneObj);
         }
@@ -112,6 +170,15 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
   return (
     <div>
       {debug && <div className="break-all">{JSON.stringify(value)}</div>}
+      {debug && <div className="break-all">{JSON.stringify(InputDisable)}</div>}
+      {debug && (
+        <div className="break-all">
+          Disabled All: {JSON.stringify(disableAll)}
+        </div>
+      )}
+      {debug && (
+        <div className="break-all">onCheck: {JSON.stringify(onCheck)}</div>
+      )}
       <div className="flex flex-col gap-2"></div>
       <div className="m-0 h-0 w-0 p-0">
         <Form.Item name={name}>
@@ -120,6 +187,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
       </div>
       <div className={`relative flex flex-col w-full ${props.className}`}>
         <Checkbox
+          disabled={disableAll}
           {...props}
           onChange={(e) => {
             setCheck(e.target.checked);
@@ -170,10 +238,10 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
           <div className="-mt-2">
             <div
               className={`z-10 w-full flex flex-col lg:flex-row gap-4 px-3 rounded-md overflow-hidden bg-blue-200 ${
-                onCheck && modeSetting != 1
+                onCheck && modeSetting != "file"
                   ? ` ${
-                      modeSetting == 4 ? "h-36" : "h-14"
-                    }  lg:h-14  py-4 border border-solid `
+                      modeSetting == "mix" ? "h-32" : "h-12"
+                    }  lg:h-12  py-4 border border-solid `
                   : "h-0"
               }  duration-300 transition-all`}
             >
@@ -183,28 +251,32 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
                     key={`input-number-${name}-key-${inputkey}`}
                     className="flex gap-2"
                   >
-                    {modeSetting == 4 && (
-                      <>
-                        {inputkey == 0
-                          ? "Print"
+                    {modeSetting == "mix" && (
+                      <div className="min-w-[40px]">
+                        {/* {inputkey == 0
+                          ? "File"
                           : inputkey == 1
-                          ? "Book"
+                          ? "Print"
                           : inputkey == 2
-                          ? "Mix"
-                          : ""}
-                      </>
+                          ? "Book"
+                          : ""} */}
+                        {data.label}
+                      </div>
                     )}
+                    {/* <Form.Item name={`input-number-${name}-${inputkey}`}> */}
                     <ImageNumber
                       name={name}
+                      isStartWithZero={modeSetting == "mix"}
+                      disabled={data.disabled}
                       onChange={(id: string, input: number) => {
                         let clone = inputValue;
                         if (clone && clone.length > 0) {
                           if (id == "0") {
-                            clone[0].value = String(input);
+                            clone[0].count = String(input);
                           } else if (id == "1") {
-                            clone[1].value = String(input);
+                            clone[1].count = String(input);
                           } else if (id == "2") {
-                            clone[2].value = String(input);
+                            clone[2].count = String(input);
                           }
                           if (onCheck && name) {
                             let obj = {
@@ -219,9 +291,10 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
                           }
                         }
                       }}
-                      value={data.value}
+                      value={data.count}
                       id={`${String(inputkey)}`}
                     ></ImageNumber>
+                    {/* </Form.Item> */}
                     {debug && (
                       <div className="break-all">{JSON.stringify(data)}</div>
                     )}

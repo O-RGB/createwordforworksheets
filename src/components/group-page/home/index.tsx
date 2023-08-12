@@ -28,11 +28,10 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
 
   // ELEMENT
   const [form] = Form.useForm();
-  const [modeSetting, setModeSetting] = useState<ModeOnFinish>(1);
+  const [modeSetting, setModeSetting] = useState<ModeOnFinish>("file");
+  const [resetFormOnChange, setResetFormOnChange] = useState<boolean>(true);
   const [WorksheetsModelInput, setWorksheetsModelInput] = useState<IResult[]>();
-  const [feeSetting, setFeeSetting] = useState<
-    InputSettingOnFinish | undefined
-  >({
+  const [feeSetting, setFeeSetting] = useState<FeeSetting | undefined>({
     book_price: 40,
     delivery_fee: 40,
   });
@@ -114,14 +113,23 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
             <RadioCustom
               value={modeSetting}
               onChange={(e) => {
+                // form.resetFields();
                 setModeSetting(e.target.value);
+                // setResetFormOnChange(false);
+                // setTimeout(() => {
+                //   setResetFormOnChange(true);
+                // }, 0);
+                // setTimeout(() => {
+
+                // }, 100);
                 // getValueByForm();
               }}
+              defaultValue={"file"}
               radioOption={[
-                { value: 1, label: "File" },
-                { value: 2, label: "Print" },
-                { value: 3, label: "Book" },
-                { value: 4, label: "Mix" },
+                { value: "file", label: "File" },
+                { value: "print", label: "Print" },
+                { value: "book", label: "Book" },
+                { value: "mix", label: "Mix" },
               ]}
             ></RadioCustom>
             {debug && <div>Mode Selection: {JSON.stringify(modeSetting)}</div>}
@@ -183,16 +191,31 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                               key={`element-key-${JKey}`}
                               id={getEleemtnModel.workSheetsId}
                             >
-                              <CheckBoxCustom
-                                debug={debug}
-                                name={getEleemtnModel.workSheetsId}
-                                form={form}
-                                display={display}
-                                modeSetting={modeSetting}
-                                id={getEleemtnModel.workSheetsId}
-                                image={getEleemtnModel.imageUrl}
-                                label={getEleemtnModel.name}
-                              ></CheckBoxCustom>
+                              {resetFormOnChange ? (
+                                <CheckBoxCustom
+                                  InputDisable={{
+                                    file: !getEleemtnModel.price.file
+                                      ? true
+                                      : false,
+                                    print: !getEleemtnModel.price.print
+                                      ? true
+                                      : false,
+                                    book: !getEleemtnModel.price.book
+                                      ? true
+                                      : false,
+                                  }}
+                                  debug={debug}
+                                  name={getEleemtnModel.workSheetsId}
+                                  form={form}
+                                  display={display}
+                                  modeSetting={modeSetting}
+                                  id={getEleemtnModel.workSheetsId}
+                                  image={getEleemtnModel.imageUrl}
+                                  label={getEleemtnModel.name}
+                                ></CheckBoxCustom>
+                              ) : (
+                                <div className="min-h-[50px]"></div>
+                              )}
                             </div>
                           );
                         }
@@ -208,12 +231,17 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         <div className="p-5 flex justify-center items-center">
           <ButtonCustom
             onClick={() => {
-              let map = MapFormToString(
-                form.getFieldsValue(),
-                keyMockup,
-                getMockup
-              );
-              setWorksheetsModelInput(map);
+              form.validateFields().then(() => {
+                if (feeSetting) {
+                  let map = MapFormToString(
+                    form.getFieldsValue(),
+                    keyMockup,
+                    getMockup,
+                    feeSetting
+                  );
+                  setWorksheetsModelInput(map);
+                }
+              });
             }}
           >
             Get Result

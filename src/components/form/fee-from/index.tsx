@@ -3,7 +3,7 @@ import { Form, FormInstance } from "antd";
 import React from "react";
 
 interface FeeFromProps {
-  feeSetting?: InputSettingOnFinish;
+  feeSetting?: FeeSetting;
   onChange?: (value: string, key: InputSetting) => void;
   form?: FormInstance<any>;
 }

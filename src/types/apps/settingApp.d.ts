@@ -9,7 +9,7 @@ type DisplayOnFinish = "image" | "grid";
 // 3 == book
 // 4 == mix
 
-interface InputSettingOnFinish {
+interface FeeSetting {
   book_price: number;
   delivery_fee: number;
 }
@@ -25,7 +25,7 @@ interface ModeSetting {
   mode: ModeOnFinish;
 }
 
-type ModeOnFinish = 1 | 2 | 3 | 4;
+type ModeOnFinish = "file" | "print" | "book" | "mix";
 // 1 == file
 // 2 == print
 // 3 == book

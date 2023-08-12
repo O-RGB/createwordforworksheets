@@ -13,7 +13,7 @@ export const MathWorkSheets = async () => {
       name: "คณิตศาสตร์ อ.1",
       workSheetsType: "room",
       price: {
-        file: 99,
+        // file: 99,
         print: 240,
         book: 240,
       },

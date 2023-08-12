@@ -32,8 +32,16 @@ interface CheckboxResult {
 }
 
 interface InputValue {
-  value: string;
-  name: string;
+  count: string;
+  value: ModeOnFinish;
+  label: string;
+  disabled?: boolean;
+}
+
+interface InputDisable {
+  file?: boolean;
+  print?: boolean;
+  book?: boolean;
 }
 
 interface FormCheckboxResult {
