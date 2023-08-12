@@ -38,10 +38,10 @@ const ImageNumber: React.FC<ImageNumberProps> = ({
             disabled={disabled}
             value={number}
             readOnly
-            // defaultValue={1}
+            defaultValue={value}
             className="w-fit "
             size={"small"}
-            style={{ width: "40px" }}
+            style={{ width: "50px" }}
           />
         </div>
         <div className="flex gap-0.5">
@@ -57,7 +57,7 @@ const ImageNumber: React.FC<ImageNumberProps> = ({
                 }, 1);
               }
             }}
-            className="bg-white -mt-[3px]"
+            className="bg-white -mt-[3px] w-8"
             size="small"
           >
             +
@@ -74,7 +74,7 @@ const ImageNumber: React.FC<ImageNumberProps> = ({
                 }, 1);
               }
             }}
-            className="bg-white -mt-[3px]"
+            className="bg-white -mt-[3px] w-8"
             size="small"
           >
             -

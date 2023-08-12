@@ -10,8 +10,9 @@ import { createTextForCustomer } from "@/function/finalToCustomer";
 import { MapFormToString } from "@/function/mapFormToString";
 import { getLocal, setLocal } from "@/lib/local";
 import { HeadWorkSheets } from "@/model/headworksheets";
-import { Checkbox, Form } from "antd";
+import { Checkbox, ConfigProvider, FloatButton, Form } from "antd";
 import React, { useEffect, useState } from "react";
+import { SaveOutlined, DeleteOutlined } from "@ant-design/icons";
 
 interface HomeGroupProps {
   getMockup: HeadWorkSheets[];
@@ -66,6 +67,64 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
     setLocal("delivery_fee", delivery_fee);
   };
 
+  const onClickResult = () => {
+    form.validateFields().then(() => {
+      if (feeSetting) {
+        MapFormToString(
+          form.getFieldsValue(),
+          keyMockup,
+          getMockup,
+          feeSetting,
+          modeSetting == "mix"
+        ).then((result) => {
+          let initString: string = "";
+          let file = createTextForCustomer(
+            result.file,
+            {
+              mode: "file",
+            },
+            modeSetting == "mix"
+          );
+          let print = createTextForCustomer(
+            result.print,
+            {
+              mode: "print",
+            },
+            modeSetting == "mix"
+          );
+          let book = createTextForCustomer(
+            result.book,
+            {
+              mode: "book",
+            },
+            modeSetting == "mix"
+          );
+
+          if (file) {
+            initString = initString + (file + "\n\n");
+            setResultString(initString);
+          }
+          if (print) {
+            if (file) {
+              initString = initString + ("=================" + "\n");
+            }
+            initString = initString + (print + "\n\n");
+            if (book) {
+              initString = initString + ("=================" + "\n");
+            }
+            setResultString(initString);
+          }
+          if (book) {
+            initString += book;
+            setResultString(initString);
+          }
+          resultForm.setFieldValue("result", print);
+        });
+        // createTextForCustomer(map.file);
+      }
+    });
+  };
+
   useEffect(() => {
     let bookPrice = getLocal("book_price");
     let deliveryFee = getLocal("delivery_fee");
@@ -75,7 +134,34 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
     <>
       {debug && <div className=" text-2xl font-bold">Version: 1.0.1</div>}
 
-      <div className="p-5">
+      <FloatButton.Group shape="circle" style={{ right: 24 }}>
+        <ConfigProvider
+          theme={{
+            components: {
+              Button: {
+                colorPrimary: "#00b96b",
+              },
+              Input: {
+                colorPrimary: "#eb2f96",
+              },
+            },
+          }}
+        >
+          <FloatButton
+            icon={<DeleteOutlined />}
+            type="primary"
+            style={{ right: 24 }}
+          />
+        </ConfigProvider>
+        <FloatButton
+          onClick={onClickResult}
+          icon={<SaveOutlined />}
+          type="primary"
+          style={{ right: 24 }}
+        />
+      </FloatButton.Group>
+
+      <div className="p-5 ">
         <div className="flex flex-col gap-2">
           <CardCustom Header={"Debug"}>
             <Checkbox
@@ -110,6 +196,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
 
             {debug && <div>Display Selection: {JSON.stringify(display)}</div>}
           </CardCustom>
+
           <CardCustom Header={"Mode"}>
             <RadioCustom
               value={modeSetting}
@@ -133,8 +220,10 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                 { value: "mix", label: "Mix" },
               ]}
             ></RadioCustom>
+
             {debug && <div>Mode Selection: {JSON.stringify(modeSetting)}</div>}
           </CardCustom>
+
           <div>
             <CardCustom Header={"Delivery Fee"}>
               <FeeFrom
@@ -229,69 +318,6 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
           </div>
         </Form>
 
-        <div className="p-5 flex justify-center items-center">
-          <ButtonCustom
-            onClick={() => {
-              form.validateFields().then(() => {
-                if (feeSetting) {
-                  MapFormToString(
-                    form.getFieldsValue(),
-                    keyMockup,
-                    getMockup,
-                    feeSetting,
-                    modeSetting == "mix"
-                  ).then((result) => {
-                    let initString: string = "";
-                    let file = createTextForCustomer(
-                      result.file,
-                      {
-                        mode: "file",
-                      },
-                      modeSetting == "mix"
-                    );
-                    let print = createTextForCustomer(
-                      result.print,
-                      {
-                        mode: "print",
-                      },
-                      modeSetting == "mix"
-                    );
-                    let book = createTextForCustomer(
-                      result.book,
-                      {
-                        mode: "book",
-                      },
-                      modeSetting == "mix"
-                    );
-
-                    if (file) {
-                      initString = initString + (file + "\n\n");
-                      setResultString(initString);
-                    }
-                    if (print) {
-                      if (file) {
-                        initString = initString + ("=================" + "\n");
-                      }
-                      initString = initString + (print + "\n\n");
-                      if (book) {
-                        initString = initString + ("=================" + "\n");
-                      }
-                      setResultString(initString);
-                    }
-                    if (book) {
-                      initString += book;
-                      setResultString(initString);
-                    }
-                    resultForm.setFieldValue("result", print);
-                  });
-                  // createTextForCustomer(map.file);
-                }
-              });
-            }}
-          >
-            Get Result
-          </ButtonCustom>
-        </div>
         <CardCustom Header={"Result"}>
           <Form form={resultForm} layout="vertical">
             <TextAreaCustom

@@ -252,7 +252,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
                     className="flex gap-2"
                   >
                     {modeSetting == "mix" && (
-                      <div className="min-w-[40px]">
+                      <div className="min-w-[30px]">
                         {/* {inputkey == 0
                           ? "File"
                           : inputkey == 1

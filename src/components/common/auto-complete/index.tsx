@@ -1,5 +1,5 @@
 import { AutoComplete, AutoCompleteProps } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface AutoCompleteCustomProps extends AutoCompleteProps {
   option: Option[];
@@ -11,6 +11,7 @@ const AutoCompleteCustom: React.FC<AutoCompleteCustomProps> = ({
 }) => {
   const [fakeValue, setFakeValue] = useState<string>("");
   const [tempOption, setOption] = useState<Option[]>([]);
+  const ref: any = useRef(null);
 
   const search = (search: string) => {
     if (search.length > 0) {
@@ -37,6 +38,7 @@ const AutoCompleteCustom: React.FC<AutoCompleteCustomProps> = ({
   return (
     <>
       <AutoComplete
+        ref={ref}
         {...props}
         options={tempOption}
         value={fakeValue}
@@ -46,12 +48,12 @@ const AutoCompleteCustom: React.FC<AutoCompleteCustomProps> = ({
           setOption(search(e));
         }}
         onSelect={(...select) => {
+          ref?.current.blur();
           setFakeValue(select[1].label);
           props.onSelect?.(select[0], select[1]);
         }}
         placeholder="Search"
       />
-      
     </>
   );
 };
