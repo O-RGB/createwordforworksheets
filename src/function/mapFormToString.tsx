@@ -52,7 +52,6 @@ const splitValueByTpye = (result: IResult[]) => {
   result.map((value) => {
     value.inputValue.map((type) => {
       if (!type.disabled) {
-        // console.log(type);
         if (type.value == "file") {
           file.push({
             inputValue: [{ value: "file", count: type.count, label: "File" }],
@@ -76,15 +75,42 @@ const splitValueByTpye = (result: IResult[]) => {
   return { file: file, print: print, book: book };
 };
 
-const createGoddsString = (
-  result: IResult[],
-  modeSelect: ModeOnFinish,
-  fee: FeeSetting
-) => {
-  let introducing: ITextResult[] = [];
+const calculateRelationship = (
+  goodFucus: IResult,
+  goods: IResult[]
+): IGoodsRelationship | undefined => {
+  let relOfFocus: string[] | undefined = goodFucus.real.relationship;
+  if (relOfFocus) {
+    let falg: number = 0;
+    relOfFocus.map((relId: string) => {
+      let find = goods.find(
+        (good) =>
+          good.real.workSheetsId == relId && good.inputValue[0].count != "0"
+      );
+      if (find) {
+        falg = falg + 1;
+      }
+    });
+
+    if (falg == relOfFocus.length && goodFucus.real.discount) {
+      return {
+        discount: goodFucus.real.discount,
+        name: "ได้รับส่วนลด",
+        relationshipId: relOfFocus,
+      };
+    } else {
+      return undefined;
+    }
+  } else {
+    return undefined;
+  }
+};
+
+const createGoddsString = (result: IResult[], modeSelect: ModeOnFinish) => {
   let goods: IGoods[] = [];
 
   if (result.length > 0) {
+  
     result.map((value) => {
       let inputValueByMode: InputValue = value.inputValue[0]; // data filted and index is 0
       let inputCount: number = Number(inputValueByMode.count);
@@ -97,33 +123,92 @@ const createGoddsString = (
         getPriceByMode = value.real.price.book;
       }
       if (inputCount > 0 && getPriceByMode) {
+        let keepRel =
+          modeSelect == "file"
+            ? calculateRelationship(value, result)
+            : undefined;
         goods.push({
           count: Number(inputValueByMode.count),
           goodsName: value.real.name,
           price: getPriceByMode,
           type: modeSelect,
           workSheetsType: "sheets",
-          ...fee,
+          relationship: keepRel,
         });
       }
     });
   }
-  console.log(goods);
+
   return goods;
 };
 
-export const MapFormToString = (
+const filterRelationship = (goods: IGoods[]) => {
+
+
+let last = false
+  goods.map((good) => {
+      good.relationship?.relationshipId
+  })
+};
+
+const createIntroducingString = (
+  goods: IGoods[],
+  modeSelect: ModeOnFinish,
+  fee: FeeSetting
+): ITextResult => {
+  let intro = undefined;
+  let emoji = undefined;
+
+  let price: number = 0;
+  goods.map((x) => (price = price + x.price * x.count));
+
+  let priceAddFee: number = price;
+
+  if (modeSelect == "file") {
+    intro = "ไฟล์";
+    emoji = "💾";
+  } else if (modeSelect == "print") {
+    intro = "ปริ้น";
+    emoji = "📗";
+    priceAddFee = priceAddFee + fee.delivery_fee;
+  } else if (modeSelect == "book") {
+    intro = "เล่ม";
+    emoji = "📕";
+    priceAddFee = priceAddFee + fee.book_price;
+    priceAddFee = priceAddFee + fee.delivery_fee;
+  }
+
+  return {
+    goods: goods,
+    introducing: intro,
+    introducingEmoji: emoji,
+    priceAll: price,
+    priceAddFee: priceAddFee,
+    ...fee,
+  };
+};
+
+export const MapFormToString = async (
   value: FormCheckboxResult,
   keyMockup: string[],
   getMockup: HeadWorkSheets[],
   fee: FeeSetting
-) => {
+): Promise<IFinalResultPrice> => {
   let onlyChecked: CheckboxResult[] = searchValueIsChecked(keyMockup, value);
   let mapValueToHade: IResult[] = mapValueToMainObj(onlyChecked, getMockup);
-  let splitData = splitValueByTpye(mapValueToHade);
-  let createFile = createGoddsString(splitData.file, "file", fee);
-  let createPrint = createGoddsString(splitData.print, "print", fee);
-  let createBook = createGoddsString(splitData.book, "book", fee);
 
-  return mapValueToHade;
+  // split mode "file" | "print" | "book"
+  let splitData = splitValueByTpye(mapValueToHade);
+
+  // push obj by mode to Goods obj
+  let createFile = createGoddsString(splitData.file, "file");
+  let createPrint = createGoddsString(splitData.print, "print");
+  let createBook = createGoddsString(splitData.book, "book");
+
+  // summary all data
+  let fileIntro = createIntroducingString(createFile, "file", fee);
+  let printIntro = createIntroducingString(createPrint, "print", fee);
+  let bookIntro = createIntroducingString(createBook, "book", fee);
+
+  return { file: fileIntro, print: printIntro, book: bookIntro };
 };

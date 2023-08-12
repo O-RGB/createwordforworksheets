@@ -1,9 +1,10 @@
 interface IGoodsRelationship {
   name: string;
   discount: number;
+  relationshipId: string[];
 }
 
-interface IGoods extends FeeSetting {
+interface IGoods {
   workSheetsType: WorkSheetsType;
   goodsName: string;
   type: ModeOnFinish;
@@ -12,8 +13,10 @@ interface IGoods extends FeeSetting {
   relationship?: IGoodsRelationship;
 }
 
-interface ITextResult {
+interface ITextResult extends FeeSetting {
   introducing: stirng;
+  introducingEmoji: stirng;
   goods: IGoods[];
   priceAll: number;
+  priceAddFee: number;
 }

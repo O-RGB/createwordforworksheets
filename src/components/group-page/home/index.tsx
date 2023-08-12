@@ -6,6 +6,7 @@ import RadioCustom from "@/components/common/radio";
 import SwitchCustom from "@/components/common/switch";
 import TextAreaCustom from "@/components/common/text-area";
 import FeeFrom from "@/components/form/fee-from";
+import { createTextForCustomer } from "@/function/finalToCustomer";
 import { MapFormToString } from "@/function/mapFormToString";
 import { getLocal, setLocal } from "@/lib/local";
 import { HeadWorkSheets } from "@/model/headworksheets";
@@ -24,13 +25,14 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   keyMockup,
 }) => {
   //SETTING DISPLAY
-  const [debug, setDebug] = useState<boolean>(true);
+  const [debug, setDebug] = useState<boolean>(false);
 
   // ELEMENT
   const [form] = Form.useForm();
+  const [resultForm] = Form.useForm();
   const [modeSetting, setModeSetting] = useState<ModeOnFinish>("file");
   const [resetFormOnChange, setResetFormOnChange] = useState<boolean>(true);
-  const [WorksheetsModelInput, setWorksheetsModelInput] = useState<IResult[]>();
+  const [resultString, setResultString] = useState<string>("");
   const [feeSetting, setFeeSetting] = useState<FeeSetting | undefined>({
     book_price: 40,
     delivery_fee: 40,
@@ -71,13 +73,12 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
 
   return (
     <>
-      {debug && <div className=" text-2xl font-bold">Version: DEBUG</div>}
+      {debug && <div className=" text-2xl font-bold">Version: 1.0</div>}
 
       <div className="p-5">
         <div className="flex flex-col gap-2">
           <CardCustom Header={"Debug"}>
             <Checkbox
-              defaultChecked
               onChange={(e) => {
                 setDebug(e.target.checked);
               }}
@@ -233,13 +234,42 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
             onClick={() => {
               form.validateFields().then(() => {
                 if (feeSetting) {
-                  let map = MapFormToString(
+                  MapFormToString(
                     form.getFieldsValue(),
                     keyMockup,
                     getMockup,
                     feeSetting
-                  );
-                  setWorksheetsModelInput(map);
+                  ).then((result) => {
+                    let initString: string = "";
+                    let file = createTextForCustomer(result.file, {
+                      mode: "file",
+                    });
+                    let print = createTextForCustomer(result.print, {
+                      mode: "print",
+                    });
+                    let book = createTextForCustomer(result.book, {
+                      mode: "book",
+                    });
+
+                    console.log(file);
+                    console.log(print);
+                    console.log(book);
+
+                    if (file) {
+                      initString = initString + (file + "\n\n");
+                      setResultString(file);
+                    }
+                    if (print) {
+                      initString = initString + (print + "\n\n");
+                      setResultString(print);
+                    }
+                    if (book) {
+                      initString += book;
+                      setResultString(book);
+                    }
+                    resultForm.setFieldValue("result", print);
+                  });
+                  // createTextForCustomer(map.file);
                 }
               });
             }}
@@ -247,12 +277,22 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
             Get Result
           </ButtonCustom>
         </div>
+        <CardCustom Header={"Result"}>
+          <Form form={resultForm} layout="vertical">
+            <TextAreaCustom
+              autoSize
+              disabled
+              name="result"
+              value={resultString}
+            ></TextAreaCustom>
+          </Form>
+        </CardCustom>
 
-        <div>
-          {WorksheetsModelInput?.map((x, i) => {
-            return <div key={`index-${i}`}>{x.real.name}</div>;
+        {/* <div>
+          {WorksheetsModelInput?.file?.goods?.map((x, i) => {
+            return <div key={`index-${i}`}>{JSON.stringify(x)}</div>;
           })}
-        </div>
+        </div> */}
 
         {/* <div>
           <TextAreaCustom></TextAreaCustom>

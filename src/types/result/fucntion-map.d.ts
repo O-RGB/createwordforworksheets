@@ -3,4 +3,8 @@ interface IResult {
   real: WorksheetsModelInput;
 }
 
-
+interface IFinalResultPrice {
+  file: ITextResult;
+  print: ITextResult;
+  book: ITextResult;
+}
