@@ -73,7 +73,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
 
   return (
     <>
-      {debug && <div className=" text-2xl font-bold">Version: 1.0</div>}
+      {debug && <div className=" text-2xl font-bold">Version: 1.0.1</div>}
 
       <div className="p-5">
         <div className="flex flex-col gap-2">
@@ -238,34 +238,49 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                     form.getFieldsValue(),
                     keyMockup,
                     getMockup,
-                    feeSetting
+                    feeSetting,
+                    modeSetting == "mix"
                   ).then((result) => {
                     let initString: string = "";
-                    let file = createTextForCustomer(result.file, {
-                      mode: "file",
-                    });
-                    let print = createTextForCustomer(result.print, {
-                      mode: "print",
-                    });
-                    let book = createTextForCustomer(result.book, {
-                      mode: "book",
-                    });
-
-                    console.log(file);
-                    console.log(print);
-                    console.log(book);
+                    let file = createTextForCustomer(
+                      result.file,
+                      {
+                        mode: "file",
+                      },
+                      modeSetting == "mix"
+                    );
+                    let print = createTextForCustomer(
+                      result.print,
+                      {
+                        mode: "print",
+                      },
+                      modeSetting == "mix"
+                    );
+                    let book = createTextForCustomer(
+                      result.book,
+                      {
+                        mode: "book",
+                      },
+                      modeSetting == "mix"
+                    );
 
                     if (file) {
                       initString = initString + (file + "\n\n");
-                      setResultString(file);
+                      setResultString(initString);
                     }
                     if (print) {
+                      if (file) {
+                        initString = initString + ("=================" + "\n");
+                      }
                       initString = initString + (print + "\n\n");
-                      setResultString(print);
+                      if (book) {
+                        initString = initString + ("=================" + "\n");
+                      }
+                      setResultString(initString);
                     }
                     if (book) {
                       initString += book;
-                      setResultString(book);
+                      setResultString(initString);
                     }
                     resultForm.setFieldValue("result", print);
                   });
@@ -281,22 +296,12 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
           <Form form={resultForm} layout="vertical">
             <TextAreaCustom
               autoSize
-              disabled
+              readOnly
               name="result"
               value={resultString}
             ></TextAreaCustom>
           </Form>
         </CardCustom>
-
-        {/* <div>
-          {WorksheetsModelInput?.file?.goods?.map((x, i) => {
-            return <div key={`index-${i}`}>{JSON.stringify(x)}</div>;
-          })}
-        </div> */}
-
-        {/* <div>
-          <TextAreaCustom></TextAreaCustom>
-        </div> */}
       </div>
     </>
   );

@@ -9,6 +9,7 @@ interface ImageNumberProps {
   disabled?: boolean;
   form?: FormInstance<any>;
   isStartWithZero?: boolean;
+  maxOne?: boolean;
 }
 
 const ImageNumber: React.FC<ImageNumberProps> = ({
@@ -18,6 +19,7 @@ const ImageNumber: React.FC<ImageNumberProps> = ({
   name,
   disabled = false,
   isStartWithZero = false,
+  maxOne = false,
   form,
 }) => {
   const [number, setNumber] = useState<string | undefined>(undefined);
@@ -47,11 +49,13 @@ const ImageNumber: React.FC<ImageNumberProps> = ({
             disabled={disabled}
             onClick={() => {
               let temp = Number(number);
-              setNumber(undefined);
-              setTimeout(() => {
-                setNumber((temp + 1).toString());
-                onChange?.(id, temp + 1);
-              }, 1);
+              if (maxOne ? temp + 1 <= 1 : true) {
+                setNumber(undefined);
+                setTimeout(() => {
+                  setNumber((temp + 1).toString());
+                  onChange?.(id, temp + 1);
+                }, 1);
+              }
             }}
             className="bg-white -mt-[3px]"
             size="small"

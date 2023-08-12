@@ -67,7 +67,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
   let Mix: InputValue[] = [
     {
       value: "file",
-      label: "File",
+      label: "ไฟล์",
       count: "0",
       disabled: InputDisable
         ? InputDisable.file
@@ -77,7 +77,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
     },
     {
       value: "print",
-      label: "Print",
+      label: "ปริ้น",
       count: "0",
       disabled: InputDisable
         ? InputDisable.print
@@ -87,7 +87,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
     },
     {
       value: "book",
-      label: "Book",
+      label: "เล่ม",
       count: "0",
       disabled: InputDisable
         ? InputDisable.book
@@ -237,7 +237,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
         <div className="">
           <div className="-mt-2">
             <div
-              className={`z-10 w-full flex flex-col lg:flex-row gap-4 px-3 rounded-md overflow-hidden bg-blue-200 ${
+              className={`z-10 w-full flex flex-col lg:flex-row gap-4 px-3 rounded-md overflow-hidden bg-green-200 ${
                 onCheck && modeSetting != "file"
                   ? ` ${
                       modeSetting == "mix" ? "h-32" : "h-12"
@@ -267,7 +267,10 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
                     <ImageNumber
                       name={name}
                       isStartWithZero={modeSetting == "mix"}
+                      maxOne={data.value == "file"}
                       disabled={data.disabled}
+                      value={data.count}
+                      id={`${String(inputkey)}`}
                       onChange={(id: string, input: number) => {
                         let clone = inputValue;
                         if (clone && clone.length > 0) {
@@ -291,8 +294,6 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
                           }
                         }
                       }}
-                      value={data.count}
-                      id={`${String(inputkey)}`}
                     ></ImageNumber>
                     {/* </Form.Item> */}
                     {debug && (

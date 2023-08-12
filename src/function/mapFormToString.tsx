@@ -92,10 +92,14 @@ const calculateRelationship = (
       }
     });
 
-    if (falg == relOfFocus.length && goodFucus.real.discount) {
+    if (
+      falg == relOfFocus.length &&
+      goodFucus.real.discount &&
+      goodFucus.real.conditionStr
+    ) {
       return {
         discount: goodFucus.real.discount,
-        name: "ได้รับส่วนลด",
+        name: goodFucus.real.conditionStr,
         relationshipId: relOfFocus,
       };
     } else {
@@ -110,7 +114,6 @@ const createGoddsString = (result: IResult[], modeSelect: ModeOnFinish) => {
   let goods: IGoods[] = [];
 
   if (result.length > 0) {
-  
     result.map((value) => {
       let inputValueByMode: InputValue = value.inputValue[0]; // data filted and index is 0
       let inputCount: number = Number(inputValueByMode.count);
@@ -143,12 +146,32 @@ const createGoddsString = (result: IResult[], modeSelect: ModeOnFinish) => {
 };
 
 const filterRelationship = (goods: IGoods[]) => {
-
-
-let last = false
-  goods.map((good) => {
-      good.relationship?.relationshipId
-  })
+  let toSame = (arr: string[]) => arr.sort().join("");
+  let goodsClone: IGoods[] = [];
+  let sum: number = 0;
+  let discount: number = 0;
+  goods.map((good, index) => {
+    let _gctemp: IGoods = good;
+    if (_gctemp.relationship) {
+      let now = toSame(_gctemp.relationship.relationshipId);
+      let futurn: string | undefined = undefined;
+      if (index + 1 < goods.length) {
+        futurn = toSame(goods[index + 1].relationship?.relationshipId ?? []);
+      }
+      if (now != futurn) {
+        discount = discount + _gctemp.relationship.discount;
+        sum = sum + good.price;
+        sum = sum - _gctemp.relationship.discount;
+        // _gctemp.relationship.discount = sum;
+        sum = 0;
+      } else {
+        sum = sum + good.price;
+        _gctemp.relationship = undefined;
+      }
+    }
+    goodsClone.push(_gctemp);
+  });
+  return { goods: goodsClone, discountSum: discount };
 };
 
 const createIntroducingString = (
@@ -167,6 +190,9 @@ const createIntroducingString = (
   if (modeSelect == "file") {
     intro = "ไฟล์";
     emoji = "💾";
+    let filterGoods = filterRelationship(goods);
+    goods = filterGoods.goods;
+    priceAddFee = priceAddFee - filterGoods.discountSum;
   } else if (modeSelect == "print") {
     intro = "ปริ้น";
     emoji = "📗";
@@ -177,7 +203,6 @@ const createIntroducingString = (
     priceAddFee = priceAddFee + fee.book_price;
     priceAddFee = priceAddFee + fee.delivery_fee;
   }
-
   return {
     goods: goods,
     introducing: intro,
@@ -192,7 +217,8 @@ export const MapFormToString = async (
   value: FormCheckboxResult,
   keyMockup: string[],
   getMockup: HeadWorkSheets[],
-  fee: FeeSetting
+  fee: FeeSetting,
+  disabledFee: boolean
 ): Promise<IFinalResultPrice> => {
   let onlyChecked: CheckboxResult[] = searchValueIsChecked(keyMockup, value);
   let mapValueToHade: IResult[] = mapValueToMainObj(onlyChecked, getMockup);
@@ -206,9 +232,10 @@ export const MapFormToString = async (
   let createBook = createGoddsString(splitData.book, "book");
 
   // summary all data
-  let fileIntro = createIntroducingString(createFile, "file", fee);
-  let printIntro = createIntroducingString(createPrint, "print", fee);
-  let bookIntro = createIntroducingString(createBook, "book", fee);
+  let customFee = disabledFee ? { book_price: 0, delivery_fee: 0 } : fee;
+  let fileIntro = createIntroducingString(createFile, "file", customFee);
+  let printIntro = createIntroducingString(createPrint, "print", customFee);
+  let bookIntro = createIntroducingString(createBook, "book", customFee);
 
   return { file: fileIntro, print: printIntro, book: bookIntro };
 };
