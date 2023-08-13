@@ -14,6 +14,7 @@ import { Checkbox, ConfigProvider, FloatButton, Form } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
 import { SaveOutlined, DeleteOutlined } from "@ant-design/icons";
 import ScrollDetection from "@/components/common/scroll-detection";
+import SiteHeader from "@/components/common/head/NextHead";
 
 interface HomeGroupProps {
   getMockup: HeadWorkSheets[];
@@ -225,6 +226,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
 
   return (
     <>
+      <SiteHeader title="ระบบสร้างรายการ"></SiteHeader>
       {debug && <div className=" text-2xl font-bold">Version: 1.0.1</div>}
 
       <div
@@ -258,7 +260,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
               resultForm.setFieldValue("result", undefined);
               setTimeout(() => {
                 setResetFormOnChange(true);
-              }, 0);
+              }, 10);
             }}
             icon={<DeleteOutlined />}
             type="primary"

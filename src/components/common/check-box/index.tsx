@@ -238,7 +238,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
           <div className="-mt-2">
             <div
               className={`z-10 w-full flex flex-col lg:flex-row gap-4 px-3 rounded-md overflow-hidden bg-green-200 ${
-                onCheck && modeSetting != "file"
+                onCheck && modeSetting != "file" && disableAll != true
                   ? ` ${
                       modeSetting == "mix" ? "h-32" : "h-12"
                     }  lg:h-12  py-4 border border-solid `
