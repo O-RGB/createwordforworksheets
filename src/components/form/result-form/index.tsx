@@ -19,6 +19,8 @@ const ResultSetting: React.FC<ResultSettingFromProps> = ({
   setPriceAll = 4000,
 }) => {
   const [onDiscountChange, setDiscountChange] = useState<boolean>(false);
+  const [onDiscountChangeForHidden, setDiscountChangeForHidden] =
+    useState<boolean>(false);
   const [unit, setUnit] = useState<string>("1");
   const [olePrice, setOldPrice] = useState<number>(0);
 
@@ -37,9 +39,13 @@ const ResultSetting: React.FC<ResultSettingFromProps> = ({
         if (e.length > 0) {
           if (e[0].name == "discount") {
             if (e[0].value != "") {
+              setDiscountChangeForHidden(true);
               setDiscountChange(true);
             } else {
               setDiscountChange(false);
+              setTimeout(() => {
+                setDiscountChangeForHidden(false);
+              }, 300);
               setOldPrice(setPriceAll);
             }
           }
@@ -49,23 +55,29 @@ const ResultSetting: React.FC<ResultSettingFromProps> = ({
       className="  "
       style={{ width: "100%" }}
     >
-      <div className="flex gap-4 w-full  items-center   ">
-        <div className="flex flex-col gap-1">
-          <label htmlFor="">ราคา</label>
-          <div className="text-lg font-bold border border-solid p-5 rounded-md">
-            {setPriceAll}฿
+      <div className="flex flex-col md:flex-row gap-4 w-full  md:items-center   ">
+        <div className="flex gap-2  w-full md:w-auto">
+          <div className="flex flex-col gap-1 w-full md:w-auto">
+            <label htmlFor="">ราคา</label>
+            <div className="text-lg font-bold border border-solid p-5 rounded-md  w-full md:w-auto  ">
+              {setPriceAll}฿
+            </div>
           </div>
-        </div>
 
-        <div
-          className={`flex flex-col gap-1 justify-center  ${
-            onDiscountChange ? "min-w-min " : "w-0 opacity-0 "
-          } duration-300 transition-all`}
-        >
-          <label htmlFor="">ราคาใหม่</label>
-          <div className="text-lg font-bold border border-solid p-5 rounded-md text-green-500">
-            {olePrice}฿
-          </div>
+          {onDiscountChangeForHidden && (
+            <div
+              className={`flex flex-col gap-1 justify-center w-full md:w-auto ${
+                onDiscountChange ? "min-w-min " : "w-0 opacity-0 "
+              } duration-300 transition-all`}
+            >
+              <label htmlFor="" className="whitespace-nowrap">
+                ราคาใหม่
+              </label>
+              <div className="text-lg font-bold border border-solid p-5 rounded-md text-green-500">
+                {olePrice}฿
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="flex gap-2 w-full  ">
@@ -119,6 +131,11 @@ const ResultSetting: React.FC<ResultSettingFromProps> = ({
               onChange={(e) => {
                 setUnit(e);
                 setDiscountChange(false);
+
+                setTimeout(() => {
+                  setDiscountChangeForHidden(false);
+                }, 300);
+
                 form.resetFields(["discount"]);
               }}
               defaultValue={"1"}
@@ -167,6 +184,9 @@ const ResultSetting: React.FC<ResultSettingFromProps> = ({
           onClick={() => {
             cancel?.();
             setDiscountChange(false);
+            setTimeout(() => {
+              setDiscountChangeForHidden(false);
+            }, 300);
             setUnit("1");
             setOldPrice(0);
             form.resetFields();

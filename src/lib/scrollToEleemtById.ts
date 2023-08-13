@@ -1,7 +1,7 @@
 export const scrollToEleemtById = (
   id: string,
   color: string = "bg-green-400",
-  padding: string = "p-2 px-2",
+  padding: string = "p-2",
   textColor: string = "text-white"
 ) => {
   var my_element: HTMLElement | null = document.getElementById(id);

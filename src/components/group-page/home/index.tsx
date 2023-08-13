@@ -143,7 +143,9 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         <CardCustom Header={"Search Item"} cardClassName={`${setting}`}>
           <AutoCompleteCustom
             option={optionMockup}
-            onSelect={(e) => scrollToEleemtById(e)}
+            onSelect={(e) =>
+              scrollToEleemtById(e, "bg-green-400", "p-2", "text-white")
+            }
           ></AutoCompleteCustom>
         </CardCustom>
       </div>
@@ -181,7 +183,12 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
               setResultString(data.customerStr);
               resultForm.setFieldValue("result", data.customerStr);
               setTimeout(() => {
-                scrollToEleemtById("buttom-result");
+                scrollToEleemtById(
+                  "buttom-result",
+                  "bg-green-400",
+                  "p-2",
+                  "text-white"
+                );
               }, 10);
             }
           });
@@ -280,7 +287,12 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                       setResultString(data.customerStr);
                       resultForm.setFieldValue("result", data.customerStr);
                       setTimeout(() => {
-                        scrollToEleemtById("buttom-result");
+                        scrollToEleemtById(
+                          "buttom-result",
+                          "bg-green-400",
+                          "p-2",
+                          "text-white"
+                        );
                       }, 10);
                     }
                   });
@@ -302,7 +314,12 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                       setResultString(data.customerStr);
                       resultForm.setFieldValue("result", data.customerStr);
                       setTimeout(() => {
-                        scrollToEleemtById("buttom-result");
+                        scrollToEleemtById(
+                          "buttom-result",
+                          "bg-green-400",
+                          "p-2",
+                          "text-white"
+                        );
                       }, 10);
                     }
                   });
@@ -344,7 +361,9 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                 scrollOnStop={(e) => {
                   setDetectScroll(!e);
                 }}
-                scrollToEleemtById={(e) => scrollToEleemtById(e)}
+                scrollToEleemtById={(e) =>
+                  scrollToEleemtById(e, "bg-green-400", "p-2", "text-white")
+                }
                 getMockup={getMockup}
               ></ScrollDetection>
               <div className="w-3  "></div>
