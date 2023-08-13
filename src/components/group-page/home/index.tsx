@@ -51,7 +51,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
     var my_element: HTMLElement | null = document.getElementById(id);
     if (my_element) {
       my_element.className =
-        "bg-amber-400 rounded-md duration-300 hover:bg-amber-400";
+        "bg-green-400 rounded-md duration-300 hover:bg-green-400  p-2 text-white px-2";
       setTimeout(() => {
         if (my_element) {
           my_element.className = "duration-300";
@@ -359,14 +359,14 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
           <div
             className={`fixed md:sticky ${
               detectScroll ? "right-0" : "-right-14"
-            } -right-14 hover:right-0 ${
+            } -right-10 hover:right-0 ${
               modeSettingStiky ? "top-14" : "top-2 md:top-4"
             }   z-30 bg-transparent transition-all duration-300`}
           >
             <div className="flex w-full h-fit ">
               <ScrollDetection
                 getScrollProsition={(y) => {
-                  if (y > 500) {
+                  if (y > 400) {
                     setModeSettingStiky(true);
                   } else {
                     setModeSettingStiky(false);
@@ -378,7 +378,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                 scrollToEleemtById={scrollToEleemtById}
                 getMockup={getMockup}
               ></ScrollDetection>
-              <div className="w-7  "></div>
+              <div className="w-3  "></div>
             </div>
           </div>
         </div>

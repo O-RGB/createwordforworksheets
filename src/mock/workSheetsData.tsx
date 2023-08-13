@@ -2,6 +2,7 @@ import { HeadWorkSheets } from "@/model/headworksheets";
 import { MathWorkSheets } from "./typeOfWork/math";
 import { BasicWorkSheets } from "./typeOfWork/basic";
 import { IntellectWorkSheets } from "./typeOfWork/intellect";
+import { DrawWorkSheets } from "./typeOfWork/draw";
 
 export const WorkSheetsData = async () => {
   let headWorkSheets: HeadWorkSheets[] = [];
@@ -9,6 +10,7 @@ export const WorkSheetsData = async () => {
     MathWorkSheets(),
     IntellectWorkSheets(),
     BasicWorkSheets(),
+    DrawWorkSheets(),
   ]).then((data) => {
     headWorkSheets.push(
       new HeadWorkSheets({
@@ -25,6 +27,11 @@ export const WorkSheetsData = async () => {
         formName: "basic",
         headerTitle: "พื้นฐาน",
         worksheets: data[2],
+      }),
+      new HeadWorkSheets({
+        formName: "draw",
+        headerTitle: "ลีลามือ",
+        worksheets: data[3],
       })
     );
     return headWorkSheets;

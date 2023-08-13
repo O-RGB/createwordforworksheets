@@ -13,9 +13,9 @@ export const MathWorkSheets = async () => {
       name: "คณิตศาสตร์ อ.1",
       workSheetsType: "room",
       price: {
-        // file: 99,
+        file: 99,
         print: 240,
-        book: 240,
+        book: 260,
       },
     })
   );
@@ -32,7 +32,7 @@ export const MathWorkSheets = async () => {
       price: {
         file: 99,
         book: 240,
-        print: 240,
+        print: 260,
       },
     })
   );
@@ -49,7 +49,7 @@ export const MathWorkSheets = async () => {
       price: {
         file: 99,
         book: 240,
-        print: 240,
+        print: 260,
       },
     })
   );
@@ -84,9 +84,7 @@ export const MathWorkSheets = async () => {
   worksheetsModel.push(
     new WorksheetsModel({
       workSheetsId: "MATH006",
-      // relationship: ["MATH006", "MATH007"],
-      // conditionStr: "ซื้อคณิตศาสตร์ ป.6 ครบ 2 เทอม",
-      // discount: 10,
+
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH4.png?alt=media&token=a507a7a5-b5b6-456e-a755-f7bab14a8065",
       name: "คณิตศาสตร์ ป.6 (เทอม 1)",
@@ -101,9 +99,7 @@ export const MathWorkSheets = async () => {
   worksheetsModel.push(
     new WorksheetsModel({
       workSheetsId: "MATH007",
-      // relationship: ["MATH006", "MATH007"],
-      // conditionStr: "ซื้อคณิตศาสตร์ ป.6 ครบ 2 เทอม",
-      // discount: 10,
+
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH4.png?alt=media&token=a507a7a5-b5b6-456e-a755-f7bab14a8065",
       name: "คณิตศาสตร์ ป.6 (เทอม 2)",

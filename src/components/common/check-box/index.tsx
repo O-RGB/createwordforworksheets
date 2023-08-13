@@ -185,7 +185,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
           <Input className="m-0 w-0 h-0 p-0 opacity-0"></Input>
         </Form.Item>
       </div>
-      <div className={`relative flex flex-col w-full ${props.className}`}>
+      <div className={`relative flex flex-col w-full bg-white ${props.className}`}>
         <Checkbox
           disabled={disableAll}
           {...props}
