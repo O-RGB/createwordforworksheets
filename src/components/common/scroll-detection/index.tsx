@@ -4,23 +4,34 @@ import React, { useEffect, useState } from "react";
 interface ScrollDetectionProps {
   getMockup: HeadWorkSheets[];
   scrollToEleemtById: (id: string) => void;
+  scrollOnStop: (stop: boolean) => void;
 }
 
 const ScrollDetection: React.FC<ScrollDetectionProps> = ({
   getMockup,
   scrollToEleemtById,
+  scrollOnStop,
 }) => {
   const [minScroll, setMinScroll] = useState<number>(0);
 
   useEffect(() => {
-    const options: any = { passive: true }; // options must match add/remove event
-    const scroll = (event: any) => {
-      const { scrollY } = window;
-      console.log("scrollY", scrollY);
-      setMinScroll(Math.ceil(scrollY * 0.24));
+    const options: any = { passive: true };
+    let timer: NodeJS.Timeout;
+    const handleScroll = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        scrollOnStop?.(true);
+      }, 1000);
     };
+
+    const scroll = (event: any) => {
+      scrollOnStop?.(false);
+      const { scrollY } = window;
+      setMinScroll(Math.ceil(scrollY * 0.24));
+      handleScroll();
+    };
+
     document.addEventListener("scroll", scroll, options);
-    // remove event on unmount to prevent a memory leak
     () => document.removeEventListener("scroll", scroll, options);
   }, []);
   return (
@@ -46,9 +57,9 @@ const ScrollDetection: React.FC<ScrollDetectionProps> = ({
                       onClick={() =>
                         scrollToEleemtById(getModel.formName ?? "")
                       }
-                      className={`p-1 bg-white hover:bg-green-400 shadow-md rounded-xl whitespace-nowrap z-40 w-full duration-300 cursor-pointer`}
+                      className={`p-1 bg-white hover:bg-green-400 shadow-md rounded-xl whitespace-nowrap z-40 w-fit duration-300 cursor-pointer`}
                     >
-                      <div className="pl-1">{getModel.headerTitle}</div>
+                      <div className="px-1">{getModel.headerTitle}</div>
                     </div>
                     {/* <div className="flex flex-col gap-2 w-fit  ">
                       {getModel.worksheets?.map((data) => {

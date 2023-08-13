@@ -35,6 +35,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   const [modeSetting, setModeSetting] = useState<ModeOnFinish>("file");
   const [resetFormOnChange, setResetFormOnChange] = useState<boolean>(true);
   const [resultString, setResultString] = useState<string>("");
+  const [detectScroll, setDetectScroll] = useState<boolean>(false);
   const [feeSetting, setFeeSetting] = useState<FeeSetting | undefined>({
     book_price: 40,
     delivery_fee: 40,
@@ -265,9 +266,14 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                   let getModel = worksheets.getHeadWorksheets();
                   return (
                     <div key={`header-key-${IKey}`}>
-                      <CardCustom Header={<div>{getModel.headerTitle}</div>}>
+                      <CardCustom
+                        Header={
+                          <div id={getModel.formName}>
+                            {getModel.headerTitle}
+                          </div>
+                        }
+                      >
                         <div
-                          id={getModel.formName}
                           className={`grid gap-2 ${
                             display.grid ? " lg:grid-cols-2 " : '"'
                           } transition-all`}
@@ -333,9 +339,16 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         </div>
 
         <div className=" md:w-20">
-          <div className="fixed md:sticky -right-14 hover:right-0 md:top-4 z-30 bg-transparent transition-all duration-300  ">
+          <div
+            className={`fixed md:sticky ${
+              detectScroll ? "right-0" : "-right-14"
+            } md:top-4 z-30 bg-transparent transition-all duration-300`}
+          >
             <div className="flex w-full">
               <ScrollDetection
+                scrollOnStop={(e) => {
+                  setDetectScroll(!e);
+                }}
                 scrollToEleemtById={scrollToEleemtById}
                 getMockup={getMockup}
               ></ScrollDetection>
