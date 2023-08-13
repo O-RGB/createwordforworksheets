@@ -11,8 +11,9 @@ import { MapFormToString } from "@/function/mapFormToString";
 import { getLocal, setLocal } from "@/lib/local";
 import { HeadWorkSheets } from "@/model/headworksheets";
 import { Checkbox, ConfigProvider, FloatButton, Form } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { SaveOutlined, DeleteOutlined } from "@ant-design/icons";
+import ScrollDetection from "@/components/common/scroll-detection";
 
 interface HomeGroupProps {
   getMockup: HeadWorkSheets[];
@@ -102,7 +103,6 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
 
           if (file) {
             initString = initString + (file + "\n\n");
-            setResultString(initString);
           }
           if (print) {
             if (file) {
@@ -112,15 +112,16 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
             if (book) {
               initString = initString + ("=================" + "\n");
             }
-            setResultString(initString);
           }
           if (book) {
             initString += book;
-            setResultString(initString);
           }
-          resultForm.setFieldValue("result", print);
+          setResultString(initString);
+          resultForm.setFieldValue("result", initString);
+          setTimeout(() => {
+            scrollToEleemtById("buttom-result");
+          }, 10);
         });
-        // createTextForCustomer(map.file);
       }
     });
   };
@@ -129,6 +130,91 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
     let bookPrice = getLocal("book_price");
     let deliveryFee = getLocal("delivery_fee");
   }, []);
+
+  const SettingComponent = (setting: string = "block md:hidden") => (
+    <>
+      <CardCustom Header={"Debug"} cardClassName={`${setting}`}>
+        <Checkbox
+          onChange={(e) => {
+            setDebug(e.target.checked);
+          }}
+        >
+          Debug mode : {JSON.stringify(debug)}
+        </Checkbox>
+      </CardCustom>
+      <CardCustom Header={"Display"} cardClassName={`${setting}`}>
+        <SwitchCustom
+          className="flex gap-6 "
+          value={display}
+          onChange={(value: Option[]) => {
+            let displayTemp: DisplaySetting = {
+              grid: false,
+              image: false,
+            };
+            value.map((data) => {
+              displayTemp[data.value as DisplayOnFinish] = data.select ?? false;
+            });
+            setDisplay(displayTemp);
+          }}
+          switchOption={[
+            { value: "image", label: "Image" },
+            { value: "grid", label: "Grid" },
+          ]}
+        ></SwitchCustom>
+
+        {debug && <div>Display Selection: {JSON.stringify(display)}</div>}
+      </CardCustom>
+      <CardCustom Header={"Mode"} cardClassName={`${setting}`}>
+        <RadioCustom
+          value={modeSetting}
+          onChange={(e) => {
+            setModeSetting(e.target.value);
+          }}
+          defaultValue={"file"}
+          radioOption={[
+            { value: "file", label: "File" },
+            { value: "print", label: "Print" },
+            { value: "book", label: "Book" },
+            { value: "mix", label: "Mix" },
+          ]}
+        ></RadioCustom>
+
+        {debug && <div>Mode Selection: {JSON.stringify(modeSetting)}</div>}
+      </CardCustom>
+      <div>
+        <CardCustom Header={"Delivery Fee"} cardClassName={`${setting}`}>
+          <FeeFrom
+            feeSetting={feeSetting}
+            onChange={(fee, key) => {
+              let cloneFee = feeSetting;
+              setFeeSetting(undefined);
+              if (cloneFee) {
+                cloneFee[key] = Number(fee);
+                setTimeout(() => {
+                  setFeeSetting(cloneFee);
+                  if (cloneFee) {
+                    LocalSaveFee(cloneFee.book_price, cloneFee.delivery_fee);
+                  }
+                }, 0);
+              }
+            }}
+          ></FeeFrom>
+
+          {debug && <div>Fee Selection: {JSON.stringify(feeSetting)}</div>}
+        </CardCustom>
+      </div>
+      <div className="flex flex-col gap-2  ">
+        <CardCustom Header={"Search Item"} cardClassName={`${setting}`}>
+          <AutoCompleteCustom
+            option={optionMockup}
+            onSelect={scrollToEleemtById}
+          ></AutoCompleteCustom>
+        </CardCustom>
+      </div>
+    </>
+  );
+
+  let CHiddin = SettingComponent("");
 
   return (
     <>
@@ -148,6 +234,14 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
           }}
         >
           <FloatButton
+            onClick={() => {
+              setResetFormOnChange(false);
+              setResultString("");
+              resultForm.setFieldValue("result", undefined);
+              setTimeout(() => {
+                setResetFormOnChange(true);
+              }, 0);
+            }}
             icon={<DeleteOutlined />}
             type="primary"
             style={{ right: 24 }}
@@ -161,173 +255,94 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         />
       </FloatButton.Group>
 
-      <div className="p-5 ">
-        <div className="flex flex-col gap-2">
-          <CardCustom Header={"Debug"}>
-            <Checkbox
-              onChange={(e) => {
-                setDebug(e.target.checked);
-              }}
-            >
-              Debug mode : {JSON.stringify(debug)}
-            </Checkbox>
-          </CardCustom>
-
-          <CardCustom Header={"Display"}>
-            <SwitchCustom
-              className="flex gap-6 "
-              value={display}
-              onChange={(value: Option[]) => {
-                let displayTemp: DisplaySetting = {
-                  grid: false,
-                  image: false,
-                };
-                value.map((data) => {
-                  displayTemp[data.value as DisplayOnFinish] =
-                    data.select ?? false;
-                });
-                setDisplay(displayTemp);
-              }}
-              switchOption={[
-                { value: "image", label: "Image" },
-                { value: "grid", label: "Grid" },
-              ]}
-            ></SwitchCustom>
-
-            {debug && <div>Display Selection: {JSON.stringify(display)}</div>}
-          </CardCustom>
-
-          <CardCustom Header={"Mode"}>
-            <RadioCustom
-              value={modeSetting}
-              onChange={(e) => {
-                // form.resetFields();
-                setModeSetting(e.target.value);
-                // setResetFormOnChange(false);
-                // setTimeout(() => {
-                //   setResetFormOnChange(true);
-                // }, 0);
-                // setTimeout(() => {
-
-                // }, 100);
-                // getValueByForm();
-              }}
-              defaultValue={"file"}
-              radioOption={[
-                { value: "file", label: "File" },
-                { value: "print", label: "Print" },
-                { value: "book", label: "Book" },
-                { value: "mix", label: "Mix" },
-              ]}
-            ></RadioCustom>
-
-            {debug && <div>Mode Selection: {JSON.stringify(modeSetting)}</div>}
-          </CardCustom>
-
-          <div>
-            <CardCustom Header={"Delivery Fee"}>
-              <FeeFrom
-                feeSetting={feeSetting}
-                onChange={(fee, key) => {
-                  let cloneFee = feeSetting;
-                  setFeeSetting(undefined);
-                  if (cloneFee) {
-                    cloneFee[key] = Number(fee);
-                    setTimeout(() => {
-                      setFeeSetting(cloneFee);
-                      if (cloneFee) {
-                        LocalSaveFee(
-                          cloneFee.book_price,
-                          cloneFee.delivery_fee
-                        );
-                      }
-                    }, 0);
-                  }
-                }}
-              ></FeeFrom>
-
-              {debug && <div>Fee Selection: {JSON.stringify(feeSetting)}</div>}
-            </CardCustom>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-2 py-2 ">
-          <CardCustom Header={"Search Item"}>
-            <AutoCompleteCustom
-              option={optionMockup}
-              onSelect={scrollToEleemtById}
-            ></AutoCompleteCustom>
-          </CardCustom>
-        </div>
-        <Form form={form}>
-          <div className="flex flex-col gap-3">
-            {getMockup.map((worksheets, IKey) => {
-              let getModel = worksheets.getHeadWorksheets();
-              return (
-                <div key={`header-key-${IKey}`}>
-                  <CardCustom
-                    Header={<div>Header: {getModel.headerTitle}</div>}
-                  >
-                    <div
-                      className={`grid gap-2 ${
-                        display.grid ? " lg:grid-cols-2 " : '"'
-                      } transition-all`}
-                    >
-                      {getModel.worksheets?.map((element, JKey) => {
-                        let getEleemtnModel = element.getWorksheets();
-                        if (getEleemtnModel) {
-                          return (
-                            <div
-                              key={`element-key-${JKey}`}
-                              id={getEleemtnModel.workSheetsId}
-                            >
-                              {resetFormOnChange ? (
-                                <CheckBoxCustom
-                                  InputDisable={{
-                                    file: !getEleemtnModel.price.file
-                                      ? true
-                                      : false,
-                                    print: !getEleemtnModel.price.print
-                                      ? true
-                                      : false,
-                                    book: !getEleemtnModel.price.book
-                                      ? true
-                                      : false,
-                                  }}
-                                  debug={debug}
-                                  name={getEleemtnModel.workSheetsId}
-                                  form={form}
-                                  display={display}
-                                  modeSetting={modeSetting}
+      <div className="relative flex gap-3 p-5">
+        <div className=" w-full ">
+          <div className="flex flex-col gap-2">
+            {CHiddin}
+            <Form form={form}>
+              <div className="flex flex-col gap-3">
+                {getMockup.map((worksheets, IKey) => {
+                  let getModel = worksheets.getHeadWorksheets();
+                  return (
+                    <div key={`header-key-${IKey}`}>
+                      <CardCustom Header={<div>{getModel.headerTitle}</div>}>
+                        <div
+                          id={getModel.formName}
+                          className={`grid gap-2 ${
+                            display.grid ? " lg:grid-cols-2 " : '"'
+                          } transition-all`}
+                        >
+                          {getModel.worksheets?.map((element, JKey) => {
+                            let getEleemtnModel = element.getWorksheets();
+                            if (getEleemtnModel) {
+                              return (
+                                <div
+                                  key={`element-key-${JKey}`}
                                   id={getEleemtnModel.workSheetsId}
-                                  image={getEleemtnModel.imageUrl}
-                                  label={getEleemtnModel.name}
-                                ></CheckBoxCustom>
-                              ) : (
-                                <div className="min-h-[50px]"></div>
-                              )}
-                            </div>
-                          );
-                        }
-                      })}
+                                >
+                                  {resetFormOnChange ? (
+                                    <CheckBoxCustom
+                                      InputDisable={{
+                                        file: !getEleemtnModel.price.file
+                                          ? true
+                                          : false,
+                                        print: !getEleemtnModel.price.print
+                                          ? true
+                                          : false,
+                                        book: !getEleemtnModel.price.book
+                                          ? true
+                                          : false,
+                                      }}
+                                      debug={debug}
+                                      name={getEleemtnModel.workSheetsId}
+                                      form={form}
+                                      display={display}
+                                      modeSetting={modeSetting}
+                                      id={getEleemtnModel.workSheetsId}
+                                      image={getEleemtnModel.imageUrl}
+                                      label={getEleemtnModel.name}
+                                    ></CheckBoxCustom>
+                                  ) : (
+                                    <div className="min-h-[50px]"></div>
+                                  )}
+                                </div>
+                              );
+                            }
+                          })}
+                        </div>
+                      </CardCustom>
                     </div>
-                  </CardCustom>
-                </div>
-              );
-            })}
-          </div>
-        </Form>
+                  );
+                })}
+              </div>
+            </Form>
 
-        <CardCustom Header={"Result"}>
-          <Form form={resultForm} layout="vertical">
-            <TextAreaCustom
-              autoSize
-              readOnly
-              name="result"
-              value={resultString}
-            ></TextAreaCustom>
-          </Form>
-        </CardCustom>
+            <CardCustom Header={"Result"}>
+              <Form form={resultForm} layout="vertical">
+                <TextAreaCustom
+                  autoSize
+                  readOnly
+                  // initialValue={resultForm}
+                  name="result"
+                  value={resultString}
+                ></TextAreaCustom>
+              </Form>
+            </CardCustom>
+            <div id="buttom-result"></div>
+          </div>
+        </div>
+
+        <div className=" md:w-20">
+          <div className="fixed md:sticky -right-14 hover:right-0 md:top-4 z-30 bg-transparent transition-all duration-300  ">
+            <div className="flex w-full">
+              <ScrollDetection
+                scrollToEleemtById={scrollToEleemtById}
+                getMockup={getMockup}
+              ></ScrollDetection>
+              <div className="w-7  "></div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

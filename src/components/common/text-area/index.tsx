@@ -8,7 +8,7 @@ interface TextAreaCustomProps extends TextAreaProps {
   label?: string;
   rules?: Rule[] | undefined;
   name?: string;
-  initialValue?: number;
+  initialValue?: any;
   required?: boolean;
 }
 
