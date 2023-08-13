@@ -19,6 +19,7 @@ const InputCustom: React.FC<InputCustomProps> = ({
 }) => {
   return (
     <Form.Item
+      style={{ marginBottom: 0 }}
       initialValue={initialValue}
       name={name}
       label={label}

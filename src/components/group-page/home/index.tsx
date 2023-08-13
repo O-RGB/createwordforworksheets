@@ -256,7 +256,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         />
       </FloatButton.Group>
 
-      <div className="relative flex gap-3 p-5">
+      <div className="relative flex md:gap-3 p-2 md:p-5 duration-300">
         <div className=" w-full ">
           <div className="flex flex-col gap-2">
             {CHiddin}
