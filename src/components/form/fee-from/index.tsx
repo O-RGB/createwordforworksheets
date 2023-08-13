@@ -27,7 +27,7 @@ const FeeFrom: React.FC<FeeFromProps> = ({ feeSetting, onChange, form }) => {
         rules={[{ message: "'ค่าส่ง' is required", required: true }]}
         label="ค่าส่ง"
       ></InputCustom>
-      <InputCustom
+      {/* <InputCustom
         initialValue={feeSetting?.book_price}
         onChange={(e) => {
           let clone = feeSetting;
@@ -42,7 +42,7 @@ const FeeFrom: React.FC<FeeFromProps> = ({ feeSetting, onChange, form }) => {
         name="book"
         rules={[{ message: "'บวกเข้าเล่ม' is required", required: true }]}
         label="บวกค่าส่ง"
-      ></InputCustom>
+      ></InputCustom> */}
     </Form>
   );
 };

@@ -1,21 +1,19 @@
 import AutoCompleteCustom from "@/components/common/auto-complete";
-import ButtonCustom from "@/components/common/button";
 import CardCustom from "@/components/common/card";
 import CheckBoxCustom from "@/components/common/check-box";
 import RadioCustom from "@/components/common/radio";
 import SwitchCustom from "@/components/common/switch";
 import TextAreaCustom from "@/components/common/text-area";
 import FeeFrom from "@/components/form/fee-from";
-import { createTextForCustomer } from "@/function/finalToCustomer";
-import { MapFormToString } from "@/function/mapFormToString";
 import { getLocal, setLocal } from "@/lib/local";
 import { HeadWorkSheets } from "@/model/headworksheets";
-import { Checkbox, ConfigProvider, FloatButton, Form } from "antd";
-import React, { useCallback, useEffect, useState } from "react";
-import { SaveOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Checkbox, Form } from "antd";
+import React, { useEffect, useState } from "react";
 import ScrollDetection from "@/components/common/scroll-detection";
-import SiteHeader from "@/components/common/head/NextHead";
-import { validateForm } from "@/function/validateForm";
+import { scrollToEleemtById } from "@/lib/scrollToEleemtById";
+import { getResultOnForm } from "@/calculate/formToResult";
+import ResultSetting from "@/components/form/result-form";
+import FloatButtonForm from "@/components/form/floatButton-form";
 
 interface HomeGroupProps {
   getMockup: HeadWorkSheets[];
@@ -39,8 +37,12 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   const [resultString, setResultString] = useState<string>("");
   const [detectScroll, setDetectScroll] = useState<boolean>(false);
   const [modeSettingStiky, setModeSettingStiky] = useState<boolean>(false);
+  const [priceAllNow, setPriceAllNow] = useState<number>(0);
+  const [priceByDiscount, setPriceByDisconut] = useState<number | undefined>(
+    undefined
+  );
   const [feeSetting, setFeeSetting] = useState<FeeSetting | undefined>({
-    book_price: 40,
+    // book_price: 40,
     delivery_fee: 40,
   });
   const [display, setDisplay] = useState<DisplaySetting>({
@@ -49,100 +51,11 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   });
 
   // FUCNTON
-  const scrollToEleemtById = (
-    id: string,
-    color: string = "bg-green-400",
-    padding: string = "p-2 px-2",
-    textColor: string = "text-white"
-  ) => {
-    var my_element: HTMLElement | null = document.getElementById(id);
-    if (my_element) {
-      my_element.className = `${color} rounded-md duration-300 hover:${color} ${textColor} ${padding}`;
-      setTimeout(() => {
-        if (my_element) {
-          my_element.className = "duration-300";
-        }
-      }, 2000);
-      my_element.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-        inline: "nearest",
-      });
-    }
-  };
 
-  const LocalSaveFee = (book_price: number, delivery_fee: number) => {
-    setLocal("book_price", book_price);
-    setLocal("delivery_fee", delivery_fee);
-  };
-
-  const onClickResult = () => {
-    let checkNotCount = validateForm(form.getFieldsValue(), keyMockup);
-
-    if (checkNotCount.length != 0) {
-      scrollToEleemtById(
-        checkNotCount[0],
-        "bg-red-400",
-        "p-0.5",
-        "text-red-400"
-      );
-    } else {
-      form.validateFields().then(() => {
-        if (feeSetting) {
-          MapFormToString(
-            form.getFieldsValue(),
-            keyMockup,
-            getMockup,
-            feeSetting,
-            modeSetting == "mix"
-          ).then((result) => {
-            let initString: string = "";
-            let file = createTextForCustomer(
-              result.file,
-              {
-                mode: "file",
-              },
-              modeSetting == "mix"
-            );
-            let print = createTextForCustomer(
-              result.print,
-              {
-                mode: "print",
-              },
-              modeSetting == "mix"
-            );
-            let book = createTextForCustomer(
-              result.book,
-              {
-                mode: "book",
-              },
-              modeSetting == "mix"
-            );
-            if (file) {
-              initString = initString + (file + "\n\n");
-            }
-            if (print) {
-              if (file) {
-                initString = initString + ("=================" + "\n");
-              }
-              initString = initString + (print + "\n\n");
-              if (book) {
-                initString = initString + ("=================" + "\n");
-              }
-            }
-            if (book) {
-              initString += book;
-            }
-            setResultString(initString);
-            resultForm.setFieldValue("result", initString);
-            setTimeout(() => {
-              scrollToEleemtById("buttom-result");
-            }, 10);
-          });
-        }
-      });
-    }
-  };
+  // const LocalSaveFee = (book_price: number, delivery_fee: number) => {
+  //   setLocal("book_price", book_price);
+  //   setLocal("delivery_fee", delivery_fee);
+  // };
 
   useEffect(() => {
     let bookPrice = getLocal("book_price");
@@ -215,9 +128,9 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                 cloneFee[key] = Number(fee);
                 setTimeout(() => {
                   setFeeSetting(cloneFee);
-                  if (cloneFee) {
-                    LocalSaveFee(cloneFee.book_price, cloneFee.delivery_fee);
-                  }
+                  // if (cloneFee) {
+                  //   LocalSaveFee(cloneFee.book_price, cloneFee.delivery_fee);
+                  // }
                 }, 0);
               }
             }}
@@ -241,7 +154,6 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
 
   return (
     <>
-      <SiteHeader title="ระบบสร้างรายการ"></SiteHeader>
       {debug && <div className=" text-2xl font-bold">Version: 1.0.1</div>}
 
       <div
@@ -255,40 +167,37 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         </div>
       </div>
 
-      <FloatButton.Group shape="circle" style={{ right: 24 }}>
-        <ConfigProvider
-          theme={{
-            components: {
-              Button: {
-                colorPrimary: "#00b96b",
-              },
-              Input: {
-                colorPrimary: "#eb2f96",
-              },
-            },
-          }}
-        >
-          <FloatButton
-            onClick={() => {
-              setResetFormOnChange(false);
-              setResultString("");
-              resultForm.setFieldValue("result", undefined);
+      <FloatButtonForm
+        onSave={() => {
+          getResultOnForm(
+            form,
+            feeSetting,
+            modeSetting,
+            keyMockup,
+            getMockup,
+            priceByDiscount
+          ).then((data) => {
+            if (data) {
+              setResultString(data.customerStr);
+              setPriceAllNow(data.priceAll);
+              resultForm.setFieldValue("result", data.customerStr);
               setTimeout(() => {
-                setResetFormOnChange(true);
+                scrollToEleemtById("buttom-result");
               }, 10);
-            }}
-            icon={<DeleteOutlined />}
-            type="primary"
-            style={{ right: 24 }}
-          />
-        </ConfigProvider>
-        <FloatButton
-          onClick={onClickResult}
-          icon={<SaveOutlined />}
-          type="primary"
-          style={{ right: 24 }}
-        />
-      </FloatButton.Group>
+            }
+          });
+        }}
+        removeResult={() => {
+          setResetFormOnChange(false);
+          setResultString("");
+          resultForm.setFieldValue("result", undefined);
+          setPriceAllNow(0);
+          setPriceByDisconut(undefined);
+          setTimeout(() => {
+            setResetFormOnChange(true);
+          }, 10);
+        }}
+      ></FloatButtonForm>
 
       <div className="relative flex md:gap-3 p-2 md:p-5 duration-300">
         <div className=" w-full ">
@@ -357,12 +266,19 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
               </div>
             </Form>
 
+            <CardCustom Header={"Result Setting"} className="w-full">
+              <ResultSetting
+                onChange={(e) => {
+                  setPriceByDisconut(e);
+                }}
+                setPriceAll={priceAllNow}
+              ></ResultSetting>
+            </CardCustom>
             <CardCustom Header={"Result"}>
               <Form form={resultForm} layout="vertical">
                 <TextAreaCustom
                   autoSize
                   readOnly
-                  // initialValue={resultForm}
                   name="result"
                   value={resultString}
                 ></TextAreaCustom>

@@ -6,6 +6,7 @@ import { Form, Radio } from "antd";
 import { NextPage } from "next";
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
+import SiteHeader from "@/components/common/head/NextHead";
 
 const InterFaceTest: NextPage = () => {
   const [getMockup, setMockup] = useState<HeadWorkSheets[]>([]);
@@ -43,12 +44,7 @@ const InterFaceTest: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
-      </Head>
+      <SiteHeader title="ระบบสร้างรายการ"></SiteHeader>
       {loading && (
         <HomeGroup
           keyMockup={keyMockup}

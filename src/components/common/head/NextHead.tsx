@@ -18,6 +18,11 @@ const SiteHeader: React.FC<INextHeader> = ({
       <title>{title}</title>
       <link rel="icon" href="/logo.png" />
 
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      />
+
       <meta property="title" content={title} />
       <meta property="description" content={description} />
       <meta property="image" content={image} />
@@ -34,11 +39,6 @@ const SiteHeader: React.FC<INextHeader> = ({
       {/* <meta property="og:url" content="https://dig.af/" /> */}
 
       <meta property="og:type" content="website" />
-
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-      ></meta>
 
       {/* <meta property="og:locale" content="fa_GB" />
       <meta property="og:site_name" content="DIG" /> */}

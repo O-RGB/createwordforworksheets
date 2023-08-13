@@ -200,7 +200,7 @@ const createIntroducingString = (
   } else if (modeSelect == "book") {
     intro = "เล่ม";
     emoji = "📕";
-    priceAddFee = priceAddFee + fee.book_price;
+    // priceAddFee = priceAddFee + fee.book_price;
     priceAddFee = priceAddFee + fee.delivery_fee;
   }
   return {
