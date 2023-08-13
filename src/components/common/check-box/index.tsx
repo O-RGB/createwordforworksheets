@@ -108,55 +108,48 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
   const resetInputValue = () => {
     setInputValue(undefined);
     let obj: InputValue[] = [];
-    setTimeout(() => {
-      setTimeout(() => {
-        if (name) {
-          if (modeSetting == "file") {
-            obj = File;
-            setInputValue(File);
 
-            obj.map((x) => {
-              if (x.value == "file") {
-                setDsiabledAll(x.disabled ? x.disabled : false);
-                // setCheck(false);
-              }
-            });
-          } else if (modeSetting == "print") {
-            obj = Print;
-            setInputValue(Print);
-            obj.map((x) => {
-              if (x.value == "print") {
-                setDsiabledAll(x.disabled ? x.disabled : false);
-              }
-            });
-          } else if (modeSetting == "book") {
-            obj = Book;
-            setInputValue(Book);
-            obj.map((x) => {
-              if (x.value == "book") {
-                setDsiabledAll(x.disabled ? x.disabled : false);
-              }
-            });
-          } else if (modeSetting == "mix") {
-            obj = Mix;
-            setInputValue(Mix);
-            let checkAll = obj.every((x) => x.disabled == true);
-            // setDsiabledAll(checkAll);
-            if (checkAll) {
+    setTimeout(() => {
+      if (name) {
+        if (modeSetting == "file") {
+          obj = File;
+          setInputValue(File);
+          obj.map((x) => {
+            if (x.value == "file") {
+              setDsiabledAll(x.disabled ? x.disabled : false);
             }
-            setDsiabledAll(Mix.every((x) => x.disabled == true));
-          }
-          let cloneObj = {
-            checked: onCheck,
-            formName: name,
-            id: name,
-            inputNumber: onCheck ? obj : undefined,
-          };
-          form?.setFieldValue(name, cloneObj);
-          setValue(cloneObj);
+          });
+        } else if (modeSetting == "print") {
+          obj = Print;
+          setInputValue(Print);
+          obj.map((x) => {
+            if (x.value == "print") {
+              setDsiabledAll(x.disabled ? x.disabled : false);
+            }
+          });
+        } else if (modeSetting == "book") {
+          obj = Book;
+          setInputValue(Book);
+          obj.map((x) => {
+            if (x.value == "book") {
+              setDsiabledAll(x.disabled ? x.disabled : false);
+            }
+          });
+        } else if (modeSetting == "mix") {
+          obj = Mix;
+          setInputValue(Mix);
+          setDsiabledAll(Mix.every((x) => x.disabled == true));
         }
-      }, 10);
-    }, 20);
+        let cloneObj = {
+          checked: onCheck,
+          formName: name,
+          id: name,
+          inputNumber: onCheck ? obj : undefined,
+        };
+        form?.setFieldValue(name, cloneObj);
+        setValue(cloneObj);
+      }
+    }, 10);
   };
 
   useEffect(() => {

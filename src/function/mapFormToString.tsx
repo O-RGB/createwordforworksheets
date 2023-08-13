@@ -1,9 +1,9 @@
 import { HeadWorkSheets } from "@/model/headworksheets";
 
-const searchValueIsChecked = (
+export const searchValueIsChecked = (
   keyMockup: string[],
   value: FormCheckboxResult
-) => {
+): CheckboxResult[] => {
   let onlyChecked: CheckboxResult[] = [];
   keyMockup.map((key) => {
     let get = value[key];

@@ -36,7 +36,7 @@ const ImageNumber: React.FC<ImageNumberProps> = ({
         <div className="-mt-[3px] ">
           <Input
             disabled={disabled}
-            value={number}
+            value={value}
             readOnly
             defaultValue={value}
             className="w-fit "

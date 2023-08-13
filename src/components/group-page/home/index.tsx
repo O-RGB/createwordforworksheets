@@ -15,6 +15,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { SaveOutlined, DeleteOutlined } from "@ant-design/icons";
 import ScrollDetection from "@/components/common/scroll-detection";
 import SiteHeader from "@/components/common/head/NextHead";
+import { validateForm } from "@/function/validateForm";
 
 interface HomeGroupProps {
   getMockup: HeadWorkSheets[];
@@ -48,11 +49,15 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   });
 
   // FUCNTON
-  const scrollToEleemtById = (id: string) => {
+  const scrollToEleemtById = (
+    id: string,
+    color: string = "bg-green-400",
+    padding: string = "p-2 px-2",
+    textColor: string = "text-white"
+  ) => {
     var my_element: HTMLElement | null = document.getElementById(id);
     if (my_element) {
-      my_element.className =
-        "bg-green-400 rounded-md duration-300 hover:bg-green-400  p-2 text-white px-2";
+      my_element.className = `${color} rounded-md duration-300 hover:${color} ${textColor} ${padding}`;
       setTimeout(() => {
         if (my_element) {
           my_element.className = "duration-300";
@@ -72,61 +77,71 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   };
 
   const onClickResult = () => {
-    form.validateFields().then(() => {
-      if (feeSetting) {
-        MapFormToString(
-          form.getFieldsValue(),
-          keyMockup,
-          getMockup,
-          feeSetting,
-          modeSetting == "mix"
-        ).then((result) => {
-          let initString: string = "";
-          let file = createTextForCustomer(
-            result.file,
-            {
-              mode: "file",
-            },
-            modeSetting == "mix"
-          );
-          let print = createTextForCustomer(
-            result.print,
-            {
-              mode: "print",
-            },
-            modeSetting == "mix"
-          );
-          let book = createTextForCustomer(
-            result.book,
-            {
-              mode: "book",
-            },
-            modeSetting == "mix"
-          );
+    let checkNotCount = validateForm(form.getFieldsValue(), keyMockup);
 
-          if (file) {
-            initString = initString + (file + "\n\n");
-          }
-          if (print) {
+    if (checkNotCount.length != 0) {
+      scrollToEleemtById(
+        checkNotCount[0],
+        "bg-red-400",
+        "p-0.5",
+        "text-red-400"
+      );
+    } else {
+      form.validateFields().then(() => {
+        if (feeSetting) {
+          MapFormToString(
+            form.getFieldsValue(),
+            keyMockup,
+            getMockup,
+            feeSetting,
+            modeSetting == "mix"
+          ).then((result) => {
+            let initString: string = "";
+            let file = createTextForCustomer(
+              result.file,
+              {
+                mode: "file",
+              },
+              modeSetting == "mix"
+            );
+            let print = createTextForCustomer(
+              result.print,
+              {
+                mode: "print",
+              },
+              modeSetting == "mix"
+            );
+            let book = createTextForCustomer(
+              result.book,
+              {
+                mode: "book",
+              },
+              modeSetting == "mix"
+            );
             if (file) {
-              initString = initString + ("=================" + "\n");
+              initString = initString + (file + "\n\n");
             }
-            initString = initString + (print + "\n\n");
+            if (print) {
+              if (file) {
+                initString = initString + ("=================" + "\n");
+              }
+              initString = initString + (print + "\n\n");
+              if (book) {
+                initString = initString + ("=================" + "\n");
+              }
+            }
             if (book) {
-              initString = initString + ("=================" + "\n");
+              initString += book;
             }
-          }
-          if (book) {
-            initString += book;
-          }
-          setResultString(initString);
-          resultForm.setFieldValue("result", initString);
-          setTimeout(() => {
-            scrollToEleemtById("buttom-result");
-          }, 10);
-        });
-      }
-    });
+            setResultString(initString);
+            resultForm.setFieldValue("result", initString);
+            setTimeout(() => {
+              scrollToEleemtById("buttom-result");
+            }, 10);
+          });
+        }
+      });
+    }
   };
 
   useEffect(() => {
@@ -215,7 +230,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         <CardCustom Header={"Search Item"} cardClassName={`${setting}`}>
           <AutoCompleteCustom
             option={optionMockup}
-            onSelect={scrollToEleemtById}
+            onSelect={(e) => scrollToEleemtById(e)}
           ></AutoCompleteCustom>
         </CardCustom>
       </div>
