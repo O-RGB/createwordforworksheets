@@ -267,6 +267,24 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
 
             <CardCustom Header={"Result Setting"} className="w-full">
               <ResultSetting
+                cancel={() => {
+                  getResultOnForm(
+                    form,
+                    feeSetting,
+                    modeSetting,
+                    keyMockup,
+                    getMockup
+                  ).then((data) => {
+                    if (data) {
+                      setPriceAllNow(data.priceAll);
+                      setResultString(data.customerStr);
+                      resultForm.setFieldValue("result", data.customerStr);
+                      setTimeout(() => {
+                        scrollToEleemtById("buttom-result");
+                      }, 10);
+                    }
+                  });
+                }}
                 onChange={(e) => {
                   getResultOnForm(
                     form,

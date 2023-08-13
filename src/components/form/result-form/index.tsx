@@ -1,3 +1,4 @@
+import ButtonCustom from "@/components/common/button";
 import InputCustom from "@/components/common/input";
 import SelectCommon from "@/components/common/select";
 import { Form, FormInstance } from "antd";
@@ -6,19 +7,22 @@ import React, { useEffect, useState } from "react";
 interface ResultSettingFromProps {
   feeSetting?: ResltSetting;
   onChange?: (value: number) => void;
-  form?: FormInstance<any>;
+  cancel?: () => void;
+
   setPriceAll?: number;
 }
 
 const ResultSetting: React.FC<ResultSettingFromProps> = ({
   feeSetting,
+  cancel,
   onChange,
   setPriceAll = 4000,
-  form,
 }) => {
   const [onDiscountChange, setDiscountChange] = useState<boolean>(false);
   const [unit, setUnit] = useState<string>("1");
   const [olePrice, setOldPrice] = useState<number>(0);
+
+  const [form] = Form.useForm();
 
   useEffect(() => {
     if (setPriceAll) {
@@ -70,33 +74,35 @@ const ResultSetting: React.FC<ResultSettingFromProps> = ({
               className="w-full"
               initialValue={feeSetting?.discount}
               onChange={(e) => {
-                let clone = feeSetting;
-                if (clone) {
-                  clone.discount = Number(e.target.value);
-                }
-                if (unit == "1") {
-                  let newPrice = Math.ceil(
-                    setPriceAll - (Number(e.target.value) / 100) * setPriceAll
-                  );
-                  setOldPrice(newPrice);
-                  onChange?.(newPrice);
-                } else if (unit == "2") {
-                  let newPrice = setPriceAll - Number(e.target.value);
-                  setOldPrice(newPrice);
-                  onChange?.(newPrice);
+                if (e.target.value.length > 0) {
+                  let clone = feeSetting;
+                  if (clone) {
+                    clone.discount = Number(e.target.value);
+                  }
+                  if (unit == "1") {
+                    let newPrice = Math.ceil(
+                      setPriceAll - (Number(e.target.value) / 100) * setPriceAll
+                    );
+                    setOldPrice(newPrice);
+                    // onChange?.(newPrice);
+                  } else if (unit == "2") {
+                    let newPrice = setPriceAll - Number(e.target.value);
+                    setOldPrice(newPrice);
+                    // onChange?.(newPrice);
+                  }
                 }
               }}
               placeholder="ถ้ามี"
               name="discount"
               rules={[
                 {
-                  required: true,
+                  //   required: true,
                   pattern: new RegExp(/^(?!0$)(?!0\d)\d+(\.\d+)?$/),
                   message: "",
                 },
                 unit == "1"
                   ? {
-                      required: true,
+                      //   required: true,
                       pattern: new RegExp(/^0*(?:[1-9][0-9]?|100)$/),
                       message: "1-100",
                     }
@@ -105,26 +111,69 @@ const ResultSetting: React.FC<ResultSettingFromProps> = ({
               label="ส่วนลด"
             ></InputCustom>
           </div>
-          <SelectCommon
-            style={{ width: "50%" }}
-            className="w-10"
-            label="หน่วย"
-            onChange={(e) => {
-              setUnit(e);
-            }}
-            defaultValue={"1"}
-            options={[
-              {
-                value: "1",
-                label: "%",
-              },
-              {
-                value: "2",
-                label: "฿",
-              },
-            ]}
-          ></SelectCommon>
+          <div className="w-24">
+            <SelectCommon
+              // style={{ width: "50%" }}
+              className="w-10"
+              label="หน่วย"
+              onChange={(e) => {
+                setUnit(e);
+                setDiscountChange(false);
+                form.resetFields(["discount"]);
+              }}
+              defaultValue={"1"}
+              options={[
+                {
+                  value: "1",
+                  label: "%",
+                },
+                {
+                  value: "2",
+                  label: "฿",
+                },
+              ]}
+            ></SelectCommon>
+          </div>
         </div>
+      </div>
+      <div className="flex gap-2 pt-4">
+        <ButtonCustom
+          disabled={!onDiscountChange}
+          onClick={() => {
+            let input = form.getFieldValue("discount");
+            if (input.length > 0) {
+              let clone = feeSetting;
+              if (clone) {
+                clone.discount = Number(input);
+              }
+              if (unit == "1") {
+                let newPrice = Math.ceil(
+                  setPriceAll - (Number(input) / 100) * setPriceAll
+                );
+                setOldPrice(newPrice);
+                onChange?.(newPrice);
+              } else if (unit == "2") {
+                let newPrice = setPriceAll - Number(input);
+                setOldPrice(newPrice);
+                onChange?.(newPrice);
+              }
+            }
+          }}
+        >
+          เพิ่มส่วนลด
+        </ButtonCustom>
+        <ButtonCustom
+          disabled={!onDiscountChange}
+          onClick={() => {
+            cancel?.();
+            setDiscountChange(false);
+            setUnit("1");
+            setOldPrice(0);
+            form.resetFields();
+          }}
+        >
+          ลบออก
+        </ButtonCustom>
       </div>
     </Form>
   );
