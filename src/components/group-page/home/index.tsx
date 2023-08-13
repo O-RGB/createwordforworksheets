@@ -174,12 +174,11 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
             feeSetting,
             modeSetting,
             keyMockup,
-            getMockup,
-            priceByDiscount
+            getMockup
           ).then((data) => {
             if (data) {
-              setResultString(data.customerStr);
               setPriceAllNow(data.priceAll);
+              setResultString(data.customerStr);
               resultForm.setFieldValue("result", data.customerStr);
               setTimeout(() => {
                 scrollToEleemtById("buttom-result");
@@ -269,7 +268,26 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
             <CardCustom Header={"Result Setting"} className="w-full">
               <ResultSetting
                 onChange={(e) => {
-                  setPriceByDisconut(e);
+                  getResultOnForm(
+                    form,
+                    feeSetting,
+                    modeSetting,
+                    keyMockup,
+                    getMockup,
+                    {
+                      name: "ได้รับส่วนลด",
+                      priceSum: e,
+                    }
+                  ).then((data) => {
+                    if (data) {
+                      setPriceAllNow(data.priceAll);
+                      setResultString(data.customerStr);
+                      resultForm.setFieldValue("result", data.customerStr);
+                      setTimeout(() => {
+                        scrollToEleemtById("buttom-result");
+                      }, 10);
+                    }
+                  });
                 }}
                 setPriceAll={priceAllNow}
               ></ResultSetting>
@@ -308,7 +326,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                 scrollOnStop={(e) => {
                   setDetectScroll(!e);
                 }}
-                scrollToEleemtById={scrollToEleemtById}
+                scrollToEleemtById={(e) => scrollToEleemtById(e)}
                 getMockup={getMockup}
               ></ScrollDetection>
               <div className="w-3  "></div>

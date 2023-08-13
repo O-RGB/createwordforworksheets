@@ -8,3 +8,8 @@ interface IFinalResultPrice {
   print: ITextResult;
   book: ITextResult;
 }
+
+interface IFinalResultByDiscount {
+  name: string;
+  priceSum: number;
+}

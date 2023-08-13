@@ -6,6 +6,8 @@ const deliveryEmoji: string = "🚚";
 const priceAllEmoji: string = "❤️";
 const unit: string = "บาท";
 const gift: string = "🎁";
+const priceForMixMode: string = "🌈";
+const priceForDiscount: string = "✨";
 
 export const createTextForCustomer = (
   result: ITextResult,
@@ -41,4 +43,19 @@ export const createTextForCustomer = (
   } else {
     return undefined;
   }
+};
+
+export const createPriceAllForMixMode = (priceAll: number) => {
+  let str = "";
+  str += `${priceForMixMode} ราคารวมทั้งหมด\n`;
+  str += `${priceForMixMode} ${priceAll} บาท`;
+  return str;
+};
+
+export const createPriceByDiscount = (discount: IFinalResultByDiscount) => {
+  let str: string = "";
+  str += "";
+  str += `${priceForDiscount} ${discount.name}\n`;
+  str += `${priceForDiscount} ${discount.priceSum} บาท`;
+  return str;
 };

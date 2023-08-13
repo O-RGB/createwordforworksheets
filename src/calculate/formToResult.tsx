@@ -1,4 +1,8 @@
-import { createTextForCustomer } from "@/function/finalToCustomer";
+import {
+  createPriceAllForMixMode,
+  createPriceByDiscount,
+  createTextForCustomer,
+} from "@/function/finalToCustomer";
 import { MapFormToString } from "@/function/mapFormToString";
 import { validateForm } from "@/function/validateForm";
 import { scrollToEleemtById } from "@/lib/scrollToEleemtById";
@@ -7,7 +11,6 @@ import { FormInstance } from "antd";
 
 interface ResultReturnForm {
   customerStr: string;
-  priceByDiscount: number;
   priceAll: number;
 }
 
@@ -17,7 +20,7 @@ export const getResultOnForm = async (
   modeSetting: ModeOnFinish,
   keyMockup: string[],
   getMockup: HeadWorkSheets[],
-  setDiscount?: number
+  discount?: IFinalResultByDiscount
 ): Promise<ResultReturnForm | undefined> => {
   let initString: string | undefined = undefined;
   let checkNotCount = validateForm(form.getFieldsValue(), keyMockup);
@@ -46,7 +49,6 @@ export const getResultOnForm = async (
             modeSetting == "mix"
           );
 
-          priceAll = priceAll + result.file.priceAddFee;
           let print = createTextForCustomer(
             result.print,
             {
@@ -54,7 +56,7 @@ export const getResultOnForm = async (
             },
             modeSetting == "mix"
           );
-          priceAll = priceAll + result.print.priceAddFee;
+
           let book = createTextForCustomer(
             result.book,
             {
@@ -62,7 +64,6 @@ export const getResultOnForm = async (
             },
             modeSetting == "mix"
           );
-          priceAll = priceAll + result.book.priceAddFee;
 
           if (file) {
             initString = initString + (file + "\n\n");
@@ -83,9 +84,24 @@ export const getResultOnForm = async (
             priceAll = priceAll + result.book.priceAddFee;
           }
 
+          if (modeSetting == "mix") {
+            initString += "\n\n";
+            initString += createPriceAllForMixMode(priceAll) + "\n\n";
+          }
+
+          if (discount) {
+            // if (modeSetting == "mix") {
+            //   initString += "\n";
+            // }
+            if (modeSetting == "book") {
+              initString += "\n\n";
+            }
+
+            initString += createPriceByDiscount(discount) + "\n\n";
+          }
+
           return {
             customerStr: initString,
-            priceByDiscount: setDiscount ?? 0,
             priceAll: priceAll,
           };
         });
