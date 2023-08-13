@@ -5,12 +5,14 @@ interface ScrollDetectionProps {
   getMockup: HeadWorkSheets[];
   scrollToEleemtById: (id: string) => void;
   scrollOnStop: (stop: boolean) => void;
+  getScrollProsition?: (scrollY: number) => void;
 }
 
 const ScrollDetection: React.FC<ScrollDetectionProps> = ({
   getMockup,
   scrollToEleemtById,
   scrollOnStop,
+  getScrollProsition,
 }) => {
   const [minScroll, setMinScroll] = useState<number>(0);
 
@@ -27,6 +29,7 @@ const ScrollDetection: React.FC<ScrollDetectionProps> = ({
     const scroll = (event: any) => {
       scrollOnStop?.(false);
       const { scrollY } = window;
+      getScrollProsition?.(scrollY);
       setMinScroll(Math.ceil(scrollY * 0.24));
       handleScroll();
     };

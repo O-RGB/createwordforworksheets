@@ -29,7 +29,7 @@ const TextAreaCustom: React.FC<TextAreaCustomProps> = ({
       rules={rules}
       required={required}
     >
-      <TextArea {...props}></TextArea>{" "}
+      <TextArea {...props}></TextArea>
     </Form.Item>
   );
 };

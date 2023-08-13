@@ -36,6 +36,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   const [resetFormOnChange, setResetFormOnChange] = useState<boolean>(true);
   const [resultString, setResultString] = useState<string>("");
   const [detectScroll, setDetectScroll] = useState<boolean>(false);
+  const [modeSettingStiky, setModeSettingStiky] = useState<boolean>(false);
   const [feeSetting, setFeeSetting] = useState<FeeSetting | undefined>({
     book_price: 40,
     delivery_fee: 40,
@@ -132,6 +133,24 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
     let deliveryFee = getLocal("delivery_fee");
   }, []);
 
+  const SettingModeComponent = (
+    <>
+      <RadioCustom
+        value={modeSetting}
+        onChange={(e) => {
+          setModeSetting(e.target.value);
+        }}
+        defaultValue={"file"}
+        radioOption={[
+          { value: "file", label: "File" },
+          { value: "print", label: "Print" },
+          { value: "book", label: "Book" },
+          { value: "mix", label: "Mix" },
+        ]}
+      ></RadioCustom>
+    </>
+  );
+
   const SettingComponent = (setting: string = "block md:hidden") => (
     <>
       <CardCustom Header={"Debug"} cardClassName={`${setting}`}>
@@ -166,20 +185,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         {debug && <div>Display Selection: {JSON.stringify(display)}</div>}
       </CardCustom>
       <CardCustom Header={"Mode"} cardClassName={`${setting}`}>
-        <RadioCustom
-          value={modeSetting}
-          onChange={(e) => {
-            setModeSetting(e.target.value);
-          }}
-          defaultValue={"file"}
-          radioOption={[
-            { value: "file", label: "File" },
-            { value: "print", label: "Print" },
-            { value: "book", label: "Book" },
-            { value: "mix", label: "Mix" },
-          ]}
-        ></RadioCustom>
-
+        {SettingModeComponent}
         {debug && <div>Mode Selection: {JSON.stringify(modeSetting)}</div>}
       </CardCustom>
       <div>
@@ -220,6 +226,17 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   return (
     <>
       {debug && <div className=" text-2xl font-bold">Version: 1.0.1</div>}
+
+      <div
+        className={`fixed w-full  ${
+          modeSettingStiky ? "top-0" : "-top-10"
+        } duration-300 z-40 pb-2`}
+      >
+        <div className="flex gap-2 p-2 items-center bg-white shadow-md ">
+          <div className="text-sm">Mode: </div>
+          <div>{SettingModeComponent}</div>
+        </div>
+      </div>
 
       <FloatButton.Group shape="circle" style={{ right: 24 }}>
         <ConfigProvider
@@ -342,10 +359,19 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
           <div
             className={`fixed md:sticky ${
               detectScroll ? "right-0" : "-right-14"
-            } -right-14 hover:right-0 md:top-4 z-30 bg-transparent transition-all duration-300`}
+            } -right-14 hover:right-0 ${
+              modeSettingStiky ? "top-14" : "top-2 md:top-4"
+            }   z-30 bg-transparent transition-all duration-300`}
           >
             <div className="flex w-full h-fit ">
               <ScrollDetection
+                getScrollProsition={(y) => {
+                  if (y > 500) {
+                    setModeSettingStiky(true);
+                  } else {
+                    setModeSettingStiky(false);
+                  }
+                }}
                 scrollOnStop={(e) => {
                   setDetectScroll(!e);
                 }}

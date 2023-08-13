@@ -14,7 +14,7 @@ export const BasicWorkSheets = () => {
       price: {
         file: 99,
         print: 240,
-        book: 240,
+        book: 260,
       },
     })
   );
@@ -31,7 +31,7 @@ export const BasicWorkSheets = () => {
       price: {
         file: 99,
         print: 240,
-        book: 240,
+        book: 260,
       },
     })
   );
@@ -48,7 +48,7 @@ export const BasicWorkSheets = () => {
       price: {
         file: 99,
         print: 240,
-        book: 240,
+        book: 260,
       },
     })
   );
