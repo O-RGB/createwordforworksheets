@@ -106,7 +106,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
   let textSize = "text-md";
 
   const resetInputValue = () => {
-    setInputValue([]);
+    setInputValue(undefined);
     let obj: InputValue[] = [];
     setTimeout(() => {
       setTimeout(() => {
@@ -155,8 +155,8 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
           form?.setFieldValue(name, cloneObj);
           setValue(cloneObj);
         }
-      }, 0);
-    }, 0);
+      }, 10);
+    }, 20);
   };
 
   useEffect(() => {
@@ -185,7 +185,9 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
           <Input className="m-0 w-0 h-0 p-0 opacity-0"></Input>
         </Form.Item>
       </div>
-      <div className={`relative flex flex-col w-full bg-white ${props.className}`}>
+      <div
+        className={`relative flex flex-col w-full bg-white ${props.className}`}
+      >
         <Checkbox
           disabled={disableAll}
           {...props}
@@ -252,18 +254,9 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
                     className="flex gap-2"
                   >
                     {modeSetting == "mix" && (
-                      <div className="min-w-[30px]">
-                        {/* {inputkey == 0
-                          ? "File"
-                          : inputkey == 1
-                          ? "Print"
-                          : inputkey == 2
-                          ? "Book"
-                          : ""} */}
-                        {data.label}
-                      </div>
+                      <div className="min-w-[30px]">{data.label}</div>
                     )}
-                    {/* <Form.Item name={`input-number-${name}-${inputkey}`}> */}
+
                     <ImageNumber
                       name={name}
                       isStartWithZero={modeSetting == "mix"}
@@ -295,7 +288,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
                         }
                       }}
                     ></ImageNumber>
-                    {/* </Form.Item> */}
+
                     {debug && (
                       <div className="break-all">{JSON.stringify(data)}</div>
                     )}
