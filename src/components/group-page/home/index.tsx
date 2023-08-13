@@ -342,9 +342,9 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
           <div
             className={`fixed md:sticky ${
               detectScroll ? "right-0" : "-right-14"
-            } md:top-4 z-30 bg-transparent transition-all duration-300`}
+            } -right-14 hover:right-0 md:top-4 z-30 bg-transparent transition-all duration-300`}
           >
-            <div className="flex w-full">
+            <div className="flex w-full h-fit ">
               <ScrollDetection
                 scrollOnStop={(e) => {
                   setDetectScroll(!e);

@@ -36,10 +36,10 @@ const ScrollDetection: React.FC<ScrollDetectionProps> = ({
   }, []);
   return (
     <>
-      <div className=" flex items-center w-20 h-[100vh] duration-300 right-0 z-30 opacity-100 select-none ">
-        <div className=" h-[100vh] w-full  ">
+      <div className=" flex items-center w-20  duration-300 right-0 z-30 opacity-100 select-none ">
+        <div className="  w-full  ">
           <div className="flex flex-col gap-3 h-full   text-[10px]  ">
-            <div className="relative flex flex-col gap-3">
+            <div className="relative flex flex-col gap-2">
               {/* <div
                 className={`absolute right-0 z-10`}
                 style={{ top: minScroll }}
@@ -51,7 +51,7 @@ const ScrollDetection: React.FC<ScrollDetectionProps> = ({
                 return (
                   <div
                     key={`header-key-scorll-${IKey}`}
-                    className="flex flex-col gap-2 items-end justify-end "
+                    className="flex flex-col gap-1 items-end justify-end "
                   >
                     <div
                       onClick={() =>
