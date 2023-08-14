@@ -6,10 +6,12 @@ interface ScrollDetectionProps {
   scrollToEleemtById: (id: string) => void;
   scrollOnStop: (stop: boolean) => void;
   getScrollProsition?: (scrollY: number) => void;
+  onActive: boolean;
 }
 
 const ScrollDetection: React.FC<ScrollDetectionProps> = ({
   getMockup,
+  onActive,
   scrollToEleemtById,
   scrollOnStop,
   getScrollProsition,
@@ -54,13 +56,13 @@ const ScrollDetection: React.FC<ScrollDetectionProps> = ({
                 return (
                   <div
                     key={`header-key-scorll-${IKey}`}
-                    className="flex flex-col gap-1 items-end justify-end "
+                    className={`flex flex-col gap-1   `}
                   >
                     <div
                       onClick={() =>
                         scrollToEleemtById(getModel.formName ?? "")
                       }
-                      className={`p-1 bg-white hover:bg-green-400 shadow-md rounded-xl whitespace-nowrap z-40 w-fit duration-300 cursor-pointer`}
+                      className={`p-1 bg-white hover:bg-green-400 shadow-md rounded-xl whitespace-nowrap z-40 max-w-[80px] overflow-hidden duration-300 cursor-pointer`}
                     >
                       <div className="px-1">{getModel.headerTitle}</div>
                     </div>

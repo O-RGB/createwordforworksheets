@@ -3,37 +3,59 @@ import { MathWorkSheets } from "./typeOfWork/math";
 import { BasicWorkSheets } from "./typeOfWork/basic";
 import { IntellectWorkSheets } from "./typeOfWork/intellect";
 import { DrawWorkSheets } from "./typeOfWork/draw";
+import { WordBaseWorkSheets } from "./typeOfWork/word-base";
+import { ThaiWorkSheets } from "./typeOfWork/thai";
+import { BasicOneWorkSheets } from "./typeOfWork/basic-one";
+
+const formData = [
+  {
+    formName: "math",
+    headerTitle: "คณิตศาสตร์",
+    fetchData: MathWorkSheets,
+  },
+  {
+    formName: "intellect",
+    headerTitle: "เชาว์ปัญญา",
+    fetchData: IntellectWorkSheets,
+  },
+  {
+    formName: "basic",
+    headerTitle: "พื้นฐาน",
+    fetchData: BasicWorkSheets,
+  },
+  {
+    formName: "draw",
+    headerTitle: "ลีลามือ",
+    fetchData: DrawWorkSheets,
+  },
+  {
+    formName: "wordbase",
+    headerTitle: "คำพื้นฐาน",
+    fetchData: WordBaseWorkSheets,
+  },
+  {
+    formName: "thai",
+    headerTitle: "ภาษาไทย",
+    fetchData: ThaiWorkSheets,
+  },
+  {
+    formName: "baseOne",
+    headerTitle: "แบบฝึกหัดพื้นฐาน",
+    fetchData: BasicOneWorkSheets,
+  },
+];
 
 export const WorkSheetsData = async () => {
-  let headWorkSheets: HeadWorkSheets[] = [];
-  return Promise.all([
-    MathWorkSheets(),
-    IntellectWorkSheets(),
-    BasicWorkSheets(),
-    DrawWorkSheets(),
-  ]).then((data) => {
-    headWorkSheets.push(
-      new HeadWorkSheets({
-        formName: "math",
-        headerTitle: "คณิตศาสตร์",
-        worksheets: data[0],
-      }),
-      new HeadWorkSheets({
-        formName: "intellect",
-        headerTitle: "เชาว์ปัญญา",
-        worksheets: data[1],
-      }),
-      new HeadWorkSheets({
-        formName: "basic",
-        headerTitle: "พื้นฐาน",
-        worksheets: data[2],
-      }),
-      new HeadWorkSheets({
-        formName: "draw",
-        headerTitle: "ลีลามือ",
-        worksheets: data[3],
-      })
-    );
-    return headWorkSheets;
-  });
+  const headWorkSheets = await Promise.all(
+    formData.map(async (formInfo) => {
+      const worksheets = await formInfo.fetchData();
+      return new HeadWorkSheets({
+        formName: formInfo.formName,
+        headerTitle: formInfo.headerTitle,
+        worksheets: worksheets,
+      });
+    })
+  );
+
+  return headWorkSheets;
 };

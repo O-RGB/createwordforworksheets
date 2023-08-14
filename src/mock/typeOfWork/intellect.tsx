@@ -15,7 +15,7 @@ export const IntellectWorkSheets = () => {
       workSheetsType: "sheets",
       price: {
         file: 99,
-        // print: 240,
+        print: 310,
         book: 350,
       },
     }),
@@ -31,7 +31,7 @@ export const IntellectWorkSheets = () => {
       workSheetsType: "sheets",
       price: {
         file: 99,
-        // print: 240,
+        print: 310,
         book: 350,
       },
     }),
@@ -47,7 +47,7 @@ export const IntellectWorkSheets = () => {
       workSheetsType: "sheets",
       price: {
         file: 99,
-        // print: 240,
+        print: 310,
         book: 350,
       },
     })

@@ -104,7 +104,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         onChange={(e) => {
           setModeSetting(e.target.value);
           setResultString("");
-          setPriceAllNow(0)
+          setPriceAllNow(0);
           resultForm.setFieldValue("result", undefined);
         }}
         defaultValue={"file"}
@@ -327,6 +327,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
           >
             <div className="flex w-full h-fit ">
               <ScrollDetection
+                onActive={detectScroll}
                 getScrollProsition={(y) => {
                   if (y > 400) {
                     setModeSettingStiky(true);
