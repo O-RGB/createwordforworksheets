@@ -15,7 +15,7 @@ const CardCustom: React.FC<CardCustomProps> = ({
 }) => {
   return (
     <div
-      className={`p-5 overflow-hidden border border-solid rounded-lg flex flex-col gap-2 w-full h-full ${cardClassName}`}
+      className={`p-5 overflow-hidden border border-solid rounded-lg flex flex-col gap-2 w-full h-full bg-white ${cardClassName}`}
     >
       <div className="text-lg font-bold">{Header}</div>
       <div className={className}>{children}</div>

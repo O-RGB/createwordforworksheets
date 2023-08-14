@@ -210,7 +210,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
               }
             }
           }}
-          className={`p-3 rounded-md ${
+          className={`p-2 md:p-3   rounded-md ${
             onCheck ? "bg-gray-200" : "bg-transparent"
           } hover:bg-gray-200 duration-300 border border-solid w-full z-20`}
         >

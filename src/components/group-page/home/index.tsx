@@ -5,7 +5,7 @@ import RadioCustom from "@/components/common/radio";
 import SwitchCustom from "@/components/common/switch";
 import TextAreaCustom from "@/components/common/text-area";
 import FeeFrom from "@/components/form/fee-from";
-import { getLocal, setLocal } from "@/lib/local";
+import { getLocal } from "@/lib/local";
 import { HeadWorkSheets } from "@/model/headworksheets";
 import { Checkbox, Form } from "antd";
 import React, { useEffect, useState } from "react";
@@ -38,11 +38,8 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   const [detectScroll, setDetectScroll] = useState<boolean>(false);
   const [modeSettingStiky, setModeSettingStiky] = useState<boolean>(false);
   const [priceAllNow, setPriceAllNow] = useState<number>(0);
-  const [priceByDiscount, setPriceByDisconut] = useState<number | undefined>(
-    undefined
-  );
+
   const [feeSetting, setFeeSetting] = useState<FeeSetting | undefined>({
-    // book_price: 40,
     delivery_fee: 40,
   });
   const [display, setDisplay] = useState<DisplaySetting>({
@@ -52,22 +49,63 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
 
   // FUCNTON
 
+  const GetReslut = (Discount?: IFinalResultByDiscount) => {
+    getResultOnForm(
+      form,
+      feeSetting,
+      modeSetting,
+      keyMockup,
+      getMockup,
+      Discount ?? undefined
+    ).then((data) => {
+      if (data) {
+        setPriceAllNow(data.priceAll);
+        setResultString(data.customerStr);
+        resultForm.setFieldValue("result", data.customerStr);
+        setTimeout(() => {
+          scrollToEleemtById(
+            "buttom-result",
+            "bg-green-400",
+            "p-2",
+            "text-white"
+          );
+        }, 10);
+      }
+    });
+  };
+
   // const LocalSaveFee = (book_price: number, delivery_fee: number) => {
   //   setLocal("book_price", book_price);
   //   setLocal("delivery_fee", delivery_fee);
   // };
 
   useEffect(() => {
-    let bookPrice = getLocal("book_price");
-    let deliveryFee = getLocal("delivery_fee");
+    // let bookPrice = getLocal("book_price");
+    // let deliveryFee = getLocal("delivery_fee");
   }, []);
 
-  const SettingModeComponent = (
-    <>
+  // COMPONENT SETTING
+  const _DEV_SettingDebugComponent = (
+    <CardCustom Header={"Debug"}>
+      <Checkbox
+        onChange={(e) => {
+          setDebug(e.target.checked);
+        }}
+      >
+        Debug mode : {JSON.stringify(debug)}
+      </Checkbox>
+    </CardCustom>
+  );
+
+  const SettingModeComponent = (removeCard: boolean = false) => {
+    let radio = (
       <RadioCustom
         value={modeSetting}
         onChange={(e) => {
           setModeSetting(e.target.value);
+          setResultString("");
+          setPriceAllNow(0)
+          resultForm.setFieldValue("result", undefined);
         }}
         defaultValue={"file"}
         radioOption={[
@@ -77,85 +115,84 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
           { value: "mix", label: "Mix" },
         ]}
       ></RadioCustom>
-    </>
+    );
+    if (removeCard) {
+      return radio;
+    } else {
+      return (
+        <>
+          <CardCustom Header={"Mode"}>
+            {radio}
+            {debug && <div>Mode Selection: {JSON.stringify(modeSetting)}</div>}
+          </CardCustom>
+        </>
+      );
+    }
+  };
+
+  const SettingDisplyComponent = (
+    <CardCustom Header={"Display"}>
+      <SwitchCustom
+        className="flex gap-6 "
+        value={display}
+        onChange={(value: Option[]) => {
+          let displayTemp: DisplaySetting = {
+            grid: false,
+            image: false,
+          };
+          value.map((data) => {
+            displayTemp[data.value as DisplayOnFinish] = data.select ?? false;
+          });
+          setDisplay(displayTemp);
+        }}
+        switchOption={[
+          { value: "image", label: "Image" },
+          { value: "grid", label: "Grid" },
+        ]}
+      ></SwitchCustom>
+
+      {debug && <div>Display Selection: {JSON.stringify(display)}</div>}
+    </CardCustom>
   );
 
-  const SettingComponent = (setting: string = "block md:hidden") => (
-    <>
-      <CardCustom Header={"Debug"} cardClassName={`${setting}`}>
-        <Checkbox
-          onChange={(e) => {
-            setDebug(e.target.checked);
-          }}
-        >
-          Debug mode : {JSON.stringify(debug)}
-        </Checkbox>
-      </CardCustom>
-      <CardCustom Header={"Display"} cardClassName={`${setting}`}>
-        <SwitchCustom
-          className="flex gap-6 "
-          value={display}
-          onChange={(value: Option[]) => {
-            let displayTemp: DisplaySetting = {
-              grid: false,
-              image: false,
-            };
-            value.map((data) => {
-              displayTemp[data.value as DisplayOnFinish] = data.select ?? false;
-            });
-            setDisplay(displayTemp);
-          }}
-          switchOption={[
-            { value: "image", label: "Image" },
-            { value: "grid", label: "Grid" },
-          ]}
-        ></SwitchCustom>
+  const SettingDeliveryComponent = (
+    <CardCustom Header={"Delivery Fee"}>
+      <FeeFrom
+        feeSetting={feeSetting}
+        onChange={(fee, key) => {
+          let cloneFee = feeSetting;
+          setFeeSetting(undefined);
+          if (cloneFee) {
+            cloneFee[key] = Number(fee);
+            setTimeout(() => {
+              setFeeSetting(cloneFee);
+              // if (cloneFee) {
+              //   LocalSaveFee(cloneFee.book_price, cloneFee.delivery_fee);
+              // }
+            }, 0);
+          }
+        }}
+      ></FeeFrom>
 
-        {debug && <div>Display Selection: {JSON.stringify(display)}</div>}
-      </CardCustom>
-      <CardCustom Header={"Mode"} cardClassName={`${setting}`}>
-        {SettingModeComponent}
-        {debug && <div>Mode Selection: {JSON.stringify(modeSetting)}</div>}
-      </CardCustom>
-      <div>
-        <CardCustom Header={"Delivery Fee"} cardClassName={`${setting}`}>
-          <FeeFrom
-            feeSetting={feeSetting}
-            onChange={(fee, key) => {
-              let cloneFee = feeSetting;
-              setFeeSetting(undefined);
-              if (cloneFee) {
-                cloneFee[key] = Number(fee);
-                setTimeout(() => {
-                  setFeeSetting(cloneFee);
-                  // if (cloneFee) {
-                  //   LocalSaveFee(cloneFee.book_price, cloneFee.delivery_fee);
-                  // }
-                }, 0);
-              }
-            }}
-          ></FeeFrom>
-
-          {debug && <div>Fee Selection: {JSON.stringify(feeSetting)}</div>}
-        </CardCustom>
-      </div>
-      <div className="flex flex-col gap-2  ">
-        <CardCustom Header={"Search Item"} cardClassName={`${setting}`}>
-          <AutoCompleteCustom
-            option={optionMockup}
-            onSelect={(e) =>
-              scrollToEleemtById(e, "bg-green-400", "p-2", "text-white")
-            }
-          ></AutoCompleteCustom>
-        </CardCustom>
-      </div>
-    </>
+      {debug && <div>Fee Selection: {JSON.stringify(feeSetting)}</div>}
+    </CardCustom>
   );
 
-  let CHiddin = SettingComponent("");
+  const SettingSearchComponent = (
+    <div className="flex flex-col gap-2  ">
+      <CardCustom Header={"Search Item"}>
+        <AutoCompleteCustom
+          option={optionMockup}
+          onSelect={(e) =>
+            scrollToEleemtById(e, "bg-green-400", "p-2", "text-white")
+          }
+        ></AutoCompleteCustom>
+      </CardCustom>
+    </div>
+  );
 
   return (
-    <>
+    <div className="bg-gray-100 ">
       {debug && <div className=" text-2xl font-bold">Version: 1.0.1</div>}
 
       <div
@@ -165,40 +202,17 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
       >
         <div className="flex gap-2 p-2 items-center bg-white shadow-md ">
           <div className="text-sm">Mode: </div>
-          <div>{SettingModeComponent}</div>
+          <div>{SettingModeComponent(true)}</div>
         </div>
       </div>
 
       <FloatButtonForm
-        onSave={() => {
-          getResultOnForm(
-            form,
-            feeSetting,
-            modeSetting,
-            keyMockup,
-            getMockup
-          ).then((data) => {
-            if (data) {
-              setPriceAllNow(data.priceAll);
-              setResultString(data.customerStr);
-              resultForm.setFieldValue("result", data.customerStr);
-              setTimeout(() => {
-                scrollToEleemtById(
-                  "buttom-result",
-                  "bg-green-400",
-                  "p-2",
-                  "text-white"
-                );
-              }, 10);
-            }
-          });
-        }}
+        onSave={() => GetReslut()}
         removeResult={() => {
           setResetFormOnChange(false);
           setResultString("");
           resultForm.setFieldValue("result", undefined);
           setPriceAllNow(0);
-          setPriceByDisconut(undefined);
           setTimeout(() => {
             setResetFormOnChange(true);
           }, 10);
@@ -208,7 +222,11 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
       <div className="relative flex md:gap-3 p-2 md:p-5 duration-300">
         <div className=" w-full ">
           <div className="flex flex-col gap-2">
-            {CHiddin}
+            {_DEV_SettingDebugComponent}
+            {SettingDisplyComponent}
+            {SettingModeComponent()}
+            {SettingDeliveryComponent}
+            {SettingSearchComponent}
             <Form form={form}>
               <div className="flex flex-col gap-3">
                 {getMockup.map((worksheets, IKey) => {
@@ -223,7 +241,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                         }
                       >
                         <div
-                          className={`grid gap-2 ${
+                          className={`grid gap-1.5 md:gap-2 ${
                             display.grid ? " lg:grid-cols-2 " : '"'
                           } transition-all`}
                         >
@@ -274,54 +292,12 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
 
             <CardCustom Header={"Result Setting"} className="w-full">
               <ResultSetting
-                cancel={() => {
-                  getResultOnForm(
-                    form,
-                    feeSetting,
-                    modeSetting,
-                    keyMockup,
-                    getMockup
-                  ).then((data) => {
-                    if (data) {
-                      setPriceAllNow(data.priceAll);
-                      setResultString(data.customerStr);
-                      resultForm.setFieldValue("result", data.customerStr);
-                      setTimeout(() => {
-                        scrollToEleemtById(
-                          "buttom-result",
-                          "bg-green-400",
-                          "p-2",
-                          "text-white"
-                        );
-                      }, 10);
-                    }
-                  });
-                }}
+                cancel={GetReslut}
                 onChange={(e) => {
-                  getResultOnForm(
-                    form,
-                    feeSetting,
-                    modeSetting,
-                    keyMockup,
-                    getMockup,
-                    {
-                      name: "ได้รับส่วนลด",
-                      priceSum: e,
-                    }
-                  ).then((data) => {
-                    if (data) {
-                      setPriceAllNow(data.priceAll);
-                      setResultString(data.customerStr);
-                      resultForm.setFieldValue("result", data.customerStr);
-                      setTimeout(() => {
-                        scrollToEleemtById(
-                          "buttom-result",
-                          "bg-green-400",
-                          "p-2",
-                          "text-white"
-                        );
-                      }, 10);
-                    }
+                  console.log(e);
+                  GetReslut({
+                    name: "ได้รับส่วนลด",
+                    priceSum: e,
                   });
                 }}
                 setPriceAll={priceAllNow}
@@ -371,7 +347,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
