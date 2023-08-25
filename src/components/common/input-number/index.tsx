@@ -26,8 +26,9 @@ const ImageNumber: React.FC<ImageNumberProps> = ({
 
   useEffect(() => {
     if (!number) {
-      setNumber(value);
+      return;
     }
+    setNumber(value);
   }, [value]);
 
   return (

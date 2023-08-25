@@ -17,7 +17,8 @@ const SiteHeader: React.FC<INextHeader> = ({
     <Head>
       <title>{title}</title>
       {/* <link rel="icon" href="public/logo.png"></link> */}
-      <link rel="icon" href="/logo.png"   />
+      <link rel="icon" href="/logo.png" />
+      <link rel="apple-touch-icon" sizes="128x128" href="/logo.png"></link>
 
       <meta
         name="viewport"
