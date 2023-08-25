@@ -47,7 +47,6 @@ const InterFaceTest: NextPage = () => {
       <SiteHeader
         title="ระบบสร้างรายการ V2"
         description="ไม่ต้องพิมพ์อีกต่อไป.. สร้างรายการออร์เดอร์และคำนวณราคารวม และยังมีระบบคำนวนส่วนลดให้ด้วย"
-        image=""
       ></SiteHeader>
       {loading && (
         <HomeGroup
