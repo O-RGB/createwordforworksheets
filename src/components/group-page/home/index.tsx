@@ -153,10 +153,10 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         }}
         defaultValue={"file"}
         radioOption={[
-          { value: "file", label: "File" },
-          { value: "print", label: "Print" },
-          { value: "book", label: "Book" },
-          { value: "mix", label: "Mix" },
+          { value: "file", label: "ไฟล์" },
+          { value: "print", label: "ปริ้น" },
+          { value: "book", label: "เข้าเล่ม" },
+          { value: "mix", label: "ผสม" },
         ]}
       ></RadioCustom>
     );
@@ -165,7 +165,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
     } else {
       return (
         <>
-          <CardCustom Header={"Mode"}>
+          <CardCustom Header={"ชนิด"}>
             {radio}
             {debug && <div>Mode Selection: {JSON.stringify(modeSetting)}</div>}
           </CardCustom>
@@ -175,7 +175,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   };
 
   const SettingDisplyComponent = (
-    <CardCustom Header={"Display"}>
+    <CardCustom Header={"หน้าจอ"}>
       <SwitchCustom
         className="flex gap-6 "
         value={display}
@@ -190,8 +190,8 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
           setDisplay(displayTemp);
         }}
         switchOption={[
-          { value: "image", label: "Image" },
-          { value: "grid", label: "Grid" },
+          { value: "image", label: "แสดงรูปภาพ" },
+          { value: "grid", label: "แบ่งหน้าจอ" },
         ]}
       ></SwitchCustom>
 
@@ -200,7 +200,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   );
 
   const SettingDeliveryComponent = (
-    <CardCustom Header={"Delivery Fee"}>
+    <CardCustom Header={"ค่าบริการ"}>
       <FeeFrom
         feeSetting={feeSetting}
         onChange={(fee, key) => {
@@ -224,7 +224,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
 
   const SettingSearchComponent = (
     <div className="flex flex-col gap-2  ">
-      <CardCustom Header={"Search Item"}>
+      <CardCustom Header={"ค้นหา"}>
         <AutoCompleteCustom
           option={optionMockup}
           onSelect={(e) =>
@@ -254,7 +254,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
       </div>
 
       <Modal
-        title="Setting"
+        title="ตั้งค่า"
         open={isModalSetting}
         onOk={handleOkSetting}
         onCancel={handleCancelSetting}
@@ -349,7 +349,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
               </div>
             </Form>
 
-            <CardCustom Header={"Result Setting"} className="w-full">
+            <CardCustom Header={"ตั้งค่าผลลัพธ์"} className="w-full">
               <ResultSetting
                 cancel={GetReslut}
                 onChange={(e) => {
@@ -362,7 +362,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                 setPriceAll={priceAllNow}
               ></ResultSetting>
             </CardCustom>
-            <CardCustom Header={"Result"}>
+            <CardCustom Header={"ผลลัพธ์"}>
               <Form form={resultForm} layout="vertical">
                 <TextAreaCustom
                   autoSize

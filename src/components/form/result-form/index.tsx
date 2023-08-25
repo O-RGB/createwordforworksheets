@@ -1,7 +1,7 @@
 import ButtonCustom from "@/components/common/button";
 import InputCustom from "@/components/common/input";
 import SelectCommon from "@/components/common/select";
-import { Form, FormInstance } from "antd";
+import { ConfigProvider, Form, FormInstance } from "antd";
 import React, { useEffect, useState } from "react";
 
 interface ResultSettingFromProps {
@@ -179,6 +179,7 @@ const ResultSetting: React.FC<ResultSettingFromProps> = ({
         >
           เพิ่มส่วนลด
         </ButtonCustom>
+
         <ButtonCustom
           disabled={!onDiscountChange}
           onClick={() => {

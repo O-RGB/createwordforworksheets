@@ -19,7 +19,7 @@ const FloatButtonForm: React.FC<FloatButtonFormProps> = ({
 }) => {
   return (
     <>
-      <FloatButton.Group shape="circle" style={{ right: 24, bottom: 15 }}>
+      <FloatButton.Group shape="circle" style={{ right: 24,   }}>
         <FloatButton
           onClick={onSetting}
           icon={<SettingOutlined />}

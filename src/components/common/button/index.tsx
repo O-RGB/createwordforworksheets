@@ -4,11 +4,7 @@ import React from "react";
 interface ButtonCustomProps extends ButtonProps {}
 
 const ButtonCustom: React.FC<ButtonCustomProps> = ({ ...props }) => {
-  return (
-    <>
-      <Button {...props} type="primary"></Button>
-    </>
-  );
+  return <Button {...props}></Button>;
 };
 
 export default ButtonCustom;
