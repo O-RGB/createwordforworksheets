@@ -17,6 +17,7 @@ const SiteHeader: React.FC<INextHeader> = ({
     <Head>
       <title>{title}</title>
       {/* <link rel="icon" href="public/logo.png"></link> */}
+      <link rel="icon" href="/logo.png"   />
 
       <meta
         name="viewport"
