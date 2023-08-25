@@ -64,7 +64,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         setResultString(data.customerStr);
         resultForm.setFieldValue("result", data.customerStr);
         copyToClipboard(data.customerStr);
-        openNotification("bottom");
+        openNotification("top");
         ScreenStatus("success");
         setTimeout(() => {
           scrollToEleemtById("buttom-result", "", "", "text-white");
