@@ -7,7 +7,7 @@ import TextAreaCustom from "@/components/common/text-area";
 import FeeFrom from "@/components/form/fee-from";
 import { getLocal } from "@/lib/local";
 import { HeadWorkSheets } from "@/model/headworksheets";
-import { Checkbox, Form, message, notification } from "antd";
+import { Checkbox, Form, Modal, message, notification } from "antd";
 import React, { useEffect, useState } from "react";
 import ScrollDetection from "@/components/common/scroll-detection";
 import { scrollToEleemtById } from "@/lib/scrollToEleemtById";
@@ -114,6 +114,21 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   }, []);
 
   // COMPONENT SETTING
+
+  const [isModalSetting, setIsModalSettingOpen] = useState(false);
+
+  const showModalSetting = () => {
+    setIsModalSettingOpen(true);
+  };
+
+  const handleOkSetting = () => {
+    setIsModalSettingOpen(false);
+  };
+
+  const handleCancelSetting = () => {
+    setIsModalSettingOpen(false);
+  };
+
   const _DEV_SettingDebugComponent = (
     <CardCustom Header={"Debug"}>
       <Checkbox
@@ -233,12 +248,26 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         } duration-300 z-40 pb-2 left-0`}
       >
         <div className="flex gap-2 p-2 items-center bg-white shadow-md ">
-          <div className="text-sm">Mode: </div>
+          <div className="text-sm"> </div>
           <div>{SettingModeComponent(true)}</div>
         </div>
       </div>
 
+      <Modal
+        title="Setting"
+        open={isModalSetting}
+        onOk={handleOkSetting}
+        onCancel={handleCancelSetting}
+        footer={<></>}
+      >
+        <div className="flex flex-col gap-2">
+          {_DEV_SettingDebugComponent}
+          {SettingDisplyComponent}
+        </div>
+      </Modal>
+
       <FloatButtonForm
+        onSetting={() => showModalSetting()}
         onSave={() => GetReslut()}
         removeResult={() => {
           setResetFormOnChange(false);
@@ -254,8 +283,6 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
       <div className="relative flex md:gap-3 duration-300">
         <div className=" w-full ">
           <div className="flex flex-col gap-2">
-            {_DEV_SettingDebugComponent}
-            {SettingDisplyComponent}
             {SettingModeComponent()}
             {SettingDeliveryComponent}
             {SettingSearchComponent}
@@ -361,14 +388,14 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
               <ScrollDetection
                 onActive={detectScroll}
                 getScrollProsition={(y) => {
-                  if (y > 400) {
+                  if (y > 100) {
                     setModeSettingStiky(true);
                   } else {
                     setModeSettingStiky(false);
                   }
                 }}
                 scrollOnStop={(e) => {
-                  setDetectScroll(!e);
+                  // setDetectScroll(!e);
                 }}
                 scrollToEleemtById={(e) =>
                   scrollToEleemtById(e, "bg-green-400", "p-2", "text-white")
