@@ -28,7 +28,7 @@ export const getResultOnForm = async (
     /* <div className="bg-red-500 text-red-500 bg-amber-600"></div> */
   }
   if (checkNotCount.length != 0) {
-    scrollToEleemtById(checkNotCount[0], "bg-red-500", "p-0.5", "text-red-500");
+    scrollToEleemtById(checkNotCount[0], "", "", "");
     return undefined;
   } else {
     return form.validateFields().then(() => {

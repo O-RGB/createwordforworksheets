@@ -82,14 +82,13 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   const [api, contextHolder] = notification.useNotification();
 
   const openNotification = (placement: NotificationPlacement) => {
-    api.success({
+    api.open({
       message: `คัดลอกขึ้น Clipboard แล้ว ✅`,
-      duration: 1,
+      duration: 1.5,
       placement,
     });
   };
 
-  // const [screenStatus, setScreenStatus] = useState<boolean>(false);
   const [screenStatusColor, setScreenStatusColor] = useState<string>("");
   const ScreenStatus = (status: "success" | "error") => {
     let createClass: string = "";
@@ -98,12 +97,9 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
     } else if (status == "error") {
       createClass = "border-red-500 ";
     }
-
     setScreenStatusColor(createClass);
-    // setScreenStatus(true);
     setTimeout(() => {
       setScreenStatusColor("border-gray-100 ");
-      // setScreenStatus(false);
     }, 1000);
   };
 
@@ -226,7 +222,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
 
   return (
     <div
-      className={`bg-gray-100 duration-300 border-solid border-8 ${screenStatusColor} duration-300  `}
+      className={`bg-gray-100 duration-300 border-solid border-4 sm:border-8 ${screenStatusColor} duration-300  `}
     >
       {contextHolder}
       {debug && <div className=" text-2xl font-bold">Version: 1.0.1</div>}

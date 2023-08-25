@@ -25,7 +25,7 @@ const ScrollDetection: React.FC<ScrollDetectionProps> = ({
       clearTimeout(timer);
       timer = setTimeout(() => {
         scrollOnStop?.(true);
-      }, 100);
+      }, 500);
     };
 
     const scroll = (event: any) => {
