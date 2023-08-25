@@ -1,6 +1,6 @@
 export const scrollToEleemtById = (
   id: string,
-  color: string = "bg-green-400",
+  color: string = "bg-green-400" || "bg-red-400",
   padding: string = "p-2",
   textColor: string = "text-white"
 ) => {

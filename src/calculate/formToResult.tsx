@@ -24,9 +24,11 @@ export const getResultOnForm = async (
 ): Promise<ResultReturnForm | undefined> => {
   let initString: string | undefined = undefined;
   let checkNotCount = validateForm(form.getFieldsValue(), keyMockup);
-
+  {
+    /* <div className="bg-red-500 text-red-500 bg-amber-600"></div> */
+  }
   if (checkNotCount.length != 0) {
-    scrollToEleemtById(checkNotCount[0], "bg-red-400", "p-0.5", "text-red-400");
+    scrollToEleemtById(checkNotCount[0], "bg-red-500", "p-0.5", "text-red-500");
     return undefined;
   } else {
     return form.validateFields().then(() => {
@@ -100,8 +102,12 @@ export const getResultOnForm = async (
             initString += createPriceByDiscount(discount) + "\n\n";
           }
 
+          let string = initString ?? "";
+          let removeSpace = string.split(/\n\s*\n+/);
+          removeSpace = removeSpace.filter((segment) => segment.trim() !== "");
+
           return {
-            customerStr: initString,
+            customerStr: removeSpace.join("\n\n"),
             priceAll: priceAll,
           };
         });

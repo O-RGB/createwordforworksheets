@@ -7,13 +7,14 @@ import TextAreaCustom from "@/components/common/text-area";
 import FeeFrom from "@/components/form/fee-from";
 import { getLocal } from "@/lib/local";
 import { HeadWorkSheets } from "@/model/headworksheets";
-import { Checkbox, Form } from "antd";
+import { Checkbox, Form, message, notification } from "antd";
 import React, { useEffect, useState } from "react";
 import ScrollDetection from "@/components/common/scroll-detection";
 import { scrollToEleemtById } from "@/lib/scrollToEleemtById";
 import { getResultOnForm } from "@/calculate/formToResult";
 import ResultSetting from "@/components/form/result-form";
 import FloatButtonForm from "@/components/form/floatButton-form";
+import { NotificationPlacement } from "antd/es/notification/interface";
 
 interface HomeGroupProps {
   getMockup: HeadWorkSheets[];
@@ -62,16 +63,48 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         setPriceAllNow(data.priceAll);
         setResultString(data.customerStr);
         resultForm.setFieldValue("result", data.customerStr);
+        copyToClipboard(data.customerStr);
+        openNotification("bottom");
+        ScreenStatus("success");
         setTimeout(() => {
-          scrollToEleemtById(
-            "buttom-result",
-            "bg-green-400",
-            "p-2",
-            "text-white"
-          );
+          scrollToEleemtById("buttom-result", "", "", "text-white");
         }, 10);
+      } else {
+        ScreenStatus("error");
       }
     });
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+  };
+
+  const [api, contextHolder] = notification.useNotification();
+
+  const openNotification = (placement: NotificationPlacement) => {
+    api.success({
+      message: `คัดลอกขึ้น Clipboard แล้ว ✅`,
+      duration: 1,
+      placement,
+    });
+  };
+
+  // const [screenStatus, setScreenStatus] = useState<boolean>(false);
+  const [screenStatusColor, setScreenStatusColor] = useState<string>("");
+  const ScreenStatus = (status: "success" | "error") => {
+    let createClass: string = "";
+    if (status == "success") {
+      createClass = "border-green-500 ";
+    } else if (status == "error") {
+      createClass = "border-red-500 ";
+    }
+
+    setScreenStatusColor(createClass);
+    // setScreenStatus(true);
+    setTimeout(() => {
+      setScreenStatusColor("border-gray-100 ");
+      // setScreenStatus(false);
+    }, 1000);
   };
 
   // const LocalSaveFee = (book_price: number, delivery_fee: number) => {
@@ -192,13 +225,16 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   );
 
   return (
-    <div className="bg-gray-100 ">
+    <div
+      className={`bg-gray-100 duration-300 border-solid border-8 ${screenStatusColor} duration-300  `}
+    >
+      {contextHolder}
       {debug && <div className=" text-2xl font-bold">Version: 1.0.1</div>}
 
       <div
         className={`fixed w-full  ${
           modeSettingStiky ? "top-0" : "-top-10"
-        } duration-300 z-40 pb-2`}
+        } duration-300 z-40 pb-2 left-0`}
       >
         <div className="flex gap-2 p-2 items-center bg-white shadow-md ">
           <div className="text-sm">Mode: </div>
@@ -219,7 +255,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         }}
       ></FloatButtonForm>
 
-      <div className="relative flex md:gap-3 p-2 md:p-5 duration-300">
+      <div className="relative flex md:gap-3 duration-300">
         <div className=" w-full ">
           <div className="flex flex-col gap-2">
             {_DEV_SettingDebugComponent}
