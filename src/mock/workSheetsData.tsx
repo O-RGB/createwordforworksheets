@@ -6,6 +6,8 @@ import { DrawWorkSheets } from "./typeOfWork/draw";
 import { WordBaseWorkSheets } from "./typeOfWork/word-base";
 import { ThaiWorkSheets } from "./typeOfWork/thai";
 import { BasicOneWorkSheets } from "./typeOfWork/basic-one";
+import { BasicAllOldWorkSheets } from "./typeOfWork/basic-all-old";
+import { SheetsTypeOfWorkWorkSheets } from "./typeOfWork/sheets-type0fwork";
 
 const formData = [
   {
@@ -42,6 +44,16 @@ const formData = [
     formName: "baseOne",
     headerTitle: "แบบฝึกหัดพื้นฐาน",
     fetchData: BasicOneWorkSheets,
+  },
+  {
+    formName: "baseAllOld",
+    headerTitle: "ใบงานอนุบาล (เหมา)",
+    fetchData: BasicAllOldWorkSheets,
+  },
+  {
+    formName: "sheetsTypeOfWork",
+    headerTitle: "ในงานตามหน่วยอนุบาล",
+    fetchData: SheetsTypeOfWorkWorkSheets,
   },
 ];
 

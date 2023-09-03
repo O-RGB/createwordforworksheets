@@ -1,4 +1,5 @@
 import {
+  createFeeForMixMode,
   createPriceAllForMixMode,
   createPriceByDiscount,
   createTextForCustomer,
@@ -87,6 +88,11 @@ export const getResultOnForm = async (
           }
 
           if (modeSetting == "mix") {
+            if (result.print.goods.length > 0 || result.book.goods.length > 0) {
+              initString += "\n\n";
+              initString += createFeeForMixMode(feeSetting.delivery_fee);
+              priceAll = priceAll + feeSetting.delivery_fee;
+            }
             initString += "\n\n";
             initString += createPriceAllForMixMode(priceAll) + "\n\n";
           }

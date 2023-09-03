@@ -146,10 +146,14 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
       <RadioCustom
         value={modeSetting}
         onChange={(e) => {
+          setResetFormOnChange(false);
           setModeSetting(e.target.value);
           setResultString("");
           setPriceAllNow(0);
           resultForm.setFieldValue("result", undefined);
+          setTimeout(() => {
+            setResetFormOnChange(true);
+          }, 10);
         }}
         defaultValue={"file"}
         radioOption={[
@@ -240,7 +244,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
       className={`bg-gray-100 duration-300 border-solid border-4 sm:border-8 ${screenStatusColor} duration-300  `}
     >
       {contextHolder}
-      {debug && <div className=" text-2xl font-bold">Version: 1.0.1</div>}
+      {debug && <div className=" text-2xl font-bold">Version: 1.0.5</div>}
 
       <div
         className={`fixed w-full  ${
@@ -286,6 +290,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
             {SettingModeComponent()}
             {SettingDeliveryComponent}
             {SettingSearchComponent}
+
             <Form form={form}>
               <div className="flex flex-col gap-3">
                 {getMockup.map((worksheets, IKey) => {
