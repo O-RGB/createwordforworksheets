@@ -33,7 +33,7 @@ export const createTextForCustomer = (
   });
   if ((mode.mode == "book" || mode.mode == "print") && !disabledFee) {
     customerText += `${deliveryEmoji} ค่าส่ง\n`;
-    customerText += `${deliveryEmoji} ${result.delivery_fee} ${unit}\n`;
+    customerText += `${deliveryEmoji} ${result.delivery_fee} ${unit}\n\n`;
   }
 
   customerText += `${priceAllEmoji} ราคารวม\n`;
@@ -64,6 +64,8 @@ export const createPriceByDiscount = (discount: IFinalResultByDiscount) => {
 export const createFeeForMixMode = (fee: number) => {
   let str: string = "";
   str += `${deliveryEmoji} ค่าส่งรวม\n`;
-  str += `${deliveryEmoji} ${fee} ${unit}\n`;
+  str += `${deliveryEmoji} ${fee} ${unit}\n\n`;
   return str;
 };
+
+
