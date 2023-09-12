@@ -8,13 +8,16 @@ import FeeFrom from "@/components/form/fee-from";
 import { getLocal } from "@/lib/local";
 import { HeadWorkSheets } from "@/model/headworksheets";
 import { Checkbox, Form, Modal, message, notification } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ScrollDetection from "@/components/common/scroll-detection";
 import { scrollToEleemtById } from "@/lib/scrollToEleemtById";
 import { getResultOnForm } from "@/calculate/formToResult";
 import ResultSetting from "@/components/form/result-form";
 import FloatButtonForm from "@/components/form/floatButton-form";
 import { NotificationPlacement } from "antd/es/notification/interface";
+import { MapDataToSheets } from "@/function/mapForSheets";
+import Router from "next/router";
+import { SheetsContext } from "@/context/sheetsService";
 
 interface HomeGroupProps {
   getMockup: HeadWorkSheets[];
@@ -31,7 +34,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   const [debug, setDebug] = useState<boolean>(false);
 
   // ELEMENT
-  const [form] = Form.useForm();
+  const [form] = Form.useForm<IFormData>();
   const [resultForm] = Form.useForm();
   const [modeSetting, setModeSetting] = useState<ModeOnFinish>("file");
   const [resetFormOnChange, setResetFormOnChange] = useState<boolean>(true);
@@ -47,6 +50,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
     grid: false,
     image: false,
   });
+  const { setSheets, sheets } = useContext(SheetsContext);
 
   // FUCNTON
 
@@ -72,6 +76,16 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
       } else {
         ScreenStatus("error");
       }
+    });
+  };
+
+  const ChangeToSeets = () => {
+    MapDataToSheets(form.getFieldsValue()).then((data) => {
+      setSheets(data);
+      setTimeout(() => {
+        console.log("Gie");
+        Router.push("/sheets");
+      }, 100);
     });
   };
 
@@ -271,6 +285,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
       </Modal>
 
       <FloatButtonForm
+        onExcel={ChangeToSeets}
         onSetting={() => showModalSetting()}
         onSave={() => GetReslut()}
         removeResult={() => {

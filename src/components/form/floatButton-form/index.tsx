@@ -5,21 +5,30 @@ import {
   DeleteOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
+import { PiMicrosoftExcelLogo } from "react-icons/pi";
 
 interface FloatButtonFormProps {
   removeResult?: () => void;
   onSave?: () => void;
   onSetting?: () => void;
+  onExcel?: () => void;
 }
 
 const FloatButtonForm: React.FC<FloatButtonFormProps> = ({
   removeResult,
   onSave,
   onSetting,
+  onExcel,
 }) => {
   return (
     <>
-      <FloatButton.Group shape="circle" style={{ right: 24,   }}>
+      <FloatButton.Group shape="circle" style={{ right: 24 }}>
+        <FloatButton
+          onClick={onExcel}
+          icon={<PiMicrosoftExcelLogo />}
+          type="primary"
+          style={{ right: 24 }}
+        />
         <FloatButton
           onClick={onSetting}
           icon={<SettingOutlined />}

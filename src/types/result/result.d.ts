@@ -20,3 +20,17 @@ interface ITextResult extends FeeSetting {
   priceAll: number;
   priceAddFee: number;
 }
+
+interface IFormData {
+  [key: string]: {
+    checked: boolean;
+    formName: string;
+    id: string;
+    inputNumber?: {
+      value: string;
+      label: string;
+      count: string;
+      disabled: boolean;
+    }[];
+  };
+}
