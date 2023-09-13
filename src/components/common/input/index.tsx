@@ -7,7 +7,7 @@ interface InputCustomProps extends InputProps {
   label?: string;
   rules?: Rule[] | undefined;
   name?: string;
-  initialValue?: number;
+  initialValue?: any;
 }
 
 const InputCustom: React.FC<InputCustomProps> = ({

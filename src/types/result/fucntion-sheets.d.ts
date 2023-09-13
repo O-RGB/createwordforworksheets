@@ -7,4 +7,5 @@ interface IInitMainData {
   id: string;
   name: string;
   price: WorkSheetsDetailPrice;
+  priceOfStr?: string;
 }
