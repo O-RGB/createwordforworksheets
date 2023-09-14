@@ -133,26 +133,27 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({ sheets, data }) => {
     let iItemList = createURLForSheets(output);
     let url = createURLStr(iItemList);
     setTimeout(() => {
-      console.log(url);
-      setURLFame(url);
-      showModal();
+      window.open(url);
+      //   console.log(url);
+      //   setURLFame(url);
+      //   showModal();
     }, 100);
   };
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+  //   const showModal = () => {
+  //     setIsModalOpen(true);
+  //   };
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-    setTimeout(() => {
-      setURLFame(undefined);
-    }, 500);
-  };
+  //   const handleOk = () => {
+  //     setIsModalOpen(false);
+  //     setTimeout(() => {
+  //       setURLFame(undefined);
+  //     }, 500);
+  //   };
 
   return (
     <>
-      <Modal
+      {/* <Modal
         title="กำลังเพิ่มข้อมูล"
         open={isModalOpen}
         footer={
@@ -188,7 +189,7 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({ sheets, data }) => {
             )}
           </div>
         </div>
-      </Modal>
+      </Modal> */}
       <div className={` duration-300  p-2 sm:p-3  `}>
         <CardCustom Header={"ตรวจสอบข้อมูล"}>
           <Form
