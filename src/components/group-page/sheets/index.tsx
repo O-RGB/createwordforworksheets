@@ -305,7 +305,7 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
                                     label={
                                       <div className=" flex gap-1 justify-center items-center">
                                         <FileTextOutlined className="text-gray-500 text-xs" />
-                                        <div>ราคา</div>
+                                        <div>แผ่น</div>
                                       </div>
                                     }
                                     className="w-full"
