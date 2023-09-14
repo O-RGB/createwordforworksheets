@@ -117,7 +117,6 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
       ","
     )}&shippingcost=${iItemList.shippingcost}&actor=${getLocalInput.username}`;
 
-    console.log(sheets + param)
     return sheets + param;
   };
 

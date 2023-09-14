@@ -368,7 +368,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
             ป้องกันไม่ให้มีการจัดการ Google Sheets โดยผู้อื่น
           </div>
           <div className="font-bold ">
-            - ถ้าข้อมูลผิด สามารถแก้ไขอีกครั้งได้ที่ปุ่ม "ตั้งต่า"
+            - ถ้าข้อมูลผิด สามารถแก้ไขอีกครั้งได้ที่ปุ่ม ตั้งต่า
           </div>
         </div>
         <UserForm
