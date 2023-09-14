@@ -7,7 +7,7 @@ import { NextPage } from "next";
 import React, { useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import SiteHeader from "@/components/common/head/NextHead";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import { SheetsContext } from "@/context/sheetsService";
 import SheetsGroup from "@/components/group-page/sheets";
 
@@ -20,6 +20,11 @@ const InterSheets: NextPage = () => {
   );
   HeadWorkSheets;
   useEffect(() => {
+
+    if(sheets.length == 0){
+        Router.push("/")
+    }
+
     WorkSheetsData().then((data) => {
       let optionForSearch: IInitMainData[] = [];
       data.map((work) => {
@@ -30,6 +35,7 @@ const InterSheets: NextPage = () => {
               id: element.workSheetsId,
               name: element.name,
               price: element.price,
+              paper: String(element.paper),
             });
           }
         });

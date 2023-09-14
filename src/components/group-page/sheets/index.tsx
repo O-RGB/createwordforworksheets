@@ -3,9 +3,10 @@ import CardCustom from "@/components/common/card";
 import InputCustom from "@/components/common/input";
 import TextAreaCustom from "@/components/common/text-area";
 import { HeadWorkSheets } from "@/model/headworksheets";
-import { Form } from "antd";
-import React, { useEffect, useState } from "react";
-
+import { Form, Modal } from "antd";
+import React, { useEffect, useRef, useState } from "react";
+import { LoadingOutlined } from "@ant-design/icons";
+import Router from "next/router";
 interface SheetsGroupProps {
   sheets: IMapDataToSheets[][];
   data: IInitMainData[];
@@ -15,7 +16,8 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({ sheets, data }) => {
   //   if (sheets.length == 0) {
   //     return <>DATA LENGTH IS EMTPY</>;
   //   }
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [urlFame, setURLFame] = useState<string | undefined>(undefined);
   const [temp, setTemp] = useState<IInitMainData[][] | undefined>(undefined);
   const initData = async () => {
     let test: IInitMainData[][] = [];
@@ -23,31 +25,36 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({ sheets, data }) => {
       let test2: IInitMainData[] = [];
       for (let j = 0; j < sheets[i].length; j++) {
         let search = data.find((x) => x.id == sheets[i][j].id);
+
         if (search) {
-          console.log(search.name);
+          let addName = "";
+          let price = "";
+          if (sheets[i][j].mode == "book") {
+            addName = " (เข้าเล่ม หน้าหลัง)";
+            let bookprice = (search.price as WorkSheetsDetailPrice).book;
+            if (bookprice) {
+              price = bookprice.toString();
+            }
+          } else if (sheets[i][j].mode == "print") {
+            addName = "";
+            let bookprice = (search.price as WorkSheetsDetailPrice).print;
+            if (bookprice) {
+              price = bookprice.toString();
+            }
+          }
+
           test2.push({
             id: search.id,
-            name:
-              search.name +
-              (sheets[i][j].mode == "book"
-                ? " (เข้าเล่ม หน้าหลัง)"
-                : sheets[i][j].mode == "print"
-                ? ""
-                : ""),
+            name: search.name + addName,
             price: search.price,
-            priceOfStr:
-              sheets[i][j].mode == "book"
-                ? (search.price as WorkSheetsDetailPrice).book?.toString()
-                : sheets[i][j].mode == "print"
-                ? (search.price as WorkSheetsDetailPrice).print?.toString()
-                : "",
+            priceOfStr: price,
+            paper: search.paper,
           });
         }
       }
 
       test.push(test2);
     }
-    console.log(test);
     return test;
   };
 
@@ -61,19 +68,160 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({ sheets, data }) => {
   if (!temp) {
     return <></>;
   }
+
+  const createURLForSheets = (item: IPreparDataFormSheets) => {
+    // type
+    // list
+    // price
+    // facebook
+    // address
+
+    let type = item.type;
+    let list: string[] = [];
+    let price: string[] = [];
+    let facebook: string = item.facebook;
+    let address: string = item.address;
+    let shippingcost: string = item.shippingcost;
+    let paper: string[] = [];
+    item.items?.map((x) => {
+      list.push(x.name);
+      price.push(x.price);
+      paper.push(x.paper);
+    });
+
+    let data: IItemsToURL = {
+      address,
+      facebook,
+      list,
+      price,
+      type,
+      shippingcost,
+      paper,
+    };
+
+    return data;
+  };
+
+  const createURLStr = (iItemList: IItemsToURL) => {
+    console.log(iItemList.paper);
+    let sheets: string =
+      "https://script.google.com/macros/s/AKfycbw8KEnR2IwYQ6sScXfZ0kVfmO69aS3bKVTYuuOf7Esxx9ffNCtNizqzB2w9N2wEC9iQ/exec";
+    let param: string = `?type=${iItemList.type}&list=${iItemList.list.join(
+      ","
+    )}&price=${iItemList.price.join(",")}&facebook=${
+      iItemList.facebook
+    }&address=${iItemList.address}&paper=${iItemList.paper.join(
+      ","
+    )}&shippingcost=${iItemList.shippingcost}`;
+
+    return sheets + param;
+  };
+
+  const perparData = (output: IPreparDataFormSheets | any) => {
+    let item: IPreparItemsSheets[] = [];
+    temp.map((x, i) => {
+      x.map((y, j) => {
+        item.push({
+          name: output[y.id + "input" + i + j],
+          price: output[y.id + "price" + i + j],
+          paper: output[y.id + "paper" + i + j],
+        });
+      });
+    });
+
+    (output as IPreparDataFormSheets).items = item;
+    let iItemList = createURLForSheets(output);
+    let url = createURLStr(iItemList);
+    setTimeout(() => {
+      console.log(url);
+      setURLFame(url);
+      showModal();
+    }, 100);
+  };
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+    setTimeout(() => {
+      setURLFame(undefined);
+    }, 500);
+  };
+
   return (
     <>
+      <Modal
+        title="กำลังเพิ่มข้อมูล"
+        open={isModalOpen}
+        footer={
+          <>
+            <ButtonCustom
+              type="primary"
+              onClick={() => {
+                Router.push("/");
+              }}
+            >
+              OK
+            </ButtonCustom>
+          </>
+        }
+        destroyOnClose
+        onOk={handleOk}
+      >
+        <div className="relative">
+          <div className="z-20 absolute w-full h-full flex justify-center items-center">
+            <div>
+              <LoadingOutlined className="text-8xl" />
+            </div>
+          </div>
+          <div className="relative z-50">
+            {urlFame && (
+              <iframe
+                id="myIframe"
+                className="rounded-md overflow-hidden h-[50vh] z-50"
+                width={"100%"}
+                height={"100%"}
+                src={urlFame}
+              ></iframe>
+            )}
+          </div>
+        </div>
+      </Modal>
       <div className={` duration-300  p-2 sm:p-3  `}>
         <CardCustom Header={"ตรวจสอบข้อมูล"}>
-          <Form layout="vertical" className="flex flex-col gap-3">
+          <Form
+            layout="vertical"
+            className="flex flex-col gap-3"
+            onFinish={perparData}
+          >
             <InputCustom
               required
               label="ชนิด"
+              name="type"
               disabled
+              initialValue={"เอกสาร"}
               value={"เอกสาร"}
             ></InputCustom>
-            <InputCustom required label="Facebook"></InputCustom>
-            <TextAreaCustom autoSize required label="ที่อยู่"></TextAreaCustom>
+            <InputCustom
+              name="facebook"
+              required
+              label="Facebook"
+            ></InputCustom>
+            <TextAreaCustom
+              name="address"
+              autoSize
+              required
+              label="ที่อยู่"
+            ></TextAreaCustom>
+            <TextAreaCustom
+              name="shippingcost"
+              autoSize
+              required
+              label="ค่าส่ง"
+              initialValue={"32"}
+            ></TextAreaCustom>
 
             <div className="py-3">
               <div className="pb-1.5">
@@ -86,47 +234,75 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({ sheets, data }) => {
               <div className="flex flex-col gap-1">
                 {temp.map((x, i) => {
                   return (
-                    <div className="" key={`sheets-i-${i}`}>
-                      {x.map((y, j) => {
-                        return (
-                          <div
-                            className="rounded-md flex gap-1 w-full"
-                            key={`sheets-j-${i}-${j}`}
-                          >
-                            <div className="w-[100%]">
-                              <InputCustom
-                                className="w-full"
-                                name={y.id + "input"}
-                                initialValue={y.name}
-                              ></InputCustom>
-                            </div>
+                    <div key={`sheets-i-${i}`}>
+                      <label htmlFor="" className="text-sm text-slate-500">
+                        * item {i + 1}
+                      </label>
+                      <div className="flex flex-col gap-2 border border-solid p-2 rounded-md bg-slate-100">
+                        {x.map((y, j) => {
+                          return (
+                            <div
+                              className="rounded-md flex flex-col md:flex-row gap-2 w-full border border-solid p-2  bg-white"
+                              key={`sheets-j-${i}-${j}`}
+                            >
+                              <div className="w-[100%]">
+                                <InputCustom
+                                  label="รายการ"
+                                  required
+                                  rules={[
+                                    {
+                                      message: "ห้ามปล่อยว่าง",
+                                      required: true,
+                                    },
+                                  ]}
+                                  className="w-full"
+                                  name={y.id + "input" + i + j}
+                                  initialValue={y.name}
+                                ></InputCustom>
+                              </div>
 
-                            <div className="w-[20%]">
-                              <InputCustom
-                                className="w-full"
-                                name={y.id + "price"}
-                                initialValue={y.priceOfStr}
-                              ></InputCustom>
+                              <div className="w-[20%]">
+                                <InputCustom
+                                  required
+                                  rules={[
+                                    {
+                                      message: "ห้ามปล่อยว่าง",
+                                      required: true,
+                                    },
+                                  ]}
+                                  label="ราคา"
+                                  className="w-full"
+                                  name={y.id + "price" + i + j}
+                                  initialValue={y.priceOfStr}
+                                ></InputCustom>
+                              </div>
+                              <div className="w-[20%]">
+                                <InputCustom
+                                  required
+                                  rules={[
+                                    {
+                                      message: "ห้ามปล่อยว่าง",
+                                      required: true,
+                                    },
+                                  ]}
+                                  label="แผ่นเอกสาร"
+                                  className="w-full"
+                                  name={y.id + "paper" + i + j}
+                                  initialValue={y.paper}
+                                ></InputCustom>
+                              </div>
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
                   );
                 })}
               </div>
-              {/* </thead>
-              </table> */}
-              {/* <div>เชาว์ปัญญาอนุบาล 1 (เข้าเล่ม หน้าหลัง)</div>
-            <div>somo</div>
-            <div>
-              อชิรญา มิตรชัย 9/149 หมู่บ้านลลิลกรีนวิลล์ ถ.สุขาภิบาล5 ซ.72
-              แขวงออเงิน เขตสายไหม กรุงเทพฯ 10220 Tel.081-599-8990
-            </div> */}
             </div>
 
             <div className="flex justify-center items-center">
-              <ButtonCustom type="primary">
+              <ButtonCustom type="primary" htmlType="submit">
                 บันทึกเข้า Google Sheets
               </ButtonCustom>
             </div>

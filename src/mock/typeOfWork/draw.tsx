@@ -13,6 +13,7 @@ export const DrawWorkSheets = () => {
 
       name: "ลีลามืออนุบาล",
       workSheetsType: "sheets",
+      paper:160,
       price: {
         file: 99,
         print: 240,

@@ -59,6 +59,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "01 หน่วย แรกรับประทับใจ ปฐมนิเทศ",
@@ -74,6 +75,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "02 หน่วย ตัวเรา",
@@ -89,6 +91,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "03 หน่วย ต้นไม้ที่รัก",
@@ -104,6 +107,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "04 หน่วย ฝนจ๋า",
@@ -119,6 +123,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "05 หน่วย หนูน้อยน่ารัก",
@@ -134,6 +139,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "06 หน่วย บ้านแสนสุข",
@@ -149,6 +155,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "07 หน่วย ของเล่นของใช้",
@@ -164,6 +171,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "08 หน่วย ไม้ดอกไม้ประดับ",
@@ -179,6 +187,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "09 หน่วย วันเข้าพรรษา",
@@ -194,6 +203,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "10 หน่วย สัตว์บก",
@@ -209,6 +219,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "11 หน่วย สัตว์น้ำ",
@@ -224,6 +235,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "12 หน่วย ปลอดโรคติดต่อ",
@@ -239,6 +251,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "13 หน่วย พระคุณแม่",
@@ -254,6 +267,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "14 หน่วย วิทยาศาสตร์น่ารู้",
@@ -269,6 +283,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "15 หน่วย ผลไม้",
@@ -284,6 +299,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "16 หน่วย เนื้อ นม ไข่",
@@ -299,6 +315,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "17 หน่วย น้ำคือชีวิต",
@@ -314,6 +331,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "18 หน่วย ข้าว",
@@ -329,6 +347,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "19 หน่วย ผักสดสะอาด",
@@ -344,6 +363,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "20 หน่วย แมลง",
@@ -359,6 +379,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "21 หน่วย คมนาคม",
@@ -374,6 +395,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "22 หน่วย การสื่อสาร",
@@ -389,6 +411,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "23 หน่วย อากาศ",
@@ -404,6 +427,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "24 หน่วย คณิตศาสตร์คิดสนุก",
@@ -419,6 +443,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "25 หน่วย บุคคลที่ควรรู้จัก",
@@ -434,6 +459,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "26 หน่วย วันลอยกระทง",
@@ -449,6 +475,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "27 หน่วย พ่อผู้มีพระคุณ",
@@ -464,6 +491,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "28 หน่วย ดิน หิน ทราย",
@@ -479,6 +507,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "29 หน่วย เวลา",
@@ -494,6 +523,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "30 หน่วย วันขึ้นปีใหม่",
@@ -509,6 +539,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "31 หน่วย วันเด็กแห่งชาติ",
@@ -524,6 +555,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "32 หน่วย วันครู",
@@ -539,6 +571,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "33 หน่วย กลางวันกลางคืน",
@@ -554,6 +587,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "34 หน่วย ฉันรักฤดูหนาว",
@@ -569,6 +603,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "35 หน่วย ชุมชนที่รัก",
@@ -584,6 +619,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "36 หน่วย เมืองไทยที่รัก",
@@ -599,6 +635,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "37 หน่วย วันมาฆบูชา",
@@ -614,6 +651,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "38 หน่วย วันสงกรานต์",
@@ -629,6 +667,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "39 หน่วย ฤดูร้อนแสนสนุก",
@@ -644,6 +683,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "40 หน่วย มดตัวน้อย",
@@ -659,6 +699,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "41 หน่วย กล้วยน่ารู้",
@@ -674,6 +715,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "42 หน่วย ขนาด รูปร่าง รูปทรง",
@@ -689,6 +731,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "43 หน่วย ปริมาตร น้ำหนัก",
@@ -704,6 +747,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "44 หน่วย รักการอ่าน",
@@ -719,6 +763,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "45 หน่วย สีสันสดใส",
@@ -734,6 +779,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "46 หน่วย อวัยวะและประสาทสัมผัส",
@@ -749,6 +795,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "47 หน่วย ครอบครับหรรษา",
@@ -764,6 +811,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "48 หน่วย อาชีพในฝัน",
@@ -779,6 +827,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "49 หน่วย วันคริสต์มาส",
@@ -794,6 +843,7 @@ export const SheetsTypeOfWorkWorkSheets = () => {
       conditionStr: "ซื้อครบทุกหน่วย",
       discount: 110,
       relationship: Relationship,
+      paper: 20,
       imageUrl:
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "50 หน่วย กิจกรรมของเด็ก ๆ",

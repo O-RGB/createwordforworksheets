@@ -13,6 +13,7 @@ interface WorksheetsModelInput {
   name: string;
   imageUrl: string;
   price: WorkSheetsDetailPrice;
+  paper: string | number;
   conditionStr?: string;
   relationship?: string[];
   discount?: number;

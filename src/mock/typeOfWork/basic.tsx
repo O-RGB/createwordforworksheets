@@ -11,6 +11,7 @@ export const BasicWorkSheets = () => {
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "พื้นฐาน อ.1",
       workSheetsType: "room",
+      paper: 114,
       price: {
         file: 99,
         print: 240,
@@ -28,6 +29,7 @@ export const BasicWorkSheets = () => {
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "พื้นฐาน อ.2",
       workSheetsType: "room",
+      paper: 160,
       price: {
         file: 99,
         print: 240,
@@ -45,6 +47,7 @@ export const BasicWorkSheets = () => {
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "พื้นฐาน อ.3",
       workSheetsType: "room",
+      paper: 172,
       price: {
         file: 99,
         print: 240,

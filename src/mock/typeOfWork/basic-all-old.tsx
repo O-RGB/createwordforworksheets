@@ -20,6 +20,7 @@ export const BasicAllOldWorkSheets = () => {
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "คณิตศาสตร์ (เหมา)",
       workSheetsType: "sheets",
+      paper: 0,
       price: {
         file: 100,
       },
@@ -35,6 +36,7 @@ export const BasicAllOldWorkSheets = () => {
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "หมวดภาษาไทย (เหมา)",
       workSheetsType: "sheets",
+      paper: 0,
       price: {
         file: 200,
       },
@@ -50,6 +52,7 @@ export const BasicAllOldWorkSheets = () => {
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "วิทยาศาสตร์ (เหมา)",
       workSheetsType: "sheets",
+      paper: 0,
       price: {
         file: 100,
       },
@@ -65,6 +68,7 @@ export const BasicAllOldWorkSheets = () => {
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "ภาษาอังกฤษ (เหมา)",
       workSheetsType: "sheets",
+      paper: 0,
       price: {
         file: 100,
       },
@@ -80,6 +84,7 @@ export const BasicAllOldWorkSheets = () => {
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "คำพื้นฐานภาษาไทย  (เหมา)",
       workSheetsType: "sheets",
+      paper: 0,
       price: {
         file: 100,
       },
@@ -95,6 +100,7 @@ export const BasicAllOldWorkSheets = () => {
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "ศิลปะ เเละ แถม (เหมา)",
       workSheetsType: "sheets",
+      paper: 0,
       price: {
         file: 100,
       },
@@ -110,6 +116,7 @@ export const BasicAllOldWorkSheets = () => {
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "บัตรคำ เเละ A-Z ก-ฮ ใหม่ (เหมา)",
       workSheetsType: "sheets",
+      paper: 0,
       price: {
         file: 100,
       },

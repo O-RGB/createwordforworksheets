@@ -12,6 +12,7 @@ export const ThaiWorkSheets = async () => {
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "พื้นฐาน ภาษาไทย",
       workSheetsType: "room",
+      paper: 152,
       price: {
         file: 99,
       },
@@ -27,6 +28,7 @@ export const ThaiWorkSheets = async () => {
         "https://firebasestorage.googleapis.com/v0/b/createwordforsale.appspot.com/o/MainProduct%2FMATH%2FMATH1.png?alt=media&token=9ef12848-96fe-4ed3-b1ba-a81b3ec4afe2",
       name: "การแต่งประโยค-ป.1-3",
       workSheetsType: "room",
+      paper: 64,
       price: {
         file: 69,
       },
