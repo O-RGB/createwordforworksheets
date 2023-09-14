@@ -7,6 +7,7 @@ import { Form, Modal } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { LoadingOutlined } from "@ant-design/icons";
 import Router from "next/router";
+import { PlusCircleFilled, FileTextOutlined } from "@ant-design/icons";
 interface SheetsGroupProps {
   sheets: IMapDataToSheets[][];
   data: IInitMainData[];
@@ -234,12 +235,12 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
               </div>
               {/* <table>
                 <thead> */}
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-2">
                 {temp.map((x, i) => {
                   return (
-                    <div key={`sheets-i-${i}`}>
+                    <div key={`sheets-i-${i}`} className="">
                       <label htmlFor="" className="text-sm text-slate-500">
-                        * item {i + 1}
+                        * รายการเดียวกัน {i + 1} (อาจจหลายจำนวน)
                       </label>
                       <div className="flex flex-col gap-2 border border-solid p-2 rounded-md bg-slate-100">
                         {x.map((y, j) => {
@@ -250,7 +251,12 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
                             >
                               <div className="w-[100%]">
                                 <InputCustom
-                                  label="รายการ"
+                                  label={
+                                    <div className=" flex gap-1 justify-center items-center">
+                                      <PlusCircleFilled className="text-gray-500 text-xs" />
+                                      <div>งาน</div>
+                                    </div>
+                                  }
                                   required
                                   rules={[
                                     {
@@ -264,35 +270,49 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
                                 ></InputCustom>
                               </div>
 
-                              <div className="w-[20%]">
-                                <InputCustom
-                                  required
-                                  rules={[
-                                    {
-                                      message: "ห้ามปล่อยว่าง",
-                                      required: true,
-                                    },
-                                  ]}
-                                  label="ราคา"
-                                  className="w-full"
-                                  name={y.id + "price" + i + j}
-                                  initialValue={y.priceOfStr}
-                                ></InputCustom>
-                              </div>
-                              <div className="w-[20%]">
-                                <InputCustom
-                                  required
-                                  rules={[
-                                    {
-                                      message: "ห้ามปล่อยว่าง",
-                                      required: true,
-                                    },
-                                  ]}
-                                  label="แผ่นเอกสาร"
-                                  className="w-full"
-                                  name={y.id + "paper" + i + j}
-                                  initialValue={y.paper}
-                                ></InputCustom>
+                              <div className="flex  flex-row  gap-2 w-full md:w-[40%]">
+                                <div className="w-full">
+                                  <InputCustom
+                                    required
+                                    rules={[
+                                      {
+                                        message: "ห้ามปล่อยว่าง",
+                                        required: true,
+                                      },
+                                    ]}
+                                    label={
+                                      <div className=" flex gap-1 justify-center items-center">
+                                        <div className="text-gray-500 text-xs">
+                                          ฿
+                                        </div>
+                                        <div>ราคา</div>
+                                      </div>
+                                    }
+                                    className="w-full"
+                                    name={y.id + "price" + i + j}
+                                    initialValue={y.priceOfStr}
+                                  ></InputCustom>
+                                </div>
+                                <div className="w-full">
+                                  <InputCustom
+                                    required
+                                    rules={[
+                                      {
+                                        message: "ห้ามปล่อยว่าง",
+                                        required: true,
+                                      },
+                                    ]}
+                                    label={
+                                      <div className=" flex gap-1 justify-center items-center">
+                                        <FileTextOutlined className="text-gray-500 text-xs" />
+                                        <div>ราคา</div>
+                                      </div>
+                                    }
+                                    className="w-full"
+                                    name={y.id + "paper" + i + j}
+                                    initialValue={y.paper}
+                                  ></InputCustom>
+                                </div>
                               </div>
                             </div>
                           );

@@ -4,7 +4,7 @@ import { Rule } from "antd/es/form";
 import React from "react";
 
 interface InputCustomProps extends InputProps {
-  label?: string;
+  label?: any;
   rules?: Rule[] | undefined;
   name?: string;
   initialValue?: any;
