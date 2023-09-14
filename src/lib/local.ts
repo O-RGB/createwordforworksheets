@@ -1,6 +1,6 @@
-const crendentialKeys: { [key: string]: string } = {
-  delivery_fee: "delivery_fee",
-  book_price: "book_price",
+export const crendentialKeys: { [key: string]: string } = {
+  username: "username",
+  googlesheets: "googlesheets",
 };
 
 export const setLocal = (key: string, value: any) => {

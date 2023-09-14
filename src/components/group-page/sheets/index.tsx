@@ -10,9 +10,14 @@ import Router from "next/router";
 interface SheetsGroupProps {
   sheets: IMapDataToSheets[][];
   data: IInitMainData[];
+  getLocalInput: IUserInput;
 }
 
-const SheetsGroup: React.FC<SheetsGroupProps> = ({ sheets, data }) => {
+const SheetsGroup: React.FC<SheetsGroupProps> = ({
+  sheets,
+  data,
+  getLocalInput,
+}) => {
   //   if (sheets.length == 0) {
   //     return <>DATA LENGTH IS EMTPY</>;
   //   }
@@ -103,17 +108,16 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({ sheets, data }) => {
   };
 
   const createURLStr = (iItemList: IItemsToURL) => {
-    console.log(iItemList.paper);
-    let sheets: string =
-      "https://script.google.com/macros/s/AKfycbw8KEnR2IwYQ6sScXfZ0kVfmO69aS3bKVTYuuOf7Esxx9ffNCtNizqzB2w9N2wEC9iQ/exec";
+    let sheets: string = getLocalInput.googlesheets ?? "";
     let param: string = `?type=${iItemList.type}&list=${iItemList.list.join(
       ","
     )}&price=${iItemList.price.join(",")}&facebook=${
       iItemList.facebook
     }&address=${iItemList.address}&paper=${iItemList.paper.join(
       ","
-    )}&shippingcost=${iItemList.shippingcost}`;
+    )}&shippingcost=${iItemList.shippingcost}&actor=${getLocalInput.username}`;
 
+    console.log(sheets + param)
     return sheets + param;
   };
 

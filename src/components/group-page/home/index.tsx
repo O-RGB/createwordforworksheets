@@ -5,7 +5,7 @@ import RadioCustom from "@/components/common/radio";
 import SwitchCustom from "@/components/common/switch";
 import TextAreaCustom from "@/components/common/text-area";
 import FeeFrom from "@/components/form/fee-from";
-import { getLocal } from "@/lib/local";
+import { crendentialKeys, getLocal, setLocal } from "@/lib/local";
 import { HeadWorkSheets } from "@/model/headworksheets";
 import { Checkbox, Form, Modal, message, notification } from "antd";
 import React, { useContext, useEffect, useState } from "react";
@@ -18,6 +18,8 @@ import { NotificationPlacement } from "antd/es/notification/interface";
 import { MapDataToSheets } from "@/function/mapForSheets";
 import Router from "next/router";
 import { SheetsContext } from "@/context/sheetsService";
+import InputCustom from "@/components/common/input";
+import UserForm from "@/components/form/user-from";
 
 interface HomeGroupProps {
   getMockup: HeadWorkSheets[];
@@ -80,12 +82,16 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   };
 
   const ChangeToSeets = () => {
-    MapDataToSheets(form.getFieldsValue()).then((data) => {
-      setSheets(data);
-      setTimeout(() => {
-        console.log("Gie");
-        Router.push("/sheets");
-      }, 100);
+    checkUserAndSheets().then((e) => {
+      if (e) {
+        MapDataToSheets(form.getFieldsValue()).then((data) => {
+          setSheets(data);
+          setTimeout(() => {
+            console.log("Gie");
+            Router.push("/sheets");
+          }, 100);
+        });
+      }
     });
   };
 
@@ -117,12 +123,63 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
     }, 1000);
   };
 
+  const [userInitLocal, setUserInitLocal] = useState<IUserInput>();
+  const [isModalUser, setIsModalUserOpen] = useState(false);
+
+  const showModalUser = () => {
+    setIsModalUserOpen(true);
+  };
+
+  const handleOkUser = (output: IUserInput) => {
+    if (output.username) {
+      setLocal("username", output.username);
+    }
+
+    if (output.googlesheets) {
+      setLocal("googlesheets", output.googlesheets);
+    }
+    getLocalUser();
+    setIsModalUserOpen(false);
+  };
+
+  const handleCancelUser = () => {
+    setIsModalUserOpen(false);
+  };
+
+  const getLocalUser = () => {
+    let username = getLocal("username");
+    let sheets = getLocal("googlesheets");
+
+    setUserInitLocal({
+      username: username ? username : undefined,
+      googlesheets: sheets ? sheets : undefined,
+    });
+
+    return {
+      username,
+      sheets,
+    };
+  };
+
+  const checkUserAndSheets = async () => {
+    let get = getLocalUser();
+    if (!get.sheets || !get.username) {
+      setTimeout(() => {
+        showModalUser();
+      }, 100);
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   // const LocalSaveFee = (book_price: number, delivery_fee: number) => {
   //   setLocal("book_price", book_price);
   //   setLocal("delivery_fee", delivery_fee);
   // };
 
   useEffect(() => {
+    getLocalUser();
     // let bookPrice = getLocal("book_price");
     // let deliveryFee = getLocal("delivery_fee");
   }, []);
@@ -132,7 +189,10 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   const [isModalSetting, setIsModalSettingOpen] = useState(false);
 
   const showModalSetting = () => {
-    setIsModalSettingOpen(true);
+    getLocalUser();
+    setTimeout(() => {
+      setIsModalSettingOpen(true);
+    }, 100);
   };
 
   const handleOkSetting = () => {
@@ -272,6 +332,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
       </div>
 
       <Modal
+        destroyOnClose
         title="ตั้งค่า"
         open={isModalSetting}
         onOk={handleOkSetting}
@@ -281,7 +342,40 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         <div className="flex flex-col gap-2">
           {_DEV_SettingDebugComponent}
           {SettingDisplyComponent}
+          <CardCustom Header={"ความปลอดภัย"}>
+            <UserForm
+              onCancel={handleCancelUser}
+              onFinish={handleOkUser}
+              initData={userInitLocal}
+              removeCancel
+              openOnChangeMode
+            ></UserForm>
+          </CardCustom>
         </div>
+      </Modal>
+
+      <Modal
+        title="ความปลอดภัย"
+        open={isModalUser}
+        // onOk={handleOkUser}
+        destroyOnClose
+        // onCancel={handleCancelUser}
+        footer={<></>}
+      >
+        <div className="py-3">
+          <div>
+            - ใส่เพียงครั้งเดียวเท่านั้น เพื่อความปลอดภัยของระบบ
+            ป้องกันไม่ให้มีการจัดการ Google Sheets โดยผู้อื่น
+          </div>
+          <div className="font-bold ">
+            - ถ้าข้อมูลผิด สามารถแก้ไขอีกครั้งได้ที่ปุ่ม "ตั้งต่า"
+          </div>
+        </div>
+        <UserForm
+          onCancel={handleCancelUser}
+          onFinish={handleOkUser}
+          initData={userInitLocal}
+        ></UserForm>
       </Modal>
 
       <FloatButtonForm

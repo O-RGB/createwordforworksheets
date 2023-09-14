@@ -10,19 +10,29 @@ import SiteHeader from "@/components/common/head/NextHead";
 import Router, { useRouter } from "next/router";
 import { SheetsContext } from "@/context/sheetsService";
 import SheetsGroup from "@/components/group-page/sheets";
+import { getLocal } from "@/lib/local";
 
 const InterSheets: NextPage = () => {
   const router = useRouter();
   const { param } = router.query;
   const { setSheets, sheets } = useContext(SheetsContext);
+  const [getLocalInput, setLocalInput] = useState<IUserInput>();
   const [getMockup, setMockup] = useState<IInitMainData[] | undefined>(
     undefined
   );
   HeadWorkSheets;
   useEffect(() => {
+    if (sheets.length == 0) {
+      Router.push("/");
+    }
 
-    if(sheets.length == 0){
-        Router.push("/")
+    let username = getLocal("username");
+    let sheetes = getLocal("googlesheets");
+    if (sheetes && username) {
+      setLocalInput({
+        googlesheets: sheetes,
+        username: username,
+      });
     }
 
     WorkSheetsData().then((data) => {
@@ -44,7 +54,7 @@ const InterSheets: NextPage = () => {
     });
   }, []);
 
-  if (!getMockup) {
+  if (!getMockup || !getLocalInput) {
     return <></>;
   }
 
@@ -54,7 +64,11 @@ const InterSheets: NextPage = () => {
         title="ระบบสร้างรายการ V2"
         description="ไม่ต้องพิมพ์อีกต่อไป.. สร้างรายการออร์เดอร์และคำนวณราคารวม และยังมีระบบคำนวนส่วนลดให้ด้วย"
       ></SiteHeader>
-      <SheetsGroup data={getMockup} sheets={sheets}></SheetsGroup>
+      <SheetsGroup
+        data={getMockup}
+        sheets={sheets}
+        getLocalInput={getLocalInput}
+      ></SheetsGroup>
     </>
   );
 };
