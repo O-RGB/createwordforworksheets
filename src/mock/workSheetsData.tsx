@@ -20,41 +20,41 @@ const formData = [
     headerTitle: "เชาว์ปัญญา",
     fetchData: IntellectWorkSheets,
   },
-  {
-    formName: "basic",
-    headerTitle: "พื้นฐาน",
-    fetchData: BasicWorkSheets,
-  },
-  {
-    formName: "draw",
-    headerTitle: "ลีลามือ",
-    fetchData: DrawWorkSheets,
-  },
-  {
-    formName: "wordbase",
-    headerTitle: "คำพื้นฐาน",
-    fetchData: WordBaseWorkSheets,
-  },
-  {
-    formName: "thai",
-    headerTitle: "ภาษาไทย",
-    fetchData: ThaiWorkSheets,
-  },
-  {
-    formName: "baseOne",
-    headerTitle: "แบบฝึกหัดพื้นฐาน",
-    fetchData: BasicOneWorkSheets,
-  },
-  {
-    formName: "baseAllOld",
-    headerTitle: "ใบงานอนุบาล (เหมา)",
-    fetchData: BasicAllOldWorkSheets,
-  },
-  {
-    formName: "sheetsTypeOfWork",
-    headerTitle: "ในงานตามหน่วยอนุบาล",
-    fetchData: SheetsTypeOfWorkWorkSheets,
-  },
+  // {
+  //   formName: "basic",
+  //   headerTitle: "พื้นฐาน",
+  //   fetchData: BasicWorkSheets,
+  // },
+  // {
+  //   formName: "draw",
+  //   headerTitle: "ลีลามือ",
+  //   fetchData: DrawWorkSheets,
+  // },
+  // {
+  //   formName: "wordbase",
+  //   headerTitle: "คำพื้นฐาน",
+  //   fetchData: WordBaseWorkSheets,
+  // },
+  // {
+  //   formName: "thai",
+  //   headerTitle: "ภาษาไทย",
+  //   fetchData: ThaiWorkSheets,
+  // },
+  // {
+  //   formName: "baseOne",
+  //   headerTitle: "แบบฝึกหัดพื้นฐาน",
+  //   fetchData: BasicOneWorkSheets,
+  // },
+  // {
+  //   formName: "baseAllOld",
+  //   headerTitle: "ใบงานอนุบาล (เหมา)",
+  //   fetchData: BasicAllOldWorkSheets,
+  // },
+  // {
+  //   formName: "sheetsTypeOfWork",
+  //   headerTitle: "ในงานตามหน่วยอนุบาล",
+  //   fetchData: SheetsTypeOfWorkWorkSheets,
+  // },
 ];
 
 export const WorkSheetsData = async () => {
@@ -68,6 +68,6 @@ export const WorkSheetsData = async () => {
       });
     })
   );
-
+  console.log(headWorkSheets);
   return headWorkSheets;
 };

@@ -24,13 +24,27 @@
   font-size: 14px;
 }
 
-td, th {
+td,
+th {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
   border-radius: 10px;
 }
 
-html{
-  @apply bg-gray-100
+html {
+  @apply bg-gray-100;
+}
+
+.ant-float-btn-body-excel > .ant-badge > .ant-float-btn-body {
+  background-color: #016f35ff !important;
+}
+.ant-float-btn-body-secondary > .ant-badge > .ant-float-btn-body {
+  background-color: #5a5e9b !important;
+}
+.ant-float-btn-body-red > .ant-badge > .ant-float-btn-body {
+  background-color: #e48102 !important;
+}
+.ant-float-btn-body-green > .ant-badge > .ant-float-btn-body {
+  background-color: #2db274 !important;
 }

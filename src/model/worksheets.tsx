@@ -1,6 +1,6 @@
 export class WorksheetsModel {
   private workSheetsId?: string;
-  private workSheetsType?: WorkSheetsType;
+  private workSheetsType?: string;
   private name?: string;
   private imageUrl?: string;
   private price?: WorkSheetsDetailPrice;
@@ -26,7 +26,6 @@ export class WorksheetsModel {
       this.workSheetsId &&
       this.workSheetsType &&
       this.name &&
-      this.imageUrl &&
       this.price &&
       this.paper
     ) {

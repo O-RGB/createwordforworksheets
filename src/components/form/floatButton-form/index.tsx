@@ -24,6 +24,7 @@ const FloatButtonForm: React.FC<FloatButtonFormProps> = ({
     <>
       <FloatButton.Group shape="circle" style={{ right: 24 }}>
         <FloatButton
+          className="ant-float-btn-body-excel"
           onClick={onExcel}
           icon={<PiMicrosoftExcelLogo />}
           type="primary"
@@ -31,30 +32,20 @@ const FloatButtonForm: React.FC<FloatButtonFormProps> = ({
         />
         <FloatButton
           onClick={onSetting}
+          className="ant-float-btn-body-secondary"
           icon={<SettingOutlined />}
           type="primary"
           style={{ right: 24 }}
         />
-        <ConfigProvider
-          theme={{
-            components: {
-              Button: {
-                colorPrimary: "#00b96b",
-              },
-              Input: {
-                colorPrimary: "#eb2f96",
-              },
-            },
-          }}
-        >
-          <FloatButton
-            onClick={removeResult}
-            icon={<DeleteOutlined />}
-            type="primary"
-            style={{ right: 24 }}
-          />
-        </ConfigProvider>
         <FloatButton
+          className="ant-float-btn-body-red"
+          onClick={removeResult}
+          icon={<DeleteOutlined />}
+          type="primary"
+          style={{ right: 24 }}
+        />
+        <FloatButton
+          className="ant-float-btn-body-green"
           onClick={onSave}
           icon={<SaveOutlined />}
           type="primary"

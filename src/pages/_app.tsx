@@ -5,6 +5,7 @@ import { themeConfig } from "../../config/theme";
 import { DeliveryFeeProvider } from "@/context/deliveryFee";
 import { BookProvider } from "@/context/bookService";
 import { SheetsProvider } from "@/context/sheetsService";
+import { SheetsLoadedProvider } from "@/context/sheetsLoaded";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -12,7 +13,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <SheetsProvider>
         <DeliveryFeeProvider>
           <BookProvider>
-            <Component {...pageProps} />
+            <SheetsLoadedProvider>
+              <Component {...pageProps} />
+            </SheetsLoadedProvider>
           </BookProvider>
         </DeliveryFeeProvider>
       </SheetsProvider>

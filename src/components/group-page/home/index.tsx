@@ -20,6 +20,11 @@ import Router from "next/router";
 import { SheetsContext } from "@/context/sheetsService";
 import InputCustom from "@/components/common/input";
 import UserForm from "@/components/form/user-from";
+import {
+  CheckUsernameAndURLIsRuning,
+  getUsernameAndURL,
+  setUsernameOrURL,
+} from "@/lib/checkGoogleSheetsUrl";
 
 interface HomeGroupProps {
   getMockup: HeadWorkSheets[];
@@ -82,12 +87,11 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   };
 
   const ChangeToSeets = () => {
-    checkUserAndSheets().then((e) => {
+    CheckUsernameAndURLIsRuning().then((e) => {
       if (e) {
         MapDataToSheets(form.getFieldsValue()).then((data) => {
           setSheets(data);
           setTimeout(() => {
-            console.log("Gie");
             Router.push("/sheets");
           }, 100);
         });
@@ -131,14 +135,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   };
 
   const handleOkUser = (output: IUserInput) => {
-    if (output.username) {
-      setLocal("username", output.username);
-    }
-
-    if (output.googlesheets) {
-      setLocal("googlesheets", output.googlesheets);
-    }
-    getLocalUser();
+    setUsernameOrURL(output);
     setIsModalUserOpen(false);
   };
 
@@ -146,42 +143,22 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
     setIsModalUserOpen(false);
   };
 
-  const getLocalUser = () => {
-    let username = getLocal("username");
-    let sheets = getLocal("googlesheets");
-
-    setUserInitLocal({
-      username: username ? username : undefined,
-      googlesheets: sheets ? sheets : undefined,
-    });
-
-    return {
-      username,
-      sheets,
-    };
-  };
-
   const checkUserAndSheets = async () => {
-    let get = getLocalUser();
-    if (!get.sheets || !get.username) {
-      setTimeout(() => {
-        showModalUser();
-      }, 100);
-      return false;
-    } else {
-      return true;
-    }
+    CheckUsernameAndURLIsRuning().then((result) => {
+      setUserInitLocal({
+        googlesheets: result.local.sheets ? result.local.sheets : undefined,
+        username: result.local.username ? result.local.username : undefined,
+      });
+      if (!result.result) {
+        setTimeout(() => {
+          showModalUser();
+        }, 100);
+      }
+    });
   };
-
-  // const LocalSaveFee = (book_price: number, delivery_fee: number) => {
-  //   setLocal("book_price", book_price);
-  //   setLocal("delivery_fee", delivery_fee);
-  // };
 
   useEffect(() => {
-    getLocalUser();
-    // let bookPrice = getLocal("book_price");
-    // let deliveryFee = getLocal("delivery_fee");
+    checkUserAndSheets();
   }, []);
 
   // COMPONENT SETTING
@@ -189,7 +166,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   const [isModalSetting, setIsModalSettingOpen] = useState(false);
 
   const showModalSetting = () => {
-    getLocalUser();
+    checkUserAndSheets();
     setTimeout(() => {
       setIsModalSettingOpen(true);
     }, 100);

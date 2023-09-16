@@ -110,13 +110,15 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
 
   const createURLStr = (iItemList: IItemsToURL) => {
     let sheets: string = getLocalInput.googlesheets ?? "";
-    let param: string = `?type=${iItemList.type}&list=${iItemList.list.join(
+    let param: string = `?page=index&type=${
+      iItemList.type
+    }&list=${iItemList.list.join(",")}&price=${iItemList.price.join(
       ","
-    )}&price=${iItemList.price.join(",")}&facebook=${
-      iItemList.facebook
-    }&address=${iItemList.address}&paper=${iItemList.paper.join(
-      ","
-    )}&shippingcost=${iItemList.shippingcost}&actor=${getLocalInput.username}`;
+    )}&facebook=${iItemList.facebook}&address=${
+      iItemList.address
+    }&paper=${iItemList.paper.join(",")}&shippingcost=${
+      iItemList.shippingcost
+    }&actor=${getLocalInput.username}`;
 
     return sheets + param;
   };

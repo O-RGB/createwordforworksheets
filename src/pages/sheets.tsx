@@ -11,6 +11,7 @@ import Router, { useRouter } from "next/router";
 import { SheetsContext } from "@/context/sheetsService";
 import SheetsGroup from "@/components/group-page/sheets";
 import { getLocal } from "@/lib/local";
+import { SheetsLoadedContext } from "@/context/sheetsLoaded";
 
 const InterSheets: NextPage = () => {
   const router = useRouter();
@@ -20,6 +21,8 @@ const InterSheets: NextPage = () => {
   const [getMockup, setMockup] = useState<IInitMainData[] | undefined>(
     undefined
   );
+  const { sheetsLoaded } = useContext(SheetsLoadedContext);
+
   HeadWorkSheets;
   useEffect(() => {
     if (sheets.length == 0) {
@@ -35,21 +38,21 @@ const InterSheets: NextPage = () => {
       });
     }
 
-    WorkSheetsData().then((data) => {
-      let optionForSearch: IInitMainData[] = [];
-      data.map((work) => {
-        work.getHeadWorksheets().worksheets?.map((elem) => {
-          let element = elem.getWorksheets();
-          if (element) {
-            optionForSearch.push({
-              id: element.workSheetsId,
-              name: element.name,
-              price: element.price,
-              paper: String(element.paper),
-            });
-          }
-        });
+    // WorkSheetsData().then((data) => {
+    let optionForSearch: IInitMainData[] = [];
+    sheetsLoaded?.map((work) => {
+      work.getHeadWorksheets().worksheets?.map((elem) => {
+        let element = elem.getWorksheets();
+        if (element) {
+          optionForSearch.push({
+            id: element.workSheetsId,
+            name: element.name,
+            price: element.price,
+            paper: String(element.paper),
+          });
+        }
       });
+      // });
       setMockup(optionForSearch);
     });
   }, []);

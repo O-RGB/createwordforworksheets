@@ -1,4 +1,4 @@
-type WorkSheetsType = "sheets" | "room";
+// type WorkSheetsType = "sheets" | "room";
 
 interface WorkSheetsDetailPrice {
   print?: number;
@@ -9,9 +9,9 @@ interface WorkSheetsDetailPrice {
 
 interface WorksheetsModelInput {
   workSheetsId: string;
-  workSheetsType: WorkSheetsType;
+  workSheetsType: string;
   name: string;
-  imageUrl: string;
+  imageUrl?: string;
   price: WorkSheetsDetailPrice;
   paper: string | number;
   conditionStr?: string;
@@ -24,4 +24,18 @@ interface HeadWorkSheetsInput<T> {
   headerTitle?: string;
   relationship?: string[][];
   worksheets?: T[];
+}
+
+interface GoogleSheetsGetItem {
+  workSheetsId: string;
+  workSheetsType: string;
+  group: string;
+  name: string;
+  paper: string | number;
+  price: WorkSheetsDetailPrice;
+  title?: string;
+  relationship?: string[];
+  discount?: number;
+  conditionStr?: string;
+  imageUrl?: string;
 }
