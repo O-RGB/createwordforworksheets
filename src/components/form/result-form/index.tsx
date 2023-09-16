@@ -105,6 +105,7 @@ const ResultSetting: React.FC<ResultSettingFromProps> = ({
                 }
               }}
               placeholder="ถ้ามี"
+              inputMode="numeric"
               name="discount"
               rules={[
                 {

@@ -26,6 +26,7 @@ const FeeFrom: React.FC<FeeFromProps> = ({ feeSetting, onChange, form }) => {
         name="deliveryFee"
         rules={[{ message: "'ค่าส่ง' is required", required: true }]}
         label="ค่าส่ง"
+        inputMode="numeric"
       ></InputCustom>
       {/* <InputCustom
         initialValue={feeSetting?.book_price}
