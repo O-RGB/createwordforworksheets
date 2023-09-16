@@ -63,7 +63,7 @@ const ScrollDetection: React.FC<ScrollDetectionProps> = ({
                       onClick={() =>
                         scrollToEleemtById(getModel.formName ?? "")
                       }
-                      className={`p-1 bg-white hover:bg-green-400 shadow-md rounded-xl whitespace-nowrap z-40 max-w-[80px] overflow-hidden duration-300 cursor-pointer`}
+                      className={`p-1 bg-white hover:bg-orange-400 hover:text-white shadow-md rounded-xl whitespace-nowrap z-40 max-w-[80px] overflow-hidden duration-300 cursor-pointer`}
                     >
                       <div className="px-1">{getModel.headerTitle}</div>
                     </div>
