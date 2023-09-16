@@ -1,3 +1,4 @@
+import { CalColor, colorSecondary } from "@/config/color";
 import React from "react";
 
 interface CardCustomProps {
@@ -15,7 +16,10 @@ const CardCustom: React.FC<CardCustomProps> = ({
 }) => {
   return (
     <div
-      className={`p-4 md:p-5 overflow-hidden border border-solid rounded-lg flex flex-col gap-2 w-full h-full bg-white ${cardClassName}`}
+      style={{
+        backgroundColor: CalColor(colorSecondary, 150),
+      }}
+      className={`p-4 md:p-5 overflow-hidden  rounded-xl flex flex-col gap-2 w-full h-full ${cardClassName}`}
     >
       <div className="text-lg font-bold">{Header}</div>
       <div className={className}>{children}</div>

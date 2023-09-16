@@ -8,6 +8,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { LoadingOutlined } from "@ant-design/icons";
 import Router from "next/router";
 import { PlusCircleFilled, FileTextOutlined } from "@ant-design/icons";
+import { BgCal, colorSecondary } from "@/config/color";
 interface SheetsGroupProps {
   sheets: IMapDataToSheets[][];
   data: IInitMainData[];
@@ -195,7 +196,10 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
           </div>
         </div>
       </Modal>
-      <div className={` duration-300  p-2 sm:p-3  `}>
+      <div
+        className={` duration-300  p-2 sm:p-3 min-h-screen `}
+        style={{ ...BgCal(colorSecondary) }}
+      >
         <CardCustom Header={"ตรวจสอบข้อมูล"}>
           <Form
             layout="vertical"

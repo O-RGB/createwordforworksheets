@@ -1,3 +1,4 @@
+import { CalColor, colorSecondary } from "@/config/color";
 import { Form, Input, InputProps } from "antd";
 import { Rule } from "antd/es/form";
 
@@ -26,7 +27,13 @@ const InputCustom: React.FC<InputCustomProps> = ({
       rules={rules}
       required={prpos.required}
     >
-      <Input {...prpos} style={{ width: "100%" }} />
+      <Input
+        {...prpos}
+        style={{
+          width: "100%",
+          backgroundColor:"#FFFFFF",
+        }}
+      />
     </Form.Item>
   );
 };

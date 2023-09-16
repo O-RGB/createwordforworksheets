@@ -1,3 +1,4 @@
+import { CalColor, colorSecondary } from "@/config/color";
 import { AutoComplete, AutoCompleteProps } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -42,7 +43,11 @@ const AutoCompleteCustom: React.FC<AutoCompleteCustomProps> = ({
         {...props}
         options={tempOption}
         value={fakeValue}
-        style={{ width: "100%" }}
+        style={{
+          width: "100%",
+          backgroundColor: "#FFFFFF",
+          borderRadius: "10px",
+        }}
         onSearch={(e) => {
           setFakeValue(e);
           setOption(search(e));

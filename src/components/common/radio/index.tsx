@@ -1,3 +1,4 @@
+import { CalColor, colorSecondary } from "@/config/color";
 import { Radio, RadioGroupProps } from "antd";
 import React from "react";
 

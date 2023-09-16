@@ -25,6 +25,15 @@ import {
   getUsernameAndURL,
   setUsernameOrURL,
 } from "@/lib/checkGoogleSheetsUrl";
+import {
+  // BorderScreen,
+ 
+  colorSuccess,
+  colorDenger,
+  BgCal,
+  colorSecondary,
+  colorPrimary,
+} from "@/config/color";
 
 interface HomeGroupProps {
   getMockup: HeadWorkSheets[];
@@ -37,6 +46,8 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   optionMockup,
   keyMockup,
 }) => {
+  //COLOR
+
   //SETTING DISPLAY
   const [debug, setDebug] = useState<boolean>(false);
 
@@ -113,17 +124,21 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
     });
   };
 
-  const [screenStatusColor, setScreenStatusColor] = useState<string>("");
+  const [screenStatusColor, setScreenStatusColor] = useState<any>({
+    borderColor: colorSecondary,
+  });
   const ScreenStatus = (status: "success" | "error") => {
-    let createClass: string = "";
+    let createClass: any = {};
     if (status == "success") {
-      createClass = "border-green-500 ";
+      createClass = { borderColor: colorSuccess };
     } else if (status == "error") {
-      createClass = "border-red-500 ";
+      createClass = { borderColor: colorDenger };
     }
     setScreenStatusColor(createClass);
     setTimeout(() => {
-      setScreenStatusColor("border-gray-100 ");
+      setScreenStatusColor({
+        borderColor: colorSecondary,
+      });
     }, 1000);
   };
 
@@ -292,7 +307,8 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
 
   return (
     <div
-      className={`bg-gray-100 duration-300 border-solid border-4 sm:border-8 ${screenStatusColor} duration-300  `}
+      style={{ ...screenStatusColor, ...BgCal(colorSecondary) }}
+      className={`p-2 duration-300 border-solid border-4 sm:border-8`}
     >
       {contextHolder}
       {debug && <div className=" text-2xl font-bold">Version: 1.0.5</div>}
@@ -300,7 +316,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
       <div
         className={`fixed w-full  ${
           modeSettingStiky ? "top-0" : "-top-10"
-        } duration-300 z-40 pb-2 left-0`}
+        } duration-300 z-40 pb-2 left-0 `}
       >
         <div className="flex gap-2 p-2 items-center bg-white shadow-md ">
           <div className="text-sm"> </div>
@@ -370,7 +386,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         }}
       ></FloatButtonForm>
 
-      <div className="relative flex md:gap-3 duration-300">
+      <div className="relative flex md:gap-3 duration-300 ">
         <div className=" w-full ">
           <div className="flex flex-col gap-2">
             {SettingModeComponent()}
@@ -378,7 +394,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
             {SettingSearchComponent}
 
             <Form form={form}>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-3 ">
                 {getMockup.map((worksheets, IKey) => {
                   let getModel = worksheets.getHeadWorksheets();
                   return (
@@ -391,7 +407,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                         }
                       >
                         <div
-                          className={`grid gap-1.5 md:gap-2 ${
+                          className={`grid gap-1     ${
                             display.grid ? " lg:grid-cols-2 " : '"'
                           } transition-all`}
                         >
@@ -470,7 +486,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         <div className=" md:w-20">
           <div
             className={`fixed md:sticky ${
-              detectScroll ? "right-0" : "-right-14"
+              detectScroll ? "right-0" : "-right-[4.5rem]"
             } -right-10 hover:right-0 ${
               modeSettingStiky ? "top-14" : "top-2 md:top-4"
             }   z-30 bg-transparent transition-all duration-300`}

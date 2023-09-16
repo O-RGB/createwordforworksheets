@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 import { ConfigProvider } from "antd";
 import type { AppProps } from "next/app";
-import { themeConfig } from "../../config/theme";
+import { themeConfig } from "../config/theme";
 import { DeliveryFeeProvider } from "@/context/deliveryFee";
 import { BookProvider } from "@/context/bookService";
 import { SheetsProvider } from "@/context/sheetsService";

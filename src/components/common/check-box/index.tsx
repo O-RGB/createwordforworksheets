@@ -1,6 +1,7 @@
 import { Checkbox, CheckboxProps, Form, FormInstance, Input } from "antd";
 import React, { useEffect, useState } from "react";
 import ImageNumber from "../input-number";
+import { BgCal, CalColor, colorPrimary, colorSecondary } from "@/config/color";
 
 interface CheckBoxCustomProps extends CheckboxProps {
   image?: string;
@@ -13,6 +14,7 @@ interface CheckBoxCustomProps extends CheckboxProps {
   name: string;
   debug: boolean;
   InputDisable?: InputDisable;
+  hoverColorBorder?: string;
 }
 
 const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
@@ -26,6 +28,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
   name,
   debug,
   InputDisable,
+  hoverColorBorder,
   ...props
 }) => {
   let File: InputValue[] = [
@@ -97,13 +100,14 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
     },
   ];
 
+  const [hover, setHorver] = useState<boolean>(false);
   const [disableAll, setDsiabledAll] = useState<boolean>(false);
   const [onCheck, setCheck] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<InputValue[] | undefined>(
     undefined
   );
   const [value, setValue] = useState<CheckboxResult>();
-  let textSize = "text-md";
+  let textSize = "text-md ";
 
   const resetInputValue = () => {
     setInputValue(undefined);
@@ -161,7 +165,7 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
   }
 
   return (
-    <div>
+    <div className=" rounded-lg overflow-hidden ">
       {debug && <div className="break-all">{JSON.stringify(value)}</div>}
       {debug && <div className="break-all">{JSON.stringify(InputDisable)}</div>}
       {debug && (
@@ -179,13 +183,19 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
         </Form.Item>
       </div>
       <div
-        className={`relative flex flex-col w-full bg-white ${props.className}`}
+        style={{
+          backgroundColor: onCheck ? CalColor(colorPrimary, 50) : "",
+        }}
+        className={`relative flex flex-col w-full  ${props.className}`}
       >
         <Checkbox
+          onMouseEnter={() => (!onCheck ? setHorver(true) : undefined)}
+          onMouseLeave={() => (!onCheck ? setHorver(false) : undefined)}
           disabled={disableAll}
           {...props}
           onChange={(e) => {
             setCheck(e.target.checked);
+            setHorver(e.target.checked);
             if (name) {
               if (e.target.checked) {
                 let obj = {
@@ -210,16 +220,21 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
               }
             }
           }}
-          className={`p-2 md:p-3   rounded-md ${
-            onCheck ? "bg-gray-200" : "bg-transparent"
-          } hover:bg-gray-200 duration-300 border border-solid w-full z-20`}
+          // style={!onCheck ? BgCal(colorSecondary, 130) : BgCal(colorPrimary)}
+          style={{
+            backgroundColor: !onCheck ? "#FFFFFF" : CalColor(colorPrimary),
+            // borderColor: hover ? colorPrimary : CalColor(colorSecondary),
+          }}
+          className={` p-2 md:p-3 rounded-lg border border-solid  border-transparent duration-300  w-full z-20`}
         >
           <div
             className={`ml-1.5  select-none  flex flex-col ${
               display?.image ? "gap-1.5 pb-1" : ""
             } duration-300 transition-all`}
           >
-            <div className={textSize}>{label}</div>
+            <div className={`${textSize} ${onCheck ? "text-white" : ""}`}>
+              {label}
+            </div>
             {image && display && (
               <ImageForChange
                 show={display?.image}
@@ -232,11 +247,11 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
         <div className="">
           <div className="-mt-2">
             <div
-              className={`z-10 w-full flex flex-col lg:flex-row gap-4 px-3 rounded-md overflow-hidden bg-green-200 ${
+              className={`z-10 w-full flex flex-col lg:flex-row gap-4 px-3 rounded-md overflow-hidden  ${
                 onCheck && modeSetting != "file" && disableAll != true
                   ? ` ${
                       modeSetting == "mix" ? "h-32" : "h-12"
-                    }  lg:h-12  py-4 border border-solid `
+                    }  lg:h-12  py-4   `
                   : "h-0"
               }  duration-300 transition-all`}
             >

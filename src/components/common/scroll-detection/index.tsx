@@ -59,6 +59,7 @@ const ScrollDetection: React.FC<ScrollDetectionProps> = ({
                     className={`flex flex-col gap-1   `}
                   >
                     <div
+                      style={{}}
                       onClick={() =>
                         scrollToEleemtById(getModel.formName ?? "")
                       }
