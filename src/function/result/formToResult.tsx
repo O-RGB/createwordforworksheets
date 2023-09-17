@@ -3,12 +3,12 @@ import {
   createPriceAllForMixMode,
   createPriceByDiscount,
   createTextForCustomer,
-} from "@/function/finalToCustomer";
-import { MapFormToString } from "@/function/mapFormToString";
-import { validateForm } from "@/function/validateForm";
+} from "@/function/result/finalToCustomer"; 
 import { scrollToEleemtById } from "@/lib/scrollToEleemtById";
 import { HeadWorkSheets } from "@/model/headworksheets";
 import { FormInstance } from "antd";
+import { validateForm } from "./validateForm";
+import { MapFormToString } from "./mapFormToString";
 
 interface ResultReturnForm {
   customerStr: string;

@@ -28,16 +28,3 @@ export const BgCal = (color: string, percen?: number) => {
     backgroundColor: percen ? adjustColor(color, percen) : color,
   };
 };
-
-// export const BorderScreen = {
-//   borderColor: colorSecondary,
-// };
-
-// export const BgScreen = (percen?: number) => {
-//   return {
-//     backgroundColor: percen ? adjustColor(colorPrimary, percen) : colorPrimary,
-//   };
-// };
-
-// export const HorverBgColor = `bg-[${colorPrimary}]`;
-// export const HorverBorderColor = `border-[${colorPrimary}]`;

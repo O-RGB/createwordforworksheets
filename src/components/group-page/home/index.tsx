@@ -11,11 +11,11 @@ import { Checkbox, Form, Modal, message, notification } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import ScrollDetection from "@/components/common/scroll-detection";
 import { scrollToEleemtById } from "@/lib/scrollToEleemtById";
-import { getResultOnForm } from "@/calculate/formToResult";
+import { getResultOnForm } from "@/function/result/formToResult";
 import ResultSetting from "@/components/form/result-form";
 import FloatButtonForm from "@/components/form/floatButton-form";
 import { NotificationPlacement } from "antd/es/notification/interface";
-import { MapDataToSheets } from "@/function/mapForSheets";
+ 
 import Router from "next/router";
 import { SheetsContext } from "@/context/sheetsService";
 import InputCustom from "@/components/common/input";
@@ -34,6 +34,7 @@ import {
   colorSecondary,
   colorPrimary,
 } from "@/config/color";
+import { MapDataToSheets } from "@/function/result/mapForSheets";
 
 interface HomeGroupProps {
   getMockup: HeadWorkSheets[];
