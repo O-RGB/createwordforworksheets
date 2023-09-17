@@ -223,7 +223,12 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
           // style={!onCheck ? BgCal(colorSecondary, 130) : BgCal(colorPrimary)}
           style={{
             backgroundColor: !onCheck ? "#FFFFFF" : CalColor(colorPrimary),
-            // borderColor: hover ? colorPrimary : CalColor(colorSecondary),
+            borderColor: !onCheck
+              ? hover
+                ? colorPrimary
+                : CalColor(colorSecondary)
+              : "",
+            border: !onCheck ? hover ? "1px solid" + colorPrimary : "1px solid #FFFFFF" : "1px solid " + colorPrimary,
           }}
           className={` p-2 md:p-3 rounded-lg border border-solid  border-transparent duration-300  w-full z-20`}
         >

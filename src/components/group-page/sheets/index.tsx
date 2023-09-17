@@ -8,7 +8,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { LoadingOutlined } from "@ant-design/icons";
 import Router from "next/router";
 import { PlusCircleFilled, FileTextOutlined } from "@ant-design/icons";
-import { BgCal, colorSecondary } from "@/config/color";
+import { BgCal, CalColor, colorPrimary, colorSecondary } from "@/config/color";
 interface SheetsGroupProps {
   sheets: IMapDataToSheets[][];
   data: IInitMainData[];
@@ -245,10 +245,19 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
                 {temp.map((x, i) => {
                   return (
                     <div key={`sheets-i-${i}`} className="">
-                      <label htmlFor="" className="text-sm text-slate-500">
+                      <label
+                        style={{ color: CalColor(colorPrimary) }}
+                        htmlFor=""
+                        className="text-sm text-slate-500"
+                      >
                         * รายการเดียวกัน {i + 1} (อาจจหลายจำนวน)
                       </label>
-                      <div className="flex flex-col gap-2 border border-solid p-2 rounded-md bg-slate-100">
+                      <div
+                        style={{
+                          backgroundColor: CalColor(colorPrimary, 0),
+                        }}
+                        className="flex flex-col gap-1 border border-solid p-1 rounded-xl  "
+                      >
                         {x.map((y, j) => {
                           return (
                             <div

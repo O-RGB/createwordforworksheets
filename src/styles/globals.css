@@ -41,14 +41,14 @@ html {
 }
 
 .ant-float-btn-body-excel > .ant-badge > .ant-float-btn-body {
-  background-color: #016f35ff !important;
+  background-color: #2dd0dd !important;
 }
 .ant-float-btn-body-secondary > .ant-badge > .ant-float-btn-body {
-  background-color: #5a5e9b !important;
+  background-color: #ff7b00 !important;
 }
 .ant-float-btn-body-red > .ant-badge > .ant-float-btn-body {
-  background-color: #e48102 !important;
+  background-color: #fe3248 !important;
 }
 .ant-float-btn-body-green > .ant-badge > .ant-float-btn-body {
-  background-color: #2db274 !important;
+  background-color: #acdc1f !important;
 }
