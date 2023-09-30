@@ -5,6 +5,7 @@ interface IGoodsRelationship {
 }
 
 interface IGoods {
+  workSheetsId: string;
   workSheetsType: WorkSheetsType;
   goodsName: string;
   type: ModeOnFinish;

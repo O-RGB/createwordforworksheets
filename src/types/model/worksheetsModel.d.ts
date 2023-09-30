@@ -8,6 +8,7 @@ interface WorkSheetsDetailPrice {
 }
 
 interface WorksheetsModelInput {
+  workSheetsMainId: string;
   workSheetsId: string;
   workSheetsType: string;
   name: string;

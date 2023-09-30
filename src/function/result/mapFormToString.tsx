@@ -1,4 +1,5 @@
 import { HeadWorkSheets } from "@/model/headworksheets";
+import { emojiBook, emojiFile, emojiPrint } from "./finalToCustomer";
 
 export const searchValueIsChecked = (
   keyMockup: string[],
@@ -131,6 +132,7 @@ const createGoddsString = (result: IResult[], modeSelect: ModeOnFinish) => {
             ? calculateRelationship(value, result)
             : undefined;
         goods.push({
+          workSheetsId: value.real.workSheetsId,
           count: Number(inputValueByMode.count),
           goodsName: value.real.name,
           price: getPriceByMode,
@@ -189,17 +191,17 @@ const createIntroducingString = (
 
   if (modeSelect == "file") {
     intro = "ไฟล์";
-    emoji = "💾";
+    emoji = emojiFile;
     let filterGoods = filterRelationship(goods);
     goods = filterGoods.goods;
     priceAddFee = priceAddFee - filterGoods.discountSum;
   } else if (modeSelect == "print") {
     intro = "ปริ้น";
-    emoji = "📗";
+    emoji = emojiPrint;
     priceAddFee = priceAddFee + fee.delivery_fee;
   } else if (modeSelect == "book") {
     intro = "เล่ม";
-    emoji = "📕";
+    emoji = emojiBook;
     // priceAddFee = priceAddFee + fee.book_price;
     priceAddFee = priceAddFee + fee.delivery_fee;
   }

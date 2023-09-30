@@ -1,13 +1,16 @@
 // ตกแต่ง
-const menuEmo: string = "✅";
-const menuDetailEmo: string = "🟩";
-const header: string = "🔥";
-const deliveryEmoji: string = "🚚";
-const priceAllEmoji: string = "❤️";
-const unit: string = "บาท";
-const gift: string = "🎁";
-const priceForMixMode: string = "🌈";
-const priceForDiscount: string = "✨";
+export const menuEmo: string = "✅";
+export const menuDetailEmo: string = "🟩";
+export const header: string = "🔥";
+export const deliveryEmoji: string = "🚚";
+export const priceAllEmoji: string = "❤️";
+export const unit: string = "บาท";
+export const gift: string = "🎁";
+export const priceForMixMode: string = "🌈";
+export const priceForDiscount: string = "✨";
+export const emojiFile: string = "💾";
+export const emojiPrint: string = "📗";
+export const emojiBook: string = "📕";
 
 export const createTextForCustomer = (
   result: ITextResult,
@@ -67,5 +70,3 @@ export const createFeeForMixMode = (fee: number) => {
   str += `${deliveryEmoji} ${fee} ${unit}\n\n`;
   return str;
 };
-
-

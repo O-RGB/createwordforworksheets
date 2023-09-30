@@ -31,7 +31,7 @@ const InputCustom: React.FC<InputCustomProps> = ({
         {...prpos}
         style={{
           width: "100%",
-          backgroundColor:"#FFFFFF",
+          backgroundColor: "#FFFFFF",
         }}
       />
     </Form.Item>

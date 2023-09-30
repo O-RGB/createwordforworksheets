@@ -20,6 +20,7 @@ export const MapDataToMinModel = async (items: GoogleSheetsGetItem[]) => {
         data.map((item) => {
           worksheetsModel.push(
             new WorksheetsModel({
+              workSheetsMainId: item.group,
               workSheetsId: item.workSheetsId,
               conditionStr: item.conditionStr,
               discount: item.discount,

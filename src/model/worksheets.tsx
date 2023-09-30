@@ -1,4 +1,5 @@
 export class WorksheetsModel {
+  private workSheetsMainId?: string;
   private workSheetsId?: string;
   private workSheetsType?: string;
   private name?: string;
@@ -10,6 +11,7 @@ export class WorksheetsModel {
   private paper?: string;
 
   constructor(worksheetsModelInput: WorksheetsModelInput) {
+    this.workSheetsMainId = worksheetsModelInput.workSheetsMainId;
     this.workSheetsId = worksheetsModelInput.workSheetsId;
     this.workSheetsType = worksheetsModelInput.workSheetsType;
     this.name = worksheetsModelInput.name;
@@ -27,9 +29,11 @@ export class WorksheetsModel {
       this.workSheetsType &&
       this.name &&
       this.price &&
-      this.paper
+      this.paper &&
+      this.workSheetsMainId
     ) {
       return {
+        workSheetsMainId: this.workSheetsMainId,
         workSheetsId: this.workSheetsId,
         workSheetsType: this.workSheetsType,
         name: this.name,

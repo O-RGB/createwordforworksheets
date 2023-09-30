@@ -47,3 +47,4 @@ interface InputDisable {
 interface FormCheckboxResult {
   [key: string]: CheckboxResult;
 }
+

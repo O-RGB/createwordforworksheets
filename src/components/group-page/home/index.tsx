@@ -5,9 +5,8 @@ import RadioCustom from "@/components/common/radio";
 import SwitchCustom from "@/components/common/switch";
 import TextAreaCustom from "@/components/common/text-area";
 import FeeFrom from "@/components/form/fee-from";
-import { crendentialKeys, getLocal, setLocal } from "@/lib/local";
 import { HeadWorkSheets } from "@/model/headworksheets";
-import { Checkbox, Form, Modal, message, notification } from "antd";
+import { Checkbox, Form, Modal, notification } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import ScrollDetection from "@/components/common/scroll-detection";
 import { scrollToEleemtById } from "@/lib/scrollToEleemtById";
@@ -15,26 +14,22 @@ import { getResultOnForm } from "@/function/result/formToResult";
 import ResultSetting from "@/components/form/result-form";
 import FloatButtonForm from "@/components/form/floatButton-form";
 import { NotificationPlacement } from "antd/es/notification/interface";
- 
+
 import Router from "next/router";
 import { SheetsContext } from "@/context/sheetsService";
-import InputCustom from "@/components/common/input";
 import UserForm from "@/components/form/user-from";
 import {
   CheckUsernameAndURLIsRuning,
-  getUsernameAndURL,
   setUsernameOrURL,
 } from "@/lib/checkGoogleSheetsUrl";
 import {
-  // BorderScreen,
- 
   colorSuccess,
   colorDenger,
   BgCal,
   colorSecondary,
-  colorPrimary,
 } from "@/config/color";
 import { MapDataToSheets } from "@/function/result/mapForSheets";
+import CustomResultForm from "@/components/form/custom-result-form";
 
 interface HomeGroupProps {
   getMockup: HeadWorkSheets[];
@@ -55,12 +50,18 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   // ELEMENT
   const [form] = Form.useForm<IFormData>();
   const [resultForm] = Form.useForm();
+  const [setingResultForm] = Form.useForm();
   const [modeSetting, setModeSetting] = useState<ModeOnFinish>("file");
   const [resetFormOnChange, setResetFormOnChange] = useState<boolean>(true);
   const [resultString, setResultString] = useState<string>("");
   const [detectScroll, setDetectScroll] = useState<boolean>(false);
   const [modeSettingStiky, setModeSettingStiky] = useState<boolean>(false);
   const [priceAllNow, setPriceAllNow] = useState<number>(0);
+
+  // FOR SETTING DATA
+  const [IFinalResultPrice, setIFinalResultPrice] =
+    useState<IFinalResultPrice>();
+  const [customReset, setCustomReset] = useState<boolean>(true);
 
   const [feeSetting, setFeeSetting] = useState<FeeSetting | undefined>({
     delivery_fee: 40,
@@ -73,16 +74,22 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
 
   // FUCNTON
 
-  const GetReslut = (Discount?: IFinalResultByDiscount) => {
+  const GetReslut = (
+    Discount?: IFinalResultByDiscount,
+    customMockup?: HeadWorkSheets[]
+  ) => {
     getResultOnForm(
       form,
       feeSetting,
       modeSetting,
       keyMockup,
-      getMockup,
+      customMockup ? customMockup : getMockup,
       Discount ?? undefined
     ).then((data) => {
       if (data) {
+        console.log(data.IFinalResultObj);
+        // DisplayCustom(keyMockup, form.getFieldsValue() as any, getMockup);
+        setIFinalResultPrice(data.IFinalResultObj);
         setPriceAllNow(data.priceAll);
         setResultString(data.customerStr);
         resultForm.setFieldValue("result", data.customerStr);
@@ -217,6 +224,8 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
           setModeSetting(e.target.value);
           setResultString("");
           setPriceAllNow(0);
+          resultForm.setFieldValue("result", undefined);
+          setIFinalResultPrice(undefined);
           resultForm.setFieldValue("result", undefined);
           setTimeout(() => {
             setResetFormOnChange(true);
@@ -379,7 +388,9 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         removeResult={() => {
           setResetFormOnChange(false);
           setResultString("");
+          setIFinalResultPrice(undefined);
           resultForm.setFieldValue("result", undefined);
+          setingResultForm.resetFields();
           setPriceAllNow(0);
           setTimeout(() => {
             setResetFormOnChange(true);
@@ -470,6 +481,22 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                 setPriceAll={priceAllNow}
               ></ResultSetting>
             </CardCustom>
+            {customReset && (
+              <CardCustom Header={"กำหนดเอง"} className="w-full">
+                <CustomResultForm
+                  onReset={() => {
+                    GetReslut();
+                  }}
+                  onFinish={(items) => {
+                    GetReslut(undefined, items);
+                  }}
+                  form={setingResultForm}
+                  getMockup={getMockup}
+                  ModeOnFinish={modeSetting}
+                  IFinalResultPrice={IFinalResultPrice}
+                ></CustomResultForm>
+              </CardCustom>
+            )}
             <CardCustom Header={"ผลลัพธ์"}>
               <Form form={resultForm} layout="vertical">
                 <TextAreaCustom

@@ -3,7 +3,7 @@ import {
   createPriceAllForMixMode,
   createPriceByDiscount,
   createTextForCustomer,
-} from "@/function/result/finalToCustomer"; 
+} from "@/function/result/finalToCustomer";
 import { scrollToEleemtById } from "@/lib/scrollToEleemtById";
 import { HeadWorkSheets } from "@/model/headworksheets";
 import { FormInstance } from "antd";
@@ -13,6 +13,7 @@ import { MapFormToString } from "./mapFormToString";
 interface ResultReturnForm {
   customerStr: string;
   priceAll: number;
+  IFinalResultObj: IFinalResultPrice;
 }
 
 export const getResultOnForm = async (
@@ -25,9 +26,6 @@ export const getResultOnForm = async (
 ): Promise<ResultReturnForm | undefined> => {
   let initString: string | undefined = undefined;
   let checkNotCount = validateForm(form.getFieldsValue(), keyMockup);
-  {
-    /* <div className="bg-red-500 text-red-500 bg-amber-600"></div> */
-  }
   if (checkNotCount.length != 0) {
     scrollToEleemtById(checkNotCount[0], "", "", "");
     return undefined;
@@ -115,6 +113,7 @@ export const getResultOnForm = async (
           return {
             customerStr: removeSpace.join("\n\n"),
             priceAll: priceAll,
+            IFinalResultObj: result,
           };
         });
       }
