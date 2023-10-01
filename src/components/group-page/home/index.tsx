@@ -397,6 +397,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
       </Modal>
 
       <FloatButtonForm
+        modeSetting={modeSetting}
         onExcel={ChangeToSeets}
         onSetting={() => showModalSetting()}
         onSave={() => GetReslut()}

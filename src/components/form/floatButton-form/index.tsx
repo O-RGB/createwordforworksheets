@@ -14,6 +14,7 @@ interface FloatButtonFormProps {
   onSetting?: () => void;
   onExcel?: () => void;
   onSentMail?: () => void;
+  modeSetting: ModeOnFinish;
 }
 
 const FloatButtonForm: React.FC<FloatButtonFormProps> = ({
@@ -22,24 +23,29 @@ const FloatButtonForm: React.FC<FloatButtonFormProps> = ({
   onSetting,
   onExcel,
   onSentMail,
+  modeSetting,
 }) => {
   return (
     <>
       <FloatButton.Group shape="circle" style={{ right: 24 }}>
-        <FloatButton
-          className="ant-float-btn-body-gmail"
-          onClick={onSentMail}
-          icon={<MailOutlined />}
-          type="primary"
-          style={{ right: 24 }}
-        />
-        <FloatButton
-          className="ant-float-btn-body-excel"
-          onClick={onExcel}
-          icon={<PiMicrosoftExcelLogo />}
-          type="primary"
-          style={{ right: 24 }}
-        />
+        {modeSetting == "file" && (
+          <FloatButton
+            className="ant-float-btn-body-gmail"
+            onClick={onSentMail}
+            icon={<MailOutlined />}
+            type="primary"
+            style={{ right: 24 }}
+          />
+        )}
+        {modeSetting != "file" && (
+          <FloatButton
+            className="ant-float-btn-body-excel"
+            onClick={onExcel}
+            icon={<PiMicrosoftExcelLogo />}
+            type="primary"
+            style={{ right: 24 }}
+          />
+        )}
         <FloatButton
           onClick={onSetting}
           className="ant-float-btn-body-secondary"
