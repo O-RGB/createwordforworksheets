@@ -1,39 +1,67 @@
 import { getFile } from "@/api/fetcher/getFile";
+import SentEmailGroup from "@/components/group-page/email";
+import { SheetsLoadedContext } from "@/context/sheetsLoaded";
+import { SheetsContext } from "@/context/sheetsService";
 import { getLocal } from "@/lib/local";
+import { WorksheetsModel } from "@/model/worksheets";
 import { NextPage } from "next";
-import React, { useEffect } from "react";
+import Router, { useRouter } from "next/router";
+import React, { useContext, useEffect, useState } from "react";
 
 const Email: NextPage = () => {
+  const router = useRouter();
+  const { param } = router.query;
+  const { setSheets, sheets } = useContext(SheetsContext);
+  const [getLocalInput, setLocalInput] = useState<IUserInput>();
+  const [getMockup, setMockup] = useState<WorksheetsModelInput[] | undefined>(
+    undefined
+  );
+  const { sheetsLoaded } = useContext(SheetsLoadedContext);
+
   useEffect(() => {
+    if (sheets.length == 0) {
+      Router.push("/");
+    }
+
+    let username = getLocal("username");
     let sheetes = getLocal("googlesheets");
-    if (sheetes) {
-      sheetes = sheetes + "?page=email";
-      getFile(sheetes).then((data) => {
-        if (data) {
-        //   data.map((x) => {
-        //     let blob = fetch(x.download).then((r) => r.blob());
-        //     console.log(blob);
-        //   });
-
-        //   data[0];
-
-          var xhr = new XMLHttpRequest();
-          xhr.open("GET", data[0].download, true);
-          xhr.responseType = "blob";
-          xhr.onload = function (e) {
-            if (this.status == 200) {
-              var myBlob = this.response;
-              console.log(myBlob)
-              // myBlob is now the blob that the object URL pointed to.
-            }
-          };
-          xhr.send();
-        }
+    if (sheetes && username) {
+      setLocalInput({
+        googlesheets: sheetes,
+        username: username,
       });
     }
+
+    let mainWork: WorksheetsModelInput[] = [];
+    sheets.map((list) => {
+      list.map((id) => {
+        sheetsLoaded?.map((work) => {
+          work.getHeadWorksheets().worksheets?.map((elem) => {
+            let element = elem.getWorksheets();
+            if (element?.workSheetsId == id.id) {
+              mainWork.push(element);
+            }
+          });
+        });
+      });
+    });
+
+    setMockup(mainWork);
   }, []);
 
-  return <>test</>;
+  if (!getMockup || !getLocalInput) {
+    return <></>;
+  }
+
+  return (
+    <>
+      <SentEmailGroup
+        getMockup={getMockup}
+        sheets={sheets}
+        getLocalInput={getLocalInput}
+      ></SentEmailGroup>
+    </>
+  );
 };
 
 export default Email;

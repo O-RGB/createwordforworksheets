@@ -59,7 +59,7 @@ const InterFaceTest: NextPage = () => {
           .then((x) => {
             MapDataToMinModel(x).then((data) => {
               setSheetsLoaded(data);
-              console.log(data)
+              console.log(data);
               InitData(data);
             });
           })

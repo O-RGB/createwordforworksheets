@@ -1,5 +1,6 @@
 export const MapDataToSheets = async (
-  FormData: IFormData
+  FormData: IFormData,
+  fileMail?: boolean
 ): Promise<IMapDataToSheets[][]> => {
   let lists: IMapDataToSheets[][] = [];
   for (const key in FormData) {
@@ -10,9 +11,11 @@ export const MapDataToSheets = async (
         if (data.inputNumber) {
           for (const input of data.inputNumber) {
             if (
-              input.value != "file" &&
-              input.count != "0" &&
-              input.disabled != true
+              fileMail
+                ? input.value == "file"
+                : input.value != "file" &&
+                  input.count != "0" &&
+                  input.disabled != true
             ) {
               for (let index = 0; index < Number(input.count); index++) {
                 list.push({
@@ -23,7 +26,7 @@ export const MapDataToSheets = async (
             }
           }
         }
-        if (list) {
+        if (list.length > 0) {
           lists.push(list);
         }
       }

@@ -23,7 +23,6 @@ const InterSheets: NextPage = () => {
   );
   const { sheetsLoaded } = useContext(SheetsLoadedContext);
 
-  HeadWorkSheets;
   useEffect(() => {
     if (sheets.length == 0) {
       Router.push("/");

@@ -9,6 +9,8 @@ export class WorksheetsModel {
   private relationship?: string[];
   private discount?: number;
   private paper?: string;
+  private root?: string;
+  private filename?: string[];
 
   constructor(worksheetsModelInput: WorksheetsModelInput) {
     this.workSheetsMainId = worksheetsModelInput.workSheetsMainId;
@@ -21,6 +23,8 @@ export class WorksheetsModel {
     this.relationship = worksheetsModelInput.relationship;
     this.discount = worksheetsModelInput.discount;
     this.paper = String(worksheetsModelInput.paper);
+    this.root = worksheetsModelInput.root;
+    this.filename = worksheetsModelInput.filename;
   }
 
   public getWorksheets(): WorksheetsModelInput | undefined {
@@ -43,6 +47,8 @@ export class WorksheetsModel {
         relationship: this.relationship,
         discount: this.discount,
         paper: this.paper,
+        root: this.root,
+        filename: this.filename,
       };
     } else {
       console.error("WorksheetsModelInput is null");

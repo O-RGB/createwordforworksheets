@@ -4,6 +4,7 @@ import {
   SaveOutlined,
   DeleteOutlined,
   SettingOutlined,
+  MailOutlined,
 } from "@ant-design/icons";
 import { PiMicrosoftExcelLogo } from "react-icons/pi";
 
@@ -12,6 +13,7 @@ interface FloatButtonFormProps {
   onSave?: () => void;
   onSetting?: () => void;
   onExcel?: () => void;
+  onSentMail?: () => void;
 }
 
 const FloatButtonForm: React.FC<FloatButtonFormProps> = ({
@@ -19,10 +21,18 @@ const FloatButtonForm: React.FC<FloatButtonFormProps> = ({
   onSave,
   onSetting,
   onExcel,
+  onSentMail,
 }) => {
   return (
     <>
       <FloatButton.Group shape="circle" style={{ right: 24 }}>
+        <FloatButton
+          className="ant-float-btn-body-gmail"
+          onClick={onSentMail}
+          icon={<MailOutlined />}
+          type="primary"
+          style={{ right: 24 }}
+        />
         <FloatButton
           className="ant-float-btn-body-excel"
           onClick={onExcel}

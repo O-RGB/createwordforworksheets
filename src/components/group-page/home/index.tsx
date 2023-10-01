@@ -150,6 +150,21 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
     }, 1000);
   };
 
+  const checkBeforeSentMail = () => {
+    if (modeSetting == "file") {
+      CheckUsernameAndURLIsRuning().then((e) => {
+        if (e) {
+          MapDataToSheets(form.getFieldsValue(), true).then((data) => {
+            setSheets(data);
+            setTimeout(() => {
+              Router.push("/email");
+            }, 100);
+          });
+        }
+      });
+    }
+  };
+
   const [userInitLocal, setUserInitLocal] = useState<IUserInput>();
   const [isModalUser, setIsModalUserOpen] = useState(false);
 
@@ -385,6 +400,9 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         onExcel={ChangeToSeets}
         onSetting={() => showModalSetting()}
         onSave={() => GetReslut()}
+        onSentMail={() => {
+          checkBeforeSentMail();
+        }}
         removeResult={() => {
           setResetFormOnChange(false);
           setResultString("");

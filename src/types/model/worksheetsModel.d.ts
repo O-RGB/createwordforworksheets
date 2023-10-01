@@ -18,6 +18,8 @@ interface WorksheetsModelInput {
   conditionStr?: string;
   relationship?: string[];
   discount?: number;
+  root?: string;
+  filename?: string[];
 }
 
 interface HeadWorkSheetsInput<T> {
@@ -39,4 +41,6 @@ interface GoogleSheetsGetItem {
   discount?: number;
   conditionStr?: string;
   imageUrl?: string;
+  root?: string;
+  filename?: string[];
 }
