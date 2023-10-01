@@ -16,13 +16,16 @@ const SentMail: React.FC<SentMailProps> = ({
   onLoadFinish,
 }) => {
   const [sent, setSent] = useState<boolean>(false);
+  const [detect, setDetect] = useState<boolean>(true);
 
   const handleVisibilityChange = () => {
     document.addEventListener("visibilitychange", (event) => {
       if (document.visibilityState == "visible") {
-        console.log("tab is active");
+        // console.log("tab is active");
+        setDetect(true);
       } else {
-        console.log("tab is inactive");
+        setDetect(false);
+        // console.log("tab is inactive");
       }
     });
   };
@@ -40,7 +43,7 @@ const SentMail: React.FC<SentMailProps> = ({
     }
   }, [compoSent, handleVisibilityChange, sent]);
 
-  if (!compoSent) {
+  if (!compoSent && !detect) {
     return <></>;
   }
   return (
