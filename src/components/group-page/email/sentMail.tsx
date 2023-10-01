@@ -17,16 +17,28 @@ const SentMail: React.FC<SentMailProps> = ({
 }) => {
   const [sent, setSent] = useState<boolean>(false);
 
+  const handleVisibilityChange = () => {
+    document.addEventListener("visibilitychange", (event) => {
+      if (document.visibilityState == "visible") {
+        console.log("tab is active");
+      } else {
+        console.log("tab is inactive");
+      }
+    });
+  };
+
   useEffect(() => {
+    handleVisibilityChange();
     if (compoSent) {
       getFile(compoSent.url).then((data) => {
+        //   updateState();
         //   setTimeout(() => {
         setSent(true);
         onLoadFinish?.();
         //   }, 5000);
       });
     }
-  }, [compoSent]);
+  }, [compoSent, handleVisibilityChange, sent]);
 
   if (!compoSent) {
     return <></>;
