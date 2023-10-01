@@ -23,6 +23,7 @@ const Email: NextPage = () => {
           xhr.onload = function (e) {
             if (this.status == 200) {
               var myBlob = this.response;
+              console.log(myBlob)
               // myBlob is now the blob that the object URL pointed to.
             }
           };
