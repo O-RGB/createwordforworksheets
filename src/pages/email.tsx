@@ -10,10 +10,23 @@ const Email: NextPage = () => {
       sheetes = sheetes + "?page=email";
       getFile(sheetes).then((data) => {
         if (data) {
-          data.map((x) => {
-            let blob = fetch(x.download).then((r) => r.blob());
-            console.log(blob);
-          });
+        //   data.map((x) => {
+        //     let blob = fetch(x.download).then((r) => r.blob());
+        //     console.log(blob);
+        //   });
+
+        //   data[0];
+
+          var xhr = new XMLHttpRequest();
+          xhr.open("GET", data[0].download, true);
+          xhr.responseType = "blob";
+          xhr.onload = function (e) {
+            if (this.status == 200) {
+              var myBlob = this.response;
+              // myBlob is now the blob that the object URL pointed to.
+            }
+          };
+          xhr.send();
         }
       });
     }
