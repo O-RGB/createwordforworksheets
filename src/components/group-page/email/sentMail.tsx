@@ -16,34 +16,55 @@ const SentMail: React.FC<SentMailProps> = ({
   onLoadFinish,
 }) => {
   const [sent, setSent] = useState<boolean>(false);
+  const [senting, setSenting] = useState<boolean>(false);
   const [detect, setDetect] = useState<boolean>(true);
+  const [detectChangeApp, setDetectChangeApp] = useState<boolean>(true);
 
-  const handleVisibilityChange = () => {
-    document.addEventListener("visibilitychange", (event) => {
-      if (document.visibilityState == "visible") {
-        // console.log("tab is active");
-        setDetect(true);
-      } else {
-        setDetect(false);
-        // console.log("tab is inactive");
-      }
-    });
+  //   const handleVisibilityChange = () => {
+  //     document.addEventListener("visibilitychange", (event) => {
+  //       if (document.visibilityState == "visible") {
+  //         // console.log("tab is active");
+  //         setDetect(true);
+  //       } else {
+  //         setDetect(false);
+  //         // console.log("tab is inactive");
+  //       }
+  //     });
+  //   };
+
+  const handleOnSwapApp = () => {
+    const handleFocus = () => {
+      setDetectChangeApp(true);
+    };
+
+    const handleBlur = () => {
+      setDetectChangeApp(false);
+    };
+
+    window.addEventListener("focus", handleFocus);
+    window.addEventListener("blur", handleBlur);
   };
 
   useEffect(() => {
-    handleVisibilityChange();
-    if (compoSent) {
-      getFile(compoSent.url).then((data) => {
-        //   updateState();
-        //   setTimeout(() => {
-        setSent(true);
-        onLoadFinish?.();
-        //   }, 5000);
-      });
+    handleOnSwapApp();
+    if (!sent && !senting) {
+      setSenting(true);
+      //   handleVisibilityChange();
+      if (compoSent && detectChangeApp) {
+        getFile(compoSent.url).then((data) => {
+          // setTimeout(() => {
+          setSent(true);
+          onLoadFinish?.();
+          // }, 5000);
+        });
+      }
     }
-  }, [compoSent, handleVisibilityChange, sent]);
+  }, [compoSent, sent, handleOnSwapApp]);
 
-  if (!compoSent && !detect) {
+  if (!compoSent) {
+    return <></>;
+  }
+  if (!detectChangeApp) {
     return <></>;
   }
   return (
