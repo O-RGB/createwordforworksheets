@@ -8,7 +8,7 @@ interface IFileGoogleDrive {
 
 interface IFileGoogleDriveReslutFile {
   content: string;
-  fileName: string;
+  filename: string;
   mimeType: string;
 }
 

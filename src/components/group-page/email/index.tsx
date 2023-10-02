@@ -120,6 +120,7 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
                   compoSent={data}
                   filename={data.objWorkinput.fileNames}
                   name={data.workUI.name}
+                  email={data.objWorkinput.email}
                 ></SentMail>
               </div>
             );
