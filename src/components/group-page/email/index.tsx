@@ -96,8 +96,8 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
               type="primary"
               disabled={countCompo == countLoad}
               onClick={() => {
-                // handleOk();
-                Router.push("/");
+                handleOk();
+                // Router.push("/");
               }}
             >
               OK

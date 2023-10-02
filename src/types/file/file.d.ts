@@ -3,7 +3,13 @@ interface IFileGoogleDrive {
   email: string;
   path: string;
   fileNames: string[];
-  reault: any;
+  reault: IFileGoogleDriveReslutFile[];
+}
+
+interface IFileGoogleDriveReslutFile {
+  content: string;
+  fileName: string;
+  mimeType: string;
 }
 
 interface IFileGoogleDriveInput {
