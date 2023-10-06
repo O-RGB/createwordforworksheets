@@ -101,30 +101,32 @@ const SentMail: React.FC<SentMailProps> = ({
   const sentMail = async (blobList: BlobName[]) => {
     setStrStatus("กำลังส่งอีเมล");
 
-    const fileList = await perparFile(blobList);
-    fetch("/api/contact", {
-      method: "POST",
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: name,
-        message: "messtest",
-        email: email,
-        attachments: fileList,
-      }),
-    }).then((res) => {
-      if (res.status === 200) {
-        setSentmail(true);
-        setStrStatus("สำเร็จ");
-        setFinish(true);
-      } else {
-        setSentmail(true);
-        setStrStatus("ไม่สำเร็จ");
-        setFinish(false);
-      }
-    });
+    // emaillmit
+
+    // const fileList = await perparFile(blobList);
+    // fetch("/api/contact", {
+    //   method: "POST",
+    //   headers: {
+    //     Accept: "application/json, text/plain, */*",
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     name: name,
+    //     message: "messtest",
+    //     email: email,
+    //     attachments: fileList,
+    //   }),
+    // }).then((res) => {
+    //   if (res.status === 200) {
+    //     setSentmail(true);
+    //     setStrStatus("สำเร็จ");
+    //     setFinish(true);
+    //   } else {
+    //     setSentmail(true);
+    //     setStrStatus("ไม่สำเร็จ");
+    //     setFinish(false);
+    //   }
+    // });
   };
 
   useEffect(() => {
@@ -132,26 +134,39 @@ const SentMail: React.FC<SentMailProps> = ({
     if (!download && !startUp) {
       setStartUp(true);
       setStrStatus("กำลังติดต่อ Google Sheets");
+
       if (compoSent && detectChangeApp) {
         getFile(compoSent.url)
           .then((data) => {
             setStrStatus("ดาวน​์โหลดไฟล์สำเร็จ");
             setStrStatus("กำลังเตรียมไฟล์");
             if (data) {
-              let blobList: BlobName[] = [];
-              data.reault.map((file) => {
-                try {
-                  const isoString = file.content;
-                  const blob = conventStrginToBlob(isoString, file.mimeType);
-                  blobList.push({ blob: blob, filename: file.filename });
-                } catch (error) {
-                  setStrStatus("ไม่สำเร็จ");
-                  setFinish(false);
-                  console.error("Error decoding Base64:", error);
-                }
-              });
-              setStrStatus("เตรียมไฟล์สำเร็จ");
-              sentMail(blobList);
+              console.log(data.reault.LabelType);
+
+              if (data.reault.LabelType == "INBOX") {
+                setSentmail(true);
+                setStrStatus("สำเร็จ");
+                setFinish(true);
+              } else {
+                setSentmail(true);
+                setStrStatus("ไม่สำเร็จ");
+                setFinish(false);
+              }
+
+              // let blobList: BlobName[] = [];
+              // data.reault.map((file) => {
+              //   try {
+              //     const isoString = file.content;
+              //     const blob = conventStrginToBlob(isoString, file.mimeType);
+              //     blobList.push({ blob: blob, filename: file.filename });
+              //   } catch (error) {
+              //     setStrStatus("ไม่สำเร็จ");
+              //     setFinish(false);
+              //     console.error("Error decoding Base64:", error);
+              //   }
+              // });
+              // setStrStatus("เตรียมไฟล์สำเร็จ");
+              // sentMail(blobList);
               setDownload(true);
               onLoadFinish?.();
             }

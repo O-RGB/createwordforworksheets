@@ -6,6 +6,7 @@ import { Form, Modal } from "antd";
 import Router from "next/router";
 import React, { useEffect, useState } from "react";
 import SentMail from "./sentMail";
+import { getLimitOfDay } from "@/api/fetcher/getLimitOfDay";
 
 interface SentEmailGroupProps {
   sheets: IMapDataToSheets[][];
@@ -26,10 +27,24 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
 
   const [countCompo, setCountCompo] = useState<number>(0);
 
+  const [getlimit, setLimit] = useState<number | undefined>(undefined);
+  const getLimit = (url: string) => {
+    getLimitOfDay(url).then((data) => {
+      if (data) {
+        setLimit(100 - data.count);
+      }
+    });
+  };
+
   useEffect(() => {
     if (getMockup) {
       setCountLoad(0);
       setCountCompo(getMockup.length);
+      if (!getlimit) {
+        if (getLocalInput.googlesheets) {
+          getLimit(getLocalInput.googlesheets);
+        }
+      }
     }
   }, [sheets, getMockup]);
 
@@ -96,8 +111,8 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
               type="primary"
               disabled={countCompo == countLoad}
               onClick={() => {
-                handleOk();
-                // Router.push("/");
+                // handleOk();
+                Router.push("/");
               }}
             >
               OK
@@ -138,6 +153,18 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
             layout="vertical"
             className="flex flex-col gap-2"
           >
+            {getlimit != undefined && (
+              <div className="flex gap-1 items-center">
+                Limit of days:
+                <div
+                  className={`py-2 text-sm font-bold ${
+                    getlimit >= 100 ? "text-red-500" : "text-green-500"
+                  }`}
+                >
+                  {getlimit}/100
+                </div>
+              </div>
+            )}
             <InputCustom
               rules={[
                 {
