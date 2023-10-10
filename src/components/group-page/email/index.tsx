@@ -7,7 +7,7 @@ import Router from "next/router";
 import React, { useEffect, useState } from "react";
 import SentMail from "./sentMail";
 import { getLimitOfDay } from "@/api/fetcher/getLimitOfDay";
-
+import { LoadingOutlined } from "@ant-design/icons";
 interface SentEmailGroupProps {
   sheets: IMapDataToSheets[][];
   getMockup?: WorksheetsModelInput[];
@@ -105,6 +105,8 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
       <Modal
         title="กำลังส่ง"
         open={isModalOpen}
+        closable={false}
+        closeIcon={false}
         footer={
           <>
             <ButtonCustom
@@ -153,9 +155,9 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
             layout="vertical"
             className="flex flex-col gap-2"
           >
-            {getlimit != undefined && (
-              <div className="flex gap-1 items-center">
-                Limit of days:
+            <div className="flex gap-1 items-center">
+              ลิมิตส่งเมลวันนี้:
+              {getlimit ? (
                 <div
                   className={`py-2 text-sm font-bold ${
                     getlimit >= 100 ? "text-red-500" : "text-green-500"
@@ -163,8 +165,12 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
                 >
                   {getlimit}/100
                 </div>
-              </div>
-            )}
+              ) : (
+                <>
+                  <LoadingOutlined />
+                </>
+              )}
+            </div>
             <InputCustom
               rules={[
                 {
