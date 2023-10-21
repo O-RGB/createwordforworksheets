@@ -1,3 +1,3 @@
 interface IlimitOfDay {
-    count: number;
+  count: number;
 }

@@ -40,7 +40,7 @@ export const createTextForCustomer = (
   }
 
   customerText += `${priceAllEmoji} ราคารวม\n`;
-  customerText += `${priceAllEmoji} ${result.priceAddFee} ${unit}`;
+  customerText += `${priceAllEmoji} ${result.priceAddFee.toLocaleString()} ${unit}`;
 
   if (result.goods.length > 0) {
     return customerText;
@@ -52,7 +52,7 @@ export const createTextForCustomer = (
 export const createPriceAllForMixMode = (priceAll: number) => {
   let str = "";
   str += `${priceForMixMode} ราคารวมทั้งหมด\n`;
-  str += `${priceForMixMode} ${priceAll} บาท`;
+  str += `${priceForMixMode} ${priceAll.toLocaleString()} บาท`;
   return str;
 };
 
@@ -60,7 +60,7 @@ export const createPriceByDiscount = (discount: IFinalResultByDiscount) => {
   let str: string = "";
   str += "";
   str += `${priceForDiscount} ${discount.name}\n`;
-  str += `${priceForDiscount} ${discount.priceSum} บาท`;
+  str += `${priceForDiscount} ${discount.priceSum.toLocaleString()} บาท`;
   return str;
 };
 

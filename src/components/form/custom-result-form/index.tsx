@@ -326,7 +326,7 @@ const CustomResultForm: React.FC<CustomResultFormProps> = ({
       <div>ราคารวม (ยังไม่รวมส่ง)</div>
       <div className=" md:pr-4 ">
         <div className="border rounded-md w-[40%] p-4 text-lg font-bold">
-          {priceNew}฿
+          {priceNew.toLocaleString()}฿
         </div>
       </div>
 

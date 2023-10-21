@@ -36,6 +36,27 @@ th {
   border-radius: 10px;
 }
 
+.Table-Custom > td,
+th {
+  border: 0px solid #ffffff;
+  text-align: left;
+  padding: 3px !important;
+  border-radius: 0px !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  white-space: nowrap;
+}
+
+.Table-Custom > .ant-table-cell > th,
+td {
+  border: 0px solid transparent !important;
+  text-align: left;
+  padding: 0px !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  border-radius: 0px !important;
+}
+
 html {
   @apply bg-gray-100;
 }

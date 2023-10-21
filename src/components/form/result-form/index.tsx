@@ -60,7 +60,7 @@ const ResultSetting: React.FC<ResultSettingFromProps> = ({
           <div className="flex flex-col gap-1 w-full md:w-auto">
             <label htmlFor="">ราคา</label>
             <div className="text-lg font-bold border border-solid p-5 rounded-md  w-full md:w-auto  ">
-              {setPriceAll}฿
+              {setPriceAll.toLocaleString()}฿
             </div>
           </div>
 
@@ -74,7 +74,7 @@ const ResultSetting: React.FC<ResultSettingFromProps> = ({
                 ราคาใหม่
               </label>
               <div className="text-lg font-bold border border-solid p-5 rounded-md text-green-500">
-                {olePrice}฿
+                {olePrice.toLocaleString()}฿
               </div>
             </div>
           )}

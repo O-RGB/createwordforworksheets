@@ -3,12 +3,18 @@ import CardCustom from "@/components/common/card";
 import InputCustom from "@/components/common/input";
 import TextAreaCustom from "@/components/common/text-area";
 import { HeadWorkSheets } from "@/model/headworksheets";
-import { Form, Modal } from "antd";
+import { Form, Modal, Table } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { LoadingOutlined } from "@ant-design/icons";
 import Router from "next/router";
-import { PlusCircleFilled, FileTextOutlined } from "@ant-design/icons";
+import {
+  PlusCircleFilled,
+  FileTextOutlined,
+  RollbackOutlined,
+  RobotOutlined,
+} from "@ant-design/icons";
 import { BgCal, CalColor, colorPrimary, colorSecondary } from "@/config/color";
+import { pushBookingToSheets } from "@/api/fetcher/pushBookingToSheets";
 interface SheetsGroupProps {
   sheets: IMapDataToSheets[][];
   data: IInitMainData[];
@@ -20,11 +26,14 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
   data,
   getLocalInput,
 }) => {
+  const [form] = Form.useForm();
   //   if (sheets.length == 0) {
   //     return <>DATA LENGTH IS EMTPY</>;
   //   }
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [urlFame, setURLFame] = useState<string | undefined>(undefined);
+  const [resultBooking, setResultBooking] = useState<
+    IPushBookingResult | undefined
+  >(undefined);
   const [temp, setTemp] = useState<IInitMainData[][] | undefined>(undefined);
   const initData = async () => {
     let test: IInitMainData[][] = [];
@@ -110,18 +119,15 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
   };
 
   const createURLStr = (iItemList: IItemsToURL) => {
-    let sheets: string = getLocalInput.googlesheets ?? "";
-    let param: string = `?page=index&type=${
-      iItemList.type
-    }&list=${iItemList.list.join(",")}&price=${iItemList.price.join(
+    let param: string = `&type=${iItemList.type}&list=${iItemList.list.join(
       ","
-    )}&facebook=${iItemList.facebook}&address=${
-      iItemList.address
-    }&paper=${iItemList.paper.join(",")}&shippingcost=${
-      iItemList.shippingcost
-    }&actor=${getLocalInput.username}`;
+    )}&price=${iItemList.price.join(",")}&facebook=${
+      iItemList.facebook
+    }&address=${iItemList.address}&paper=${iItemList.paper.join(
+      ","
+    )}&shippingcost=${iItemList.shippingcost}&actor=${getLocalInput.username}`;
 
-    return sheets + param;
+    return param;
   };
 
   const perparData = (output: IPreparDataFormSheets | any) => {
@@ -139,9 +145,24 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
     (output as IPreparDataFormSheets).items = item;
     let iItemList = createURLForSheets(output);
     let url = createURLStr(iItemList);
+    if (getLocalInput.googlesheets) {
+      pushBookingToSheets(getLocalInput.googlesheets, url)
+        .then((data) => {
+          setResultBooking(data);
+        })
+        .catch((e) => {
+          setResultBooking({
+            message: JSON.stringify(e),
+            status: false,
+          });
+        });
+    } else {
+      setResultBooking({
+        message: "เกิดข้อผิดพลาดก่อนส่งข้อมูล",
+        status: false,
+      });
+    }
     setTimeout(() => {
-      console.log(url);
-      setURLFame(url);
       showModal();
     }, 100);
   };
@@ -153,47 +174,195 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
   const handleOk = () => {
     setIsModalOpen(false);
     setTimeout(() => {
-      setURLFame(undefined);
+      setResultBooking(undefined);
     }, 500);
   };
+
+  const columns = [
+    {
+      title: "ชนิด",
+      dataIndex: "type",
+      key: "type",
+      render: (value: string) => (
+        <div className="whitespace-nowrap">{value}</div>
+      ),
+    },
+    {
+      title: "เดือนกันยายน",
+      dataIndex: "list",
+      key: "list",
+      render: (value: string) => (
+        <div className="whitespace-nowrap">{value}</div>
+      ),
+    },
+    {
+      title: "จำนวน",
+      dataIndex: "count",
+      key: "count",
+      render: (value: string) => (
+        <div className="whitespace-nowrap">{value}</div>
+      ),
+    },
+    {
+      title: "ราคา",
+      dataIndex: "price",
+      key: "price",
+      render: (value: string) => (
+        <div className="whitespace-nowrap">{value}</div>
+      ),
+    },
+    {
+      title: "แผ่น",
+      dataIndex: "paper",
+      key: "paper",
+      render: (value: string) => (
+        <div className="whitespace-nowrap">{value}</div>
+      ),
+    },
+    {
+      title: "ทุน",
+      dataIndex: "sum",
+      key: "sum",
+      render: (value: string) => (
+        <div className="whitespace-nowrap">{value}</div>
+      ),
+    },
+    {
+      title: "ค่าส่ง",
+      dataIndex: "del",
+      key: "del",
+      render: (value: string) => (
+        <div className="whitespace-nowrap">{value}</div>
+      ),
+    },
+    {
+      title: "กำไร",
+      dataIndex: "all",
+      key: "all",
+      render: (value: string) => (
+        <div className="whitespace-nowrap">{value}</div>
+      ),
+    },
+    {
+      title: "เฟส",
+      dataIndex: "face",
+      key: "face",
+      render: (value: string) => (
+        <div className="whitespace-nowrap">{value}</div>
+      ),
+    },
+    {
+      title: "ที่อยู่",
+      dataIndex: "address",
+      key: "address",
+      render: (value: string) => (
+        <div className="whitespace-nowrap">{value}</div>
+      ),
+    },
+    {
+      title: "Print",
+      dataIndex: "urlprint",
+      key: "urlprint",
+      render: (value: string) => (
+        <div className="whitespace-nowrap">{value}</div>
+      ),
+    },
+    {
+      title: "แทร็ก",
+      dataIndex: "kerry",
+      key: "kerry",
+      render: (value: string) => (
+        <div className="whitespace-nowrap">{value}</div>
+      ),
+    },
+    {
+      title: "วันที่",
+      dataIndex: "date",
+      key: "date",
+      render: (value: string) => (
+        <div className="whitespace-nowrap">{value}</div>
+      ),
+    },
+    {
+      title: "สถานะ",
+      dataIndex: "status",
+      key: "status",
+      render: (value: string) => (
+        <div className="whitespace-nowrap">{value}</div>
+      ),
+    },
+    {
+      title: "ผู้เพิ่มข้อมูล",
+      dataIndex: "actor",
+      key: "actor",
+      render: (value: string) => (
+        <div className="whitespace-nowrap">{value}</div>
+      ),
+    },
+    {
+      title: "ID สำหรับ URL",
+      dataIndex: "createUrl",
+      key: "createUrl",
+    },
+    {
+      title: "เข้ารหัส RowID",
+      dataIndex: "encodeRowId",
+      key: "encodeRowId",
+    },
+    {
+      title: "เว็บ Tracking",
+      dataIndex: "webTracking",
+      key: "webTracking",
+    },
+  ];
 
   return (
     <>
       <Modal
+        closeIcon={<></>}
         title="กำลังเพิ่มข้อมูล"
         open={isModalOpen}
         footer={
           <>
             <ButtonCustom
               type="primary"
+              disabled={!resultBooking}
               onClick={() => {
                 Router.push("/");
               }}
             >
-              OK
+              หน้าแรก
             </ButtonCustom>
           </>
         }
         destroyOnClose
         onOk={handleOk}
       >
-        <div className="relative">
-          <div className="z-20 absolute w-full h-full flex justify-center items-center">
-            <div>
-              <LoadingOutlined className="text-8xl" />
+        <div className="relative  ">
+          {!resultBooking ? (
+            <div className=" w-full h-full flex justify-center items-center">
+              <div>
+                <LoadingOutlined className="text-8xl" />
+              </div>
             </div>
-          </div>
-          <div className="relative z-50">
-            {urlFame && (
-              <iframe
-                id="myIframe"
-                className="rounded-md overflow-hidden h-[50vh] z-50"
-                width={"100%"}
-                height={"100%"}
-                src={urlFame}
-              ></iframe>
-            )}
-          </div>
+          ) : (
+            <>
+              {resultBooking.status ? (
+                <div className="relative z-50">
+                  <div className="text-green-500 ">{resultBooking.message}</div>
+
+                  <Table
+                    pagination={false}
+                    className="Table-Custom overflow-auto"
+                    dataSource={resultBooking.data?.list}
+                    columns={columns}
+                  ></Table>
+                </div>
+              ) : (
+                <div className="text-red-500 ">{resultBooking.message}</div>
+              )}
+            </>
+          )}
         </div>
       </Modal>
       <div
@@ -202,6 +371,7 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
       >
         <CardCustom Header={"ตรวจสอบข้อมูล"}>
           <Form
+            form={form}
             layout="vertical"
             className="flex flex-col gap-3"
             onFinish={perparData}
@@ -213,17 +383,20 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
               disabled
               initialValue={"เอกสาร"}
               value={"เอกสาร"}
+              rules={[{ required: true, message: "ไม่สามารถปล่อยว่าง" }]}
             ></InputCustom>
             <InputCustom
               name="facebook"
               required
               label="Facebook"
+              rules={[{ required: true, message: "ไม่สามารถปล่อยว่าง" }]}
             ></InputCustom>
             <TextAreaCustom
               name="address"
               autoSize
               required
               label="ที่อยู่"
+              rules={[{ required: true, message: "ไม่สามารถปล่อยว่าง" }]}
             ></TextAreaCustom>
             <TextAreaCustom
               name="shippingcost"
@@ -231,6 +404,21 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
               required
               label="ค่าส่ง"
               initialValue={"32"}
+              inputMode="numeric"
+              rules={[
+                { required: true, message: "ไม่สามารถปล่อยว่าง" },
+                {
+                  required: true,
+                  message: "ตัวเลขเท่านั้น",
+                  validator: (rule, value) => {
+                    if (Number(value)) {
+                      return Promise.resolve();
+                    } else {
+                      return Promise.reject("ใส่ตัวเลขเท่านั้น");
+                    }
+                  },
+                },
+              ]}
             ></TextAreaCustom>
 
             <div className="py-3">
@@ -250,18 +438,18 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
                         htmlFor=""
                         className="text-sm text-slate-500"
                       >
-                        * รายการเดียวกัน {i + 1} (อาจจหลายจำนวน)
+                        * รายการที่ {i + 1}
                       </label>
                       <div
                         style={{
                           backgroundColor: CalColor(colorPrimary, 0),
                         }}
-                        className="flex flex-col gap-1 border border-solid p-1 rounded-xl  "
+                        className="flex flex-col gap-0.5  p-0.5 rounded-lg  "
                       >
                         {x.map((y, j) => {
                           return (
                             <div
-                              className="rounded-md flex flex-col md:flex-row gap-2 w-full border border-solid p-2  bg-white"
+                              className="rounded-md flex flex-col md:flex-row gap-0.5 w-full   p-2  bg-white"
                               key={`sheets-j-${i}-${j}`}
                             >
                               <div className="w-[100%]">
@@ -327,6 +515,37 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
                                     name={y.id + "paper" + i + j}
                                     initialValue={y.paper}
                                   ></InputCustom>
+                                </div>
+                                <div className="w-fit">
+                                  <div className="pb-2 flex gap-1">
+                                    <RobotOutlined className="text-xs" /> Auto
+                                  </div>
+                                  <div className="flex gap-1">
+                                    <ButtonCustom
+                                      className="w-10"
+                                      onClick={() => {
+                                        form.setFieldValue(
+                                          y.id + "paper" + i + j,
+                                          Math.ceil(Number(y.paper) / 2)
+                                        );
+                                      }}
+                                    >
+                                      <div className="text-[10px] -ml-2">
+                                        หาร 2
+                                      </div>
+                                    </ButtonCustom>
+                                    <ButtonCustom
+                                      onClick={() => {
+                                        form.setFieldValue(
+                                          y.id + "paper" + i + j,
+                                          y.paper
+                                        );
+                                      }}
+                                      className="text-[10px] flex justify-center items-center w-1 "
+                                    >
+                                      <RollbackOutlined />
+                                    </ButtonCustom>
+                                  </div>
                                 </div>
                               </div>
                             </div>
