@@ -4,10 +4,16 @@ import InputCustom from "@/components/common/input";
 import { BgCal, colorSecondary } from "@/config/color";
 import { Form, Modal } from "antd";
 import Router from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SentMail from "./sentMail";
 import { getLimitOfDay } from "@/api/fetcher/getLimitOfDay";
-import { LoadingOutlined } from "@ant-design/icons";
+import {
+  LoadingOutlined,
+  CheckCircleFilled,
+  CloseCircleFilled,
+} from "@ant-design/icons";
+import { getNgrokUrl, sendMailServerNgrokUrl } from "@/api/fetcher/getNgrokUrl";
+import { NgrokUrlContext } from "@/context/ngrokService";
 interface SentEmailGroupProps {
   sheets: IMapDataToSheets[][];
   getMockup?: WorksheetsModelInput[];
@@ -19,6 +25,8 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
   getMockup,
   getLocalInput,
 }) => {
+  const { ngrokUrl } = useContext(NgrokUrlContext);
+
   const form = Form.useForm();
   const [compoSent, setCompoSent] = useState<ISenttEmailCompo[] | undefined>(
     undefined
@@ -27,24 +35,29 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
 
   const [countCompo, setCountCompo] = useState<number>(0);
 
-  const [getlimit, setLimit] = useState<number | undefined>(undefined);
-  const getLimit = (url: string) => {
-    getLimitOfDay(url).then((data) => {
-      if (data) {
-        setLimit(100 - data.count);
-      }
-    });
-  };
+  // const [getlimit, setLimit] = useState<number | undefined>(undefined);
+  // const getLimit = (url: string) => {
+  //   getLimitOfDay(url).then((data) => {
+  //     if (data) {
+  //       setLimit(100 - data.count);
+  //     }
+  //   });
+  // };
 
   useEffect(() => {
     if (getMockup) {
       setCountLoad(0);
       setCountCompo(getMockup.length);
-      if (!getlimit) {
-        if (getLocalInput.googlesheets) {
-          getLimit(getLocalInput.googlesheets);
-        }
-      }
+      // if (!getlimit) {
+      //   if (getLocalInput.googlesheets) {
+      //     getLimit(getLocalInput.googlesheets);
+      //   }
+      // }
+      // if (!getNgrok) {
+      //   if (getLocalInput.googlesheets) {
+      //     getUrlConfigNgRok(getLocalInput.googlesheets, "ngrok_url");
+      //   }
+      // }
     }
   }, [sheets, getMockup]);
 
@@ -56,6 +69,7 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
           workUI: main,
           url: createURLStr({
             email: email,
+            rootToFile: main.filename.map((x) => main.root + "/" + x),
             fileNames: main.filename,
             path: main.root,
             subject: main.name,
@@ -63,6 +77,7 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
           objWorkinput: {
             email: email,
             fileNames: main.filename,
+            rootToFile: main.filename.map((x) => main.root + "/" + x),
             path: main.root,
             subject: main.name,
           },
@@ -129,6 +144,7 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
             return (
               <div key={`copo-sent-${index}`}>
                 <SentMail
+                  rootToFile={data.objWorkinput.rootToFile}
                   onLoadFinish={() => {
                     let count = countLoad;
                     count = count + 1;
@@ -156,14 +172,14 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
             className="flex flex-col gap-2"
           >
             <div className="flex gap-1 items-center">
-              ลิมิตส่งเมลวันนี้:
-              {getlimit ? (
-                <div
-                  className={`py-2 text-sm font-bold ${
-                    getlimit >= 100 ? "text-red-500" : "text-green-500"
-                  }`}
-                >
-                  {getlimit}/100
+              สถานะ Server:
+              {ngrokUrl ? (
+                <div className={`py-2 text-sm font-bold `}>
+                  {!ngrokUrl ? (
+                    <CloseCircleFilled className="text-sm text-red-500 bg-white rounded-full border border-white" />
+                  ) : (
+                    <CheckCircleFilled className="text-sm text-green-500 bg-white rounded-full border border-white" />
+                  )}
                 </div>
               ) : (
                 <>
@@ -209,8 +225,12 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
                 );
               }
             })}
-
-            <ButtonCustom htmlType="submit" type="primary" className="w-fit">
+            <ButtonCustom
+              disabled={ngrokUrl ? false : true}
+              htmlType="submit"
+              type="primary"
+              className="w-fit"
+            >
               ส่งเมล
             </ButtonCustom>
           </Form>

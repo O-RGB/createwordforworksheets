@@ -30,6 +30,7 @@ import {
 } from "@/config/color";
 import { MapDataToSheets } from "@/function/result/mapForSheets";
 import CustomResultForm from "@/components/form/custom-result-form";
+import Connection from "@/apps/connection";
 
 interface HomeGroupProps {
   getMockup: HeadWorkSheets[];
@@ -87,7 +88,6 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
       Discount ?? undefined
     ).then((data) => {
       if (data) {
-        console.log(data.IFinalResultObj);
         // DisplayCustom(keyMockup, form.getFieldsValue() as any, getMockup);
         setIFinalResultPrice(data.IFinalResultObj);
         setPriceAllNow(data.priceAll);
@@ -417,6 +417,8 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         }}
       ></FloatButtonForm>
 
+      {userInitLocal && <Connection getLocalInput={userInitLocal}></Connection>}
+
       <div className="relative flex md:gap-3 duration-300 ">
         <div className=" w-full ">
           <div className="flex flex-col gap-2">
@@ -491,7 +493,6 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
               <ResultSetting
                 cancel={GetReslut}
                 onChange={(e) => {
-                  console.log(e);
                   GetReslut({
                     name: "ได้รับส่วนลด",
                     priceSum: e,

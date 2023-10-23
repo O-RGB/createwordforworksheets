@@ -1,12 +1,15 @@
 import { FloatButton, ConfigProvider } from "antd";
-import React from "react";
+import React, { useContext } from "react";
 import {
   SaveOutlined,
   DeleteOutlined,
   SettingOutlined,
   MailOutlined,
+  CheckCircleFilled,
+  CloseCircleFilled,
 } from "@ant-design/icons";
 import { PiMicrosoftExcelLogo } from "react-icons/pi";
+import { NgrokUrlContext } from "@/context/ngrokService";
 
 interface FloatButtonFormProps {
   removeResult?: () => void;
@@ -25,6 +28,7 @@ const FloatButtonForm: React.FC<FloatButtonFormProps> = ({
   onSentMail,
   modeSetting,
 }) => {
+  const { ngrokUrl } = useContext(NgrokUrlContext);
   return (
     <>
       <FloatButton.Group shape="circle" style={{ right: 24 }}>
@@ -32,7 +36,20 @@ const FloatButtonForm: React.FC<FloatButtonFormProps> = ({
           <FloatButton
             className="ant-float-btn-body-gmail"
             onClick={onSentMail}
-            icon={<MailOutlined />}
+            icon={
+              <div className="relative">
+                {ngrokUrl ? (
+                  <div className="absolute -bottom-0.5 -right-0.5">
+                    <CheckCircleFilled className="text-[0.5rem] text-green-500 bg-white rounded-full border border-white" />
+                  </div>
+                ) : (
+                  <div className="absolute -bottom-1 -right-1">
+                    <CloseCircleFilled className="text-[0.5rem] text-red-500 bg-white rounded-full border border-white" />
+                  </div>
+                )}
+                <MailOutlined />
+              </div>
+            }
             type="primary"
             style={{ right: 24 }}
           />

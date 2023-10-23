@@ -54,12 +54,10 @@ const InterFaceTest: NextPage = () => {
     let sheetes = getLocal("googlesheets");
     if (sheetes) {
       if (!sheetsLoaded) {
-        console.log("GET API");
         getGoogleSheetsItems(sheetes)
           .then((x) => {
             MapDataToMinModel(x).then((data) => {
               setSheetsLoaded(data);
-              console.log(data);
               InitData(data);
             });
           })
@@ -69,7 +67,6 @@ const InterFaceTest: NextPage = () => {
             });
           });
       } else {
-        console.log("NONE GET API");
         InitData(sheetsLoaded);
       }
     } else {

@@ -1,9 +1,7 @@
 import { HeadWorkSheets } from "@/model/headworksheets";
 import { searchValueIsChecked } from "../result/mapFormToString";
 
-const getWorkSheetsById = (onlyChecked: HeadWorkSheets[]) => {
-  console.log(onlyChecked);
-};
+const getWorkSheetsById = (onlyChecked: HeadWorkSheets[]) => {};
 
 export const DisplayCustom = (
   keyMockup: string[],
@@ -12,6 +10,4 @@ export const DisplayCustom = (
 ) => {
   let onlyChecked: CheckboxResult[] = searchValueIsChecked(keyMockup, value);
   getWorkSheetsById(getMockup);
-
-  console.log(onlyChecked, "NEWFU");
 };

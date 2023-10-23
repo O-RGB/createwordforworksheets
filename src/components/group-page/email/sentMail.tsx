@@ -1,17 +1,20 @@
 import { getFile } from "@/api/fetcher/getFile";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   LoadingOutlined,
   CheckCircleOutlined,
   FilePdfOutlined,
 } from "@ant-design/icons";
 import * as nodemailer from "nodemailer";
+import { NgrokUrlContext } from "@/context/ngrokService";
+import { sendMailServerNgrokUrl } from "@/api/fetcher/getNgrokUrl";
 
 interface SentMailProps {
   compoSent: ISenttEmailCompo;
   name: string;
   filename: string[];
   email: string;
+  rootToFile: string[];
   onLoadFinish?: () => void;
 }
 
@@ -36,6 +39,7 @@ const SentMail: React.FC<SentMailProps> = ({
   name,
   filename,
   email,
+  rootToFile,
   onLoadFinish,
 }) => {
   const [strStatus, setStrStatus] = useState<string>("");
@@ -45,6 +49,8 @@ const SentMail: React.FC<SentMailProps> = ({
   const [startUp, setStartUp] = useState<boolean>(false);
   const [detect, setDetect] = useState<boolean>(true);
   const [detectChangeApp, setDetectChangeApp] = useState<boolean>(true);
+  const { ngrokUrl } = useContext(NgrokUrlContext);
+  const [detailEror, setDetailError] = useState<string>("");
 
   const handleOnSwapApp = () => {
     const handleFocus = () => {
@@ -59,91 +65,21 @@ const SentMail: React.FC<SentMailProps> = ({
     window.addEventListener("blur", handleBlur);
   };
 
-  function conventStrginToBlob(content: string, contentType = "") {
-    const byteNumbers = new Array(content.length);
-    for (let i = 0; i < content.length; i++) {
-      byteNumbers[i] = content.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], {
-      type: contentType,
-    });
-    return blob;
-  }
-
-  const blobToBase64 = async (blob: Blob): Promise<any> => {
-    const reader = new FileReader();
-    reader.readAsDataURL(blob);
-    return new Promise((resolve) => {
-      reader.onloadend = () => {
-        const base64String = reader.result as string;
-        const cleanBase64String = base64String.substring(
-          "data:application/pdf;base64,".length
-        );
-        resolve(cleanBase64String);
-      };
-    });
-  };
-
-  const perparFile = async (blobList: BlobName[]): Promise<IAttachments[]> => {
-    const filePromises = blobList.map((x) =>
-      blobToBase64(x.blob).then((file) => ({
-        content: file,
-        contentType: "application/pdf",
-        encoding: "base64",
-        filename: x.filename,
-      }))
-    );
-
-    return Promise.all(filePromises);
-  };
-
-  const sentMail = async (blobList: BlobName[]) => {
-    setStrStatus("กำลังส่งอีเมล");
-
-    // emaillmit
-
-    // const fileList = await perparFile(blobList);
-    // fetch("/api/contact", {
-    //   method: "POST",
-    //   headers: {
-    //     Accept: "application/json, text/plain, */*",
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     name: name,
-    //     message: "messtest",
-    //     email: email,
-    //     attachments: fileList,
-    //   }),
-    // }).then((res) => {
-    //   if (res.status === 200) {
-    //     setSentmail(true);
-    //     setStrStatus("สำเร็จ");
-    //     setFinish(true);
-    //   } else {
-    //     setSentmail(true);
-    //     setStrStatus("ไม่สำเร็จ");
-    //     setFinish(false);
-    //   }
-    // });
-  };
-
   useEffect(() => {
     handleOnSwapApp();
-    if (!download && !startUp) {
+    if (!download && !startUp!) {
       setStartUp(true);
-      setStrStatus("กำลังติดต่อ Google Sheets");
+      setStrStatus("รอการตอบกลับจาก Ngrok");
 
-      if (compoSent && detectChangeApp) {
-        getFile(compoSent.url)
+      if (compoSent && detectChangeApp && ngrokUrl) {
+        sendMailServerNgrokUrl(ngrokUrl, {
+          filepaths: rootToFile,
+          recipient: email,
+          subject: name,
+        })
           .then((data) => {
-            setStrStatus("ดาวน​์โหลดไฟล์สำเร็จ");
-            setStrStatus("กำลังเตรียมไฟล์");
             if (data) {
-              console.log(data.reault.LabelType);
-
-              if (data.reault.LabelType == "INBOX") {
+              if (data.status) {
                 setSentmail(true);
                 setStrStatus("สำเร็จ");
                 setFinish(true);
@@ -151,22 +87,9 @@ const SentMail: React.FC<SentMailProps> = ({
                 setSentmail(true);
                 setStrStatus("ไม่สำเร็จ");
                 setFinish(false);
+                setDetailError(data.message);
               }
 
-              // let blobList: BlobName[] = [];
-              // data.reault.map((file) => {
-              //   try {
-              //     const isoString = file.content;
-              //     const blob = conventStrginToBlob(isoString, file.mimeType);
-              //     blobList.push({ blob: blob, filename: file.filename });
-              //   } catch (error) {
-              //     setStrStatus("ไม่สำเร็จ");
-              //     setFinish(false);
-              //     console.error("Error decoding Base64:", error);
-              //   }
-              // });
-              // setStrStatus("เตรียมไฟล์สำเร็จ");
-              // sentMail(blobList);
               setDownload(true);
               onLoadFinish?.();
             }
@@ -217,6 +140,11 @@ const SentMail: React.FC<SentMailProps> = ({
           </div>
         </div>
       </div>
+      {detailEror && (
+        <div className="text-right text-xs text-red-500 py-0.5 w-full flex justify-end">
+          <div className="w-1/2">รายละเอียด: {detailEror}</div>
+        </div>
+      )}
     </>
   );
 };
