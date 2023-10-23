@@ -1,4 +1,5 @@
 import { getFile } from "@/api/fetcher/getFile";
+import SiteHeader from "@/components/common/head/NextHead";
 import SentEmailGroup from "@/components/group-page/email";
 import { SheetsLoadedContext } from "@/context/sheetsLoaded";
 import { SheetsContext } from "@/context/sheetsService";
@@ -55,6 +56,10 @@ const Email: NextPage = () => {
 
   return (
     <>
+      <SiteHeader
+        title="ระบบสร้างรายการ V2"
+        description="ไม่ต้องพิมพ์อีกต่อไป.. สร้างรายการออร์เดอร์และคำนวณราคารวม และยังมีระบบคำนวนส่วนลดให้ด้วย"
+      ></SiteHeader>
       <SentEmailGroup
         getMockup={getMockup}
         sheets={sheets}

@@ -4,6 +4,7 @@ import {
   LoadingOutlined,
   CheckCircleOutlined,
   FilePdfOutlined,
+  ApartmentOutlined,
 } from "@ant-design/icons";
 import * as nodemailer from "nodemailer";
 import { NgrokUrlContext } from "@/context/ngrokService";
@@ -111,7 +112,7 @@ const SentMail: React.FC<SentMailProps> = ({
   return (
     <>
       <div
-        className={`border p-2 rounded-md flex justify-between gap-2 ${
+        className={`border p-2 rounded-md flex flex-col sm:flex-row justify-between gap-2 ${
           finish == true
             ? "border-green-500 text-green-500"
             : finish == false
@@ -126,6 +127,9 @@ const SentMail: React.FC<SentMailProps> = ({
           <div>{name}</div>
         </div>
         <div className="flex gap-2">
+          <div>
+            <ApartmentOutlined />
+          </div>
           <div>{strStatus}</div>
           <div>
             {finish == true ? (
