@@ -417,7 +417,12 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         }}
       ></FloatButtonForm>
 
-      {userInitLocal && <Connection getLocalInput={userInitLocal}></Connection>}
+      {userInitLocal && (
+        <Connection
+          notificationInstance={api}
+          getLocalInput={userInitLocal}
+        ></Connection>
+      )}
 
       <div className="relative flex md:gap-3 duration-300 ">
         <div className=" w-full ">

@@ -139,6 +139,7 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
         destroyOnClose
         onOk={handleOk}
       >
+        * มือถือ ไม่แนะนำให้เปลี่ยนหน้าจอ รอจนกว่าจะสำเร็จทุกรายการ
         <div className="flex flex-col gap-2">
           {compoSent?.map((data, index) => {
             return (
@@ -220,7 +221,11 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
               } else {
                 return (
                   <div key={`main-file-${i}`}>
-                    <div className="text-gray-500">{data.name}</div>
+                    <div className="text-gray-500">
+                      <div>{data.name}</div>
+                      <div>ไม่ได้ Set Path</div>
+                      <div>Status: ข้ามการส่งเมล</div>
+                    </div>
                   </div>
                 );
               }
