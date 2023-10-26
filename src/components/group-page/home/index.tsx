@@ -20,6 +20,8 @@ import { SheetsContext } from "@/context/sheetsService";
 import UserForm from "@/components/form/user-from";
 import {
   CheckUsernameAndURLIsRuning,
+  getFbToken,
+  setFbToken,
   setUsernameOrURL,
 } from "@/lib/checkGoogleSheetsUrl";
 import {
@@ -31,6 +33,7 @@ import {
 import { MapDataToSheets } from "@/function/result/mapForSheets";
 import CustomResultForm from "@/components/form/custom-result-form";
 import Connection from "@/apps/connection";
+import FacebookTokenForm from "@/components/form/facebook-token-form";
 
 interface HomeGroupProps {
   getMockup: HeadWorkSheets[];
@@ -150,6 +153,19 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
     }, 1000);
   };
 
+  const checkBeforeGotoFacebook = () => {
+    if (modeSetting == "file") {
+      let toktn = getFbToken();
+      if (toktn.fbToken) {
+        MapDataToSheets(form.getFieldsValue(), true).then((data) => {
+          setSheets(data);
+          setTimeout(() => {
+            Router.push("/facebook");
+          }, 100);
+        });
+      }
+    }
+  };
   const checkBeforeSentMail = () => {
     if (modeSetting == "file") {
       CheckUsernameAndURLIsRuning().then((e) => {
@@ -166,6 +182,8 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   };
 
   const [userInitLocal, setUserInitLocal] = useState<IUserInput>();
+  const [userFacebookToken, setFacebookToken] = useState<IFacebookTokenInput>();
+
   const [isModalUser, setIsModalUserOpen] = useState(false);
 
   const showModalUser = () => {
@@ -179,6 +197,10 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
 
   const handleCancelUser = () => {
     setIsModalUserOpen(false);
+  };
+
+  const handleOkFacebook = (output: IFacebookTokenInput) => {
+    setFbToken(output);
   };
 
   const checkUserAndSheets = async () => {
@@ -195,8 +217,16 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
     });
   };
 
+  const checkFacebookToken = async () => {
+    let toktn = getFbToken();
+    setFacebookToken({
+      facebookToken: toktn.fbToken ? toktn.fbToken : undefined,
+    });
+  };
+
   useEffect(() => {
     checkUserAndSheets();
+    checkFacebookToken();
   }, []);
 
   // COMPONENT SETTING
@@ -205,6 +235,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
 
   const showModalSetting = () => {
     checkUserAndSheets();
+    checkFacebookToken();
     setTimeout(() => {
       setIsModalSettingOpen(true);
     }, 100);
@@ -369,6 +400,15 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
               openOnChangeMode
             ></UserForm>
           </CardCustom>
+          <CardCustom Header={"ความปลอดภัย Facebook"}>
+            <FacebookTokenForm
+              onCancel={handleCancelUser}
+              onFinish={handleOkFacebook}
+              initData={userFacebookToken}
+              removeCancel
+              openOnChangeMode
+            ></FacebookTokenForm>
+          </CardCustom>
         </div>
       </Modal>
 
@@ -398,6 +438,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
 
       <FloatButtonForm
         modeSetting={modeSetting}
+        onFacebook={checkBeforeGotoFacebook}
         onExcel={ChangeToSeets}
         onSetting={() => showModalSetting()}
         onSave={() => GetReslut()}

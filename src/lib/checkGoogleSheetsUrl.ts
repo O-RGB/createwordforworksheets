@@ -19,6 +19,17 @@ export const getUsernameAndURL = () => {
   };
 };
 
+export const setFbToken = (output: IFacebookTokenInput) => {
+  setLocal("facebookToken", output.facebookToken);
+};
+
+export const getFbToken = () => {
+  let fbToken = getLocal("facebookToken");
+  return {
+    fbToken,
+  };
+};
+
 export const CheckUsernameAndURLIsRuning = async () => {
   let username = getLocal("username");
   let sheets = getLocal("googlesheets");

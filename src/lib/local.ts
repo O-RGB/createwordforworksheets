@@ -1,6 +1,7 @@
 export const crendentialKeys: { [key: string]: string } = {
   username: "username",
   googlesheets: "googlesheets",
+  facebookToken: "facebookToken",
 };
 
 export const setLocal = (key: string, value: any) => {

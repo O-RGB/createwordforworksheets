@@ -76,10 +76,12 @@ html {
 .ant-float-btn-body-gmail > .ant-badge > .ant-float-btn-body {
   background-color: #dc1f1f !important;
 }
+.ant-float-btn-body-facebook > .ant-badge > .ant-float-btn-body {
+  background-color: #1977f2 !important;
+}
 
 .ant-notification-notice {
   top: 30px !important;
   width: fit-content;
   padding: 13px !important;
-
 }

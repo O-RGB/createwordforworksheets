@@ -1,0 +1,3 @@
+interface IFacebookTokenInput {
+  facebookToken?: string;
+}

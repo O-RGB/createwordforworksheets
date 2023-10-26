@@ -7,9 +7,11 @@ import {
   MailOutlined,
   CheckCircleFilled,
   CloseCircleFilled,
+  FacebookFilled,
 } from "@ant-design/icons";
 import { PiMicrosoftExcelLogo } from "react-icons/pi";
 import { NgrokUrlContext } from "@/context/ngrokService";
+import { BsMessenger } from "react-icons/bs";
 
 interface FloatButtonFormProps {
   removeResult?: () => void;
@@ -17,6 +19,7 @@ interface FloatButtonFormProps {
   onSetting?: () => void;
   onExcel?: () => void;
   onSentMail?: () => void;
+  onFacebook?: () => void;
   modeSetting: ModeOnFinish;
 }
 
@@ -26,6 +29,7 @@ const FloatButtonForm: React.FC<FloatButtonFormProps> = ({
   onSetting,
   onExcel,
   onSentMail,
+  onFacebook,
   modeSetting,
 }) => {
   const { ngrokUrl } = useContext(NgrokUrlContext);
@@ -33,26 +37,35 @@ const FloatButtonForm: React.FC<FloatButtonFormProps> = ({
     <>
       <FloatButton.Group shape="circle" style={{ right: 24 }}>
         {modeSetting == "file" && (
-          <FloatButton
-            className="ant-float-btn-body-gmail"
-            onClick={onSentMail}
-            icon={
-              <div className="relative">
-                {ngrokUrl ? (
-                  <div className="absolute -bottom-0.5 -right-0.5">
-                    <CheckCircleFilled className="text-[0.5rem] text-green-500 bg-white rounded-full border border-white" />
-                  </div>
-                ) : (
-                  <div className="absolute -bottom-1 -right-1">
-                    <CloseCircleFilled className="text-[0.5rem] text-red-500 bg-white rounded-full border border-white" />
-                  </div>
-                )}
-                <MailOutlined />
-              </div>
-            }
-            type="primary"
-            style={{ right: 24 }}
-          />
+          <>
+            <FloatButton
+              className="ant-float-btn-body-gmail"
+              onClick={onSentMail}
+              icon={
+                <div className="relative">
+                  {ngrokUrl ? (
+                    <div className="absolute -bottom-0.5 -right-0.5">
+                      <CheckCircleFilled className="text-[0.5rem] text-green-500 bg-white rounded-full border border-white" />
+                    </div>
+                  ) : (
+                    <div className="absolute -bottom-1 -right-1">
+                      <CloseCircleFilled className="text-[0.5rem] text-red-500 bg-white rounded-full border border-white" />
+                    </div>
+                  )}
+                  <MailOutlined />
+                </div>
+              }
+              type="primary"
+              style={{ right: 24 }}
+            />
+            <FloatButton
+              className="ant-float-btn-body-facebook"
+              onClick={onFacebook}
+              icon={<BsMessenger />}
+              type="primary"
+              style={{ right: 24 }}
+            />
+          </>
         )}
         {modeSetting != "file" && (
           <FloatButton
