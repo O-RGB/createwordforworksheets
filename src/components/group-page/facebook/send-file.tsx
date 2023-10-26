@@ -61,9 +61,14 @@ const FacebookSendFile: React.FC<FacebookSendFileProps> = ({
         },
         "POST"
       )
-        .then((data) => {
-          setStatus("ส่งไฟล์สำเร็จ");
-          setOnResult(true);
+        .then((data: any) => {
+          if (data["error"]) {
+            setOnResult(false);
+            setOnError(JSON.stringify(data["error"]));
+          } else {
+            setStatus("ส่งไฟล์สำเร็จ");
+            setOnResult(true);
+          }
         })
         .catch((error) => {
           setOnResult(false);

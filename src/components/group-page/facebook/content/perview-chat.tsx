@@ -3,42 +3,50 @@ import React from "react";
 interface FacebookPreviewChatProps {
   facebookChat: IFacebookChat;
   selectUser: number;
+  IPangConfig: IPangConfig;
 }
 
 const FacebookPreviewChat: React.FC<FacebookPreviewChatProps> = ({
   facebookChat,
   selectUser,
+  IPangConfig,
 }) => {
   return (
     <>
-      <div className="flex flex-col gap-2  overflow-y-auto h-80 border">
+      <div className="flex flex-col-reverse gap-2  overflow-y-auto h-80 border">
         <div className=" w-full">
           {facebookChat?.data?.map((chat, index) => {
             if (index == selectUser)
               return (
                 <div
                   key={`fac-k-${index}`}
-                  className="p-2 border flex flex-col gap-1"
+                  className="p-2 border flex flex-col-reverse gap-1"
                 >
                   {chat.messages?.data.map((ca, cai) => {
                     return (
                       <div
                         key={`mes-i-${cai}`}
                         className={`flex ${
-                          ca.from.id != "463082010924848"
+                          ca.from.id != IPangConfig.id
                             ? "justify-start text-start "
                             : "justify-end text-end"
                         }`}
                       >
-                        <div className="max-w-[50%]">
+                        <div
+                          className={`max-w-[80%] sm:max-w-[60%] flex flex-col  ${
+                            ca.from.id != IPangConfig.id
+                              ? "items-start text-start "
+                              : "items-end text-end"
+                          }`}
+                        >
                           <div className="text-xs text-gray-400">
                             {ca.from.name}
                           </div>
                           <div
-                            className={` break-all  p-2  bg-blue-500 rounded-2xl text-white`}
+                            className={` break-all w-fit p-2  bg-blue-500 rounded-2xl text-white`}
                           >
                             {ca.message != "" ? (
-                              <div>{ca.message}</div>
+                              <div className=" ">{ca.message}</div>
                             ) : (
                               <div className={"flex gap-1 w-fit "}>
                                 {ca.attachments?.data.map((at, ati) => {

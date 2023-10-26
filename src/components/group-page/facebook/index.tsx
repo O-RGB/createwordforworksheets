@@ -10,6 +10,7 @@ import FacebookPreviewUser from "./content/preview-user";
 import FacebookSelectAccount from "./content/preview-account";
 import FacebookSendFile from "./send-file";
 import Router from "next/router";
+import { LoadingOutlined } from "@ant-design/icons";
 
 interface FacebookPageGroupProps {
   getLocalInput: IUserInput | undefined;
@@ -70,7 +71,9 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
   };
 
   useEffect(() => {
-    showAccount();
+    if (!onSelectAccount) {
+      showAccount();
+    }
 
     if (getLocalInput?.googlesheets) {
       getAccount(getLocalInput.googlesheets, {
@@ -121,7 +124,7 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
   };
 
   const onOkSendFile = () => {
-    Router.push("/")
+    Router.push("/");
     setIsModalSendFileOpan(false);
   };
 
@@ -176,6 +179,7 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
       >
         * ข้อมูลนี้ไม่ได้อัปเดตแบบเรียวไทม
         <FacebookPreviewChat
+          IPangConfig={onSelectAccount!}
           facebookChat={facebookChat!}
           selectUser={selectUser}
         ></FacebookPreviewChat>
@@ -211,7 +215,7 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
             <div>ส่งให้</div>
             <div>
               <FacebookPreviewUser
-                selectUser={0}
+                selectUser={selectUser}
                 facebookChat={facebookChat!}
                 onClickUser={(index) => {
                   setSelectUser(index);
@@ -231,7 +235,7 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
         destroyOnClose
         onOk={handleOk}
       >
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 ">
           {onGetAccount ? (
             <FacebookSelectAccount
               selectedAccount={onSelectAccount}
@@ -243,7 +247,11 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
               accountList={onGetAccount}
             ></FacebookSelectAccount>
           ) : (
-            <>loaing</>
+            <>
+              <div className="flex justify-center items-center w-full h-20">
+                <LoadingOutlined className="text-5xl " />
+              </div>
+            </>
           )}
         </div>
       </Modal>
@@ -270,9 +278,9 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
       >
         <div className="">
           <div className="font-bold">ผู้รับ</div>
-          <div className="pt-1">
+          <div className="pt-1 ">
             <FacebookPreviewUser
-              selectUser={0}
+              selectUser={selectUser}
               facebookChat={facebookChat!}
               onClickUser={(index) => {
                 setSelectUser(index);
@@ -283,7 +291,7 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
         <div className="">
           <div className="font-bold">สภานะ</div>
           {sendFileCreateCompo && onSelectAccount && facebookChat && (
-            <div className="pt-1">
+            <div className="pt-1 flex flex-col gap-1">
               {sendFileCreateCompo?.map((data, index) => {
                 return (
                   <div key={`copo-sent-${index}`}>
@@ -339,7 +347,11 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
               ></FacebookPreviewUser>
             </div>
           ) : (
-            <>Loaing</>
+            !isModalAccount && (
+              <div className="flex justify-center items-center w-full h-20">
+                <LoadingOutlined className="text-5xl " />
+              </div>
+            )
           )}
         </CardCustom>
       </div>
