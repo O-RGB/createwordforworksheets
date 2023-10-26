@@ -1,4 +1,4 @@
-import { getFacebookChat } from "@/api/fetcher/getFacebookChat";
+import { getAccount, getFacebookChat } from "@/api/fetcher/getFacebookChat";
 import ButtonCustom from "@/components/common/button";
 import CardCustom from "@/components/common/card";
 import { BgCal, colorSecondary } from "@/config/color";
@@ -7,9 +7,10 @@ import React, { useEffect, useState } from "react";
 import FacebookPreviewFile from "./content/perview-file";
 import FacebookPreviewChat from "./content/perview-chat";
 import FacebookPreviewUser from "./content/preview-user";
+import FacebookSelectAccount from "./content/preview-account";
 
 interface FacebookPageGroupProps {
-  getLocalInput: IFacebookTokenInput | undefined;
+  getLocalInput: IUserInput | undefined;
   getMockup?: WorksheetsModelInput[];
 }
 
@@ -21,15 +22,24 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
     undefined
   );
 
+  const [onGetAccount, setGetAccount] = useState<IPangConfig[] | undefined>(
+    undefined
+  );
+
+  const [onSelectAccount, setSelectAccount] = useState<IPangConfig | undefined>(
+    undefined
+  );
+
   const [selectUser, setSelectUser] = useState<number>(0);
-  useEffect(() => {
-    if (getLocalInput?.facebookToken && !facebookChat) {
+
+  const getFacebookData = (onSelectAccount: IPangConfig) => {
+    if (onSelectAccount?.token) {
       const baseUrl = "https://graph.facebook.com/v18.0/me/conversations";
       const params: any = {
         fields:
           "participants,messages.limit(10){id,message,attachments{image_data,mime_type,file_url,name},from},name",
         limit: 10,
-        access_token: getLocalInput?.facebookToken,
+        access_token: onSelectAccount?.token,
       };
 
       const queryString = Object.keys(params)
@@ -40,11 +50,27 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
 
       getFacebookChat(url, { "Content-Type": "application/json" })
         .then((data) => {
+          console.log(data);
           setFacebookChat(data);
         })
         .catch((error) => {
           console.error("Error: " + error);
         });
+    }
+  };
+
+  useEffect(() => {
+    showAccount();
+
+    if (getLocalInput?.googlesheets) {
+      getAccount(getLocalInput.googlesheets, {
+        key: "page_token",
+      }).then((data) => {
+        if (data.configData) {
+          let json: IPangConfig[] = JSON.parse(data.configData);
+          setGetAccount(json);
+        }
+      });
     }
   }, [getLocalInput]);
 
@@ -67,6 +93,15 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
   const confirm = () => {
     setIsModalConfirmOpan(false);
   };
+
+  const [isModalAccount, setIsModalAccountOpan] = useState(false);
+  const showAccount = () => {
+    setIsModalAccountOpan(true);
+  };
+
+  const onOkAccount = () => {
+    setIsModalAccountOpan(false);
+  };
   return (
     <>
       <Modal
@@ -86,7 +121,6 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
             </ButtonCustom>
             <ButtonCustom
               type="primary"
-              //   disabled={countCompo == countLoad}
               onClick={() => {
                 handleOk();
                 showConfirm();
@@ -122,16 +156,7 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
             >
               ยกเลิก
             </ButtonCustom>
-            <ButtonCustom
-              type="primary"
-              //   disabled={countCompo == countLoad}
-              //   onClick={() => {
-              //     // handleOk();
-              //     Router.push("/");
-              //   }}
-            >
-              ตกลง
-            </ButtonCustom>
+            <ButtonCustom type="primary">ตกลง</ButtonCustom>
           </>
         }
         destroyOnClose
@@ -155,13 +180,51 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
         </div>
       </Modal>
 
+      <Modal
+        title="เลือกเพจที่ต้องการ"
+        open={isModalAccount}
+        closable={false}
+        closeIcon={false}
+        footer={<></>}
+        destroyOnClose
+        onOk={handleOk}
+      >
+        <div className="flex flex-col gap-2">
+          {onGetAccount ? (
+            <FacebookSelectAccount
+              selectedAccount={onSelectAccount}
+              onSelectAccount={(data) => {
+                setSelectAccount(data);
+                onOkAccount();
+                getFacebookData(data);
+              }}
+              accountList={onGetAccount}
+            ></FacebookSelectAccount>
+          ) : (
+            <>loaing</>
+          )}
+        </div>
+      </Modal>
+
       <div
         className={` duration-300  p-2 sm:p-3 min-h-screen `}
         style={{ ...BgCal(colorSecondary) }}
       >
         <CardCustom Header={"ตรวจสอบข้อมูล"} className="flex flex-col gap-2">
           <FacebookPreviewFile getMockup={getMockup}></FacebookPreviewFile>
-          <div className="font-bold">เลือกผู้รับ</div>
+          <div className="flex justify-between">
+            <div className="font-bold">เลือกผู้รับ</div>
+            <div>
+              <ButtonCustom
+                onClick={() => {
+                  setFacebookChat(undefined);
+                  showAccount();
+                }}
+              >
+                เปลี่ยนเพจ
+              </ButtonCustom>
+            </div>
+          </div>
           <div className="text-sm">
             <div>* ไม่รอบรับการแสดงภาพผู้ใช้งาน</div>
             <div>* แสดงได้สูงสุด 10 รายการ</div>
@@ -172,28 +235,10 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
                 facebookChat={facebookChat}
                 onClickUser={(index) => {
                   setSelectUser(index);
+
                   showModal();
                 }}
               ></FacebookPreviewUser>
-              {/* <div className=" flex flex-col gap-2">
-                {facebookChat?.data?.map((chat, index) => {
-                  return (
-                    <div
-                      onClick={() => {
-                        setSelectUser(index);
-                        showModal();
-                      }}
-                      className="p-2 border bg-gray-200 cursor-pointer hover:bg-gray-500 duration-300 rounded-lg"
-                    >
-                      <div className="flex gap-2 items-center">
-                        <div className="w-6 h-6 rounded-full bg-white aspect-square"></div>
-
-                        <div>{chat.participants.data[0].name}</div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div> */}
             </div>
           ) : (
             <>Loaing</>

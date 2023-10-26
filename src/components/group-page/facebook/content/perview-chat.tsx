@@ -20,7 +20,7 @@ const FacebookPreviewChat: React.FC<FacebookPreviewChatProps> = ({
                   key={`fac-k-${index}`}
                   className="p-2 border flex flex-col gap-1"
                 >
-                  {chat.messages.data.map((ca, cai) => {
+                  {chat.messages?.data.map((ca, cai) => {
                     return (
                       <div
                         key={`mes-i-${cai}`}

@@ -31,7 +31,7 @@ const FacebookPreviewUser: React.FC<FacebookPreviewUserProps> = ({
                 className={`p-2 border bg-gray-200  ${
                   selectUser != undefined
                     ? ""
-                    : "hover:bg-gray-500 cursor-pointer"
+                    : "hover:bg-gray-300 cursor-pointer"
                 } duration-300 rounded-lg`}
               >
                 <div className="flex gap-2 items-center">

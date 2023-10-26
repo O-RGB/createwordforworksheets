@@ -9,15 +9,18 @@ import FacebookTokenForm from "@/components/form/facebook-token-form";
 import { SheetsContext } from "@/context/sheetsService";
 import Router, { useRouter } from "next/router";
 import { SheetsLoadedContext } from "@/context/sheetsLoaded";
+import { getLocal } from "@/lib/local";
 
 const FacebookPage: NextPage = () => {
   const router = useRouter();
-  const [getLocalInput, setLocalInput] = useState<
-    IFacebookTokenInput | undefined
-  >(undefined);
+  // const [localFacebook, setLocalFacebook] = useState<
+  //   IFacebookTokenInput | undefined
+  // >(undefined);
   const { setSheets, sheets } = useContext(SheetsContext);
+  const [getLocalInput, setLocalInput] = useState<IUserInput>();
   const { FbToken, setFbTokenContext } = useContext(FBTokenContext);
   const [isModalUser, setIsModalUserOpen] = useState(false);
+
   const [getMockup, setMockup] = useState<WorksheetsModelInput[] | undefined>(
     undefined
   );
@@ -29,16 +32,24 @@ const FacebookPage: NextPage = () => {
       Router.push("/");
     }
 
-    let fbToken = getFbToken();
-    console.log(sheets);
-    if (fbToken.fbToken) {
-      setFbTokenContext(fbToken.fbToken ?? undefined);
+    let username = getLocal("username");
+    let sheetes = getLocal("googlesheets");
+    if (sheetes && username) {
       setLocalInput({
-        facebookToken: fbToken.fbToken ?? undefined,
+        googlesheets: sheetes,
+        username: username,
       });
-    } else {
-      setIsModalUserOpen(true);
     }
+
+    // let fbToken = getFbToken();
+    // if (fbToken.fbToken) {
+    //   setFbTokenContext(fbToken.fbToken ?? undefined);
+    //   setLocalFacebook({
+    //     facebookToken: fbToken.fbToken ?? undefined,
+    //   });
+    // } else {
+    //   setIsModalUserOpen(true);
+    // }
 
     let mainWork: WorksheetsModelInput[] = [];
     sheets.map((list) => {
@@ -63,13 +74,17 @@ const FacebookPage: NextPage = () => {
     setIsModalUserOpen(false);
   };
 
+  if (!getLocalInput) {
+    return <></>;
+  }
+
   return (
     <>
       <SiteHeader
         title="ระบบสร้างรายการ V2"
         description="ไม่ต้องพิมพ์อีกต่อไป.. สร้างรายการออร์เดอร์และคำนวณราคารวม และยังมีระบบคำนวนส่วนลดให้ด้วย"
       ></SiteHeader>
-      <Modal
+      {/* <Modal
         title="ความปลอดภัย"
         open={isModalUser}
         destroyOnClose
@@ -88,9 +103,9 @@ const FacebookPage: NextPage = () => {
         <FacebookTokenForm
           removeCancel
           onFinish={handleOkUser}
-          initData={getLocalInput}
+          initData={localFacebook}
         ></FacebookTokenForm>
-      </Modal>
+      </Modal> */}
       <FacebookPageGroup
         getMockup={getMockup}
         getLocalInput={getLocalInput}
