@@ -8,6 +8,8 @@ import FacebookPreviewFile from "./content/perview-file";
 import FacebookPreviewChat from "./content/perview-chat";
 import FacebookPreviewUser from "./content/preview-user";
 import FacebookSelectAccount from "./content/preview-account";
+import FacebookSendFile from "./send-file";
+import Router from "next/router";
 
 interface FacebookPageGroupProps {
   getLocalInput: IUserInput | undefined;
@@ -32,6 +34,14 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
 
   const [selectUser, setSelectUser] = useState<number>(0);
 
+  const [sendFileCreateCompo, setSendFileCreateCompo] = useState<
+    | {
+        name: string;
+        fileUrl: string;
+      }[]
+    | undefined
+  >(undefined);
+
   const getFacebookData = (onSelectAccount: IPangConfig) => {
     if (onSelectAccount?.token) {
       const baseUrl = "https://graph.facebook.com/v18.0/me/conversations";
@@ -48,7 +58,7 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
 
       const url = `${baseUrl}?${queryString}`;
 
-      getFacebookChat(url, { "Content-Type": "application/json" })
+      getFacebookChat(url, undefined, { "Content-Type": "application/json" })
         .then((data) => {
           console.log(data);
           setFacebookChat(data);
@@ -91,6 +101,8 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
   };
 
   const confirm = () => {
+    createUrlForSend();
+
     setIsModalConfirmOpan(false);
   };
 
@@ -101,6 +113,35 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
 
   const onOkAccount = () => {
     setIsModalAccountOpan(false);
+  };
+
+  const [isModalSendFile, setIsModalSendFileOpan] = useState(false);
+  const showSendFile = () => {
+    setIsModalSendFileOpan(true);
+  };
+
+  const onOkSendFile = () => {
+    Router.push("/")
+    setIsModalSendFileOpan(false);
+  };
+
+  const createUrlForSend = () => {
+    let fileUrl: {
+      name: string;
+      fileUrl: string;
+    }[] = [];
+    getMockup?.map((data) => {
+      if (data.fileUrlDownload) {
+        data.fileUrlDownload.map((url) => {
+          fileUrl.push({
+            name: data.name,
+            fileUrl: url,
+          });
+        });
+      }
+    });
+    setSendFileCreateCompo(fileUrl);
+    showSendFile();
   };
   return (
     <>
@@ -156,7 +197,9 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
             >
               ยกเลิก
             </ButtonCustom>
-            <ButtonCustom type="primary">ตกลง</ButtonCustom>
+            <ButtonCustom onClick={confirm} type="primary">
+              ตกลง
+            </ButtonCustom>
           </>
         }
         destroyOnClose
@@ -172,7 +215,6 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
                 facebookChat={facebookChat!}
                 onClickUser={(index) => {
                   setSelectUser(index);
-                  showModal();
                 }}
               ></FacebookPreviewUser>
             </div>
@@ -202,6 +244,62 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
             ></FacebookSelectAccount>
           ) : (
             <>loaing</>
+          )}
+        </div>
+      </Modal>
+
+      <Modal
+        title="กำลังส่ง"
+        open={isModalSendFile}
+        closable={false}
+        closeIcon={false}
+        footer={
+          <>
+            <ButtonCustom
+              type="primary"
+              onClick={() => {
+                onOkSendFile();
+              }}
+            >
+              หน้าแรก
+            </ButtonCustom>
+          </>
+        }
+        destroyOnClose
+        onOk={handleOk}
+      >
+        <div className="">
+          <div className="font-bold">ผู้รับ</div>
+          <div className="pt-1">
+            <FacebookPreviewUser
+              selectUser={0}
+              facebookChat={facebookChat!}
+              onClickUser={(index) => {
+                setSelectUser(index);
+              }}
+            ></FacebookPreviewUser>
+          </div>
+        </div>
+        <div className="">
+          <div className="font-bold">สภานะ</div>
+          {sendFileCreateCompo && onSelectAccount && facebookChat && (
+            <div className="pt-1">
+              {sendFileCreateCompo?.map((data, index) => {
+                return (
+                  <div key={`copo-sent-${index}`}>
+                    <FacebookSendFile
+                      adminUserId={onSelectAccount.id}
+                      token={onSelectAccount?.token}
+                      userId={
+                        facebookChat.data[selectUser].participants.data[0].id
+                      }
+                      name={data.name}
+                      urlFile={data.fileUrl}
+                    ></FacebookSendFile>
+                  </div>
+                );
+              })}
+            </div>
           )}
         </div>
       </Modal>

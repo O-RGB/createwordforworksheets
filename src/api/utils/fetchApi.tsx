@@ -8,6 +8,7 @@ async function FetchCustom<T>(
     method: method,
     body: data,
     headers: headers,
+    
   })
     .then((r) => r.json())
     .then((data) => {

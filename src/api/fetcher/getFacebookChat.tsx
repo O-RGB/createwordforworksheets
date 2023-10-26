@@ -1,7 +1,12 @@
 import FetchCustom from "../utils/fetchApi";
 
-export const getFacebookChat = (url: string, headers: any) => {
-  return FetchCustom<IFacebookChat>(url, undefined, "GET", headers);
+export const getFacebookChat = (
+  url: string,
+  data: any = undefined,
+  headers: any,
+  met: string = "GET"
+) => {
+  return FetchCustom<IFacebookChat>(url, data, met, headers);
 };
 
 export const getAccount = (url: string, input: IGetConfigNgrok) => {

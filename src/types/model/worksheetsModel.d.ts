@@ -20,6 +20,7 @@ interface WorksheetsModelInput {
   discount?: number;
   root?: string;
   filename?: string[];
+  fileUrlDownload?: string[];
 }
 
 interface HeadWorkSheetsInput<T> {
@@ -43,4 +44,5 @@ interface GoogleSheetsGetItem {
   imageUrl?: string;
   root?: string;
   filename?: string[];
+  fileUrlDownload?: string[];
 }

@@ -11,6 +11,7 @@ export class WorksheetsModel {
   private paper?: string;
   private root?: string;
   private filename?: string[];
+  private fileUrlDownload?: string[];
 
   constructor(worksheetsModelInput: WorksheetsModelInput) {
     this.workSheetsMainId = worksheetsModelInput.workSheetsMainId;
@@ -25,6 +26,7 @@ export class WorksheetsModel {
     this.paper = String(worksheetsModelInput.paper);
     this.root = worksheetsModelInput.root;
     this.filename = worksheetsModelInput.filename;
+    this.fileUrlDownload = worksheetsModelInput.fileUrlDownload;
   }
 
   public getWorksheets(): WorksheetsModelInput | undefined {
@@ -49,6 +51,7 @@ export class WorksheetsModel {
         paper: this.paper,
         root: this.root,
         filename: this.filename,
+        fileUrlDownload: this.fileUrlDownload,
       };
     } else {
       console.error("WorksheetsModelInput is null");
