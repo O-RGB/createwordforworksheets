@@ -16,10 +16,14 @@ const FacebookPreviewChat: React.FC<FacebookPreviewChatProps> = ({
           {facebookChat?.data?.map((chat, index) => {
             if (index == selectUser)
               return (
-                <div className="p-2 border flex flex-col gap-1">
-                  {chat.messages.data.map((ca) => {
+                <div
+                  key={`fac-k-${index}`}
+                  className="p-2 border flex flex-col gap-1"
+                >
+                  {chat.messages.data.map((ca, cai) => {
                     return (
                       <div
+                        key={`mes-i-${cai}`}
                         className={`flex ${
                           ca.from.id != "463082010924848"
                             ? "justify-start text-start "
@@ -34,13 +38,16 @@ const FacebookPreviewChat: React.FC<FacebookPreviewChatProps> = ({
                             className={` break-all  p-2  bg-blue-500 rounded-2xl text-white`}
                           >
                             {ca.message != "" ? (
-                              <div className=" ">{ca.message}</div>
+                              <div>{ca.message}</div>
                             ) : (
                               <div className={"flex gap-1 w-fit "}>
-                                {ca.attachments?.data.map((at) => {
+                                {ca.attachments?.data.map((at, ati) => {
                                   if (at.mime_type == "image/jpeg") {
                                     return (
-                                      <div className="w-fit">
+                                      <div
+                                        key={`at-k-${ati}`}
+                                        className="w-fit"
+                                      >
                                         <img
                                           className="w-fit h-20 object-contain"
                                           src={at.image_data?.url}
@@ -50,6 +57,7 @@ const FacebookPreviewChat: React.FC<FacebookPreviewChatProps> = ({
                                   } else {
                                     return (
                                       <div
+                                        key={`at-k-${ati}`}
                                         className="flex p-4 rounded-md bg-red-300 w-fit"
                                         onClick={() => {
                                           window.open(at.file_url);

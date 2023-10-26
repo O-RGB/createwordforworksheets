@@ -24,6 +24,7 @@ const FacebookPreviewUser: React.FC<FacebookPreviewUserProps> = ({
           ) {
             return (
               <div
+                key={`user-key-fb-${index}`}
                 onClick={() =>
                   selectUser != undefined ? undefined : onClickUser?.(index)
                 }

@@ -46,7 +46,7 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
           console.error("Error: " + error);
         });
     }
-  }, [getLocalInput?.facebookToken]);
+  }, [getLocalInput]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
