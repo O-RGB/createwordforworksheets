@@ -13,14 +13,14 @@ const FacebookPreviewChat: React.FC<FacebookPreviewChatProps> = ({
 }) => {
   return (
     <>
-      <div className="flex flex-col-reverse gap-2  overflow-y-auto h-80 border">
+      <div className="flex flex-col-reverse gap-2  overflow-y-auto h-80 border rounded-md">
         <div className=" w-full">
           {facebookChat?.data?.map((chat, index) => {
             if (index == selectUser)
               return (
                 <div
                   key={`fac-k-${index}`}
-                  className="p-2 border flex flex-col-reverse gap-1"
+                  className="p-2  flex flex-col-reverse gap-1"
                 >
                   {chat.messages?.data.map((ca, cai) => {
                     return (

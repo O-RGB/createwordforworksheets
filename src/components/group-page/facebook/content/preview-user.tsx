@@ -1,4 +1,5 @@
 import React from "react";
+import { UserOutlined } from "@ant-design/icons";
 
 interface FacebookPreviewUserProps {
   facebookChat: IFacebookChat;
@@ -35,7 +36,9 @@ const FacebookPreviewUser: React.FC<FacebookPreviewUserProps> = ({
                 } duration-300 rounded-lg`}
               >
                 <div className="flex gap-2 items-center">
-                  <div className="w-6 h-6 rounded-full bg-white aspect-square"></div>
+                  <div className="w-6 h-6 rounded-full bg-white aspect-square flex justify-center items-center">
+                    <UserOutlined className="text-gray-300" />
+                  </div>
 
                   <div>{chat.participants.data[0].name}</div>
                 </div>

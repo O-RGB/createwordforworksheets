@@ -177,12 +177,24 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
         destroyOnClose
         onOk={handleOk}
       >
-        * ข้อมูลนี้ไม่ได้อัปเดตแบบเรียวไทม
-        <FacebookPreviewChat
-          IPangConfig={onSelectAccount!}
-          facebookChat={facebookChat!}
-          selectUser={selectUser}
-        ></FacebookPreviewChat>
+        <div className="flex flex-col gap-2">
+          <div>
+            <div>* ข้อมูลนี้ไม่ได้อัปเดตแบบเรียลไทม์</div>
+            <div>* แสดงสูงสุดได้ 10 รายการ</div>
+          </div>
+          <FacebookPreviewUser
+            selectUser={selectUser}
+            facebookChat={facebookChat!}
+            onClickUser={(index) => {
+              setSelectUser(index);
+            }}
+          ></FacebookPreviewUser>
+          <FacebookPreviewChat
+            IPangConfig={onSelectAccount!}
+            facebookChat={facebookChat!}
+            selectUser={selectUser}
+          ></FacebookPreviewChat>
+        </div>
       </Modal>
 
       <Modal
@@ -211,8 +223,8 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
       >
         <div className="flex flex-col gap-2">
           <FacebookPreviewFile getMockup={getMockup}></FacebookPreviewFile>
-          <div className="font-bold">
-            <div>ส่งให้</div>
+          <div className="">
+            <div className="font-bold">ส่งให้</div>
             <div>
               <FacebookPreviewUser
                 selectUser={selectUser}
@@ -317,19 +329,37 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
         style={{ ...BgCal(colorSecondary) }}
       >
         <CardCustom Header={"ตรวจสอบข้อมูล"} className="flex flex-col gap-2">
+          {onGetAccount && (
+            <div className="flex gap-2 w-full ">
+              <div className="w-full">
+                <FacebookSelectAccount
+                  showOnlySelect
+                  selectedAccount={onSelectAccount}
+                  onSelectAccount={(data) => {
+                    setSelectAccount(data);
+                    onOkAccount();
+                    getFacebookData(data);
+                  }}
+                  accountList={onGetAccount}
+                ></FacebookSelectAccount>
+              </div>
+              <div className="w-fit h-full">
+                <ButtonCustom
+                  className="h-[4.6rem]"
+                  onClick={() => {
+                    setFacebookChat(undefined);
+                    showAccount();
+                  }}
+                >
+                  เปลี่ยนเพจ
+                </ButtonCustom>
+              </div>
+            </div>
+          )}
+
           <FacebookPreviewFile getMockup={getMockup}></FacebookPreviewFile>
           <div className="flex justify-between">
             <div className="font-bold">เลือกผู้รับ</div>
-            <div>
-              <ButtonCustom
-                onClick={() => {
-                  setFacebookChat(undefined);
-                  showAccount();
-                }}
-              >
-                เปลี่ยนเพจ
-              </ButtonCustom>
-            </div>
           </div>
           <div className="text-sm">
             <div>* ไม่รอบรับการแสดงภาพผู้ใช้งาน</div>
