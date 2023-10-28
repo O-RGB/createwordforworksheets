@@ -52,10 +52,12 @@ const FacebookPreviewChat: React.FC<FacebookPreviewChatProps> = ({
                             {ca.message != "" ? (
                               <div className=" ">{ca.message}</div>
                             ) : ca.sticker != undefined ? (
-                              <img
-                                className="w-fit h-20 object-contain bg-white"
-                                src={ca?.sticker}
-                              />
+                              <div key={`img-st-${cai}`}>
+                                <img
+                                  className="w-fit h-20 object-contain bg-white"
+                                  src={ca?.sticker}
+                                />
+                              </div>
                             ) : (
                               <div className={"flex gap-1 w-fit "}>
                                 {ca.attachments?.data.map((at, ati) => {
@@ -73,11 +75,11 @@ const FacebookPreviewChat: React.FC<FacebookPreviewChatProps> = ({
                                     );
                                   } else {
                                     return (
-                                      <Link href={at.file_url ?? ""}>
-                                        <div
-                                          key={`at-k-${ati}`}
-                                          className="flex rounded-md  w-fit gap-1"
-                                        >
+                                      <Link
+                                        href={at.file_url ?? ""}
+                                        key={`at-k-${ati}`}
+                                      >
+                                        <div className="flex rounded-md  w-fit gap-1">
                                           <div>
                                             <FilePdfFilled className=""></FilePdfFilled>
                                           </div>
