@@ -577,7 +577,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
               modeSettingStiky ? "top-14" : "top-2 md:top-4"
             }   z-30 bg-transparent transition-all duration-300`}
           >
-            {/* <div className="flex w-full h-fit ">
+            <div className="flex w-full h-fit ">
               <ScrollDetection
                 onActive={detectScroll}
                 getScrollProsition={(y) => {
@@ -596,7 +596,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                 getMockup={getMockup}
               ></ScrollDetection>
               <div className="w-3  "></div>
-            </div> */}
+            </div>
           </div>
         </div>
       </div>
