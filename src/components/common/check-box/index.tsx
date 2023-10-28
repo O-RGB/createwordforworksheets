@@ -249,26 +249,22 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
             <div
               className={`${textSize} ${
                 onCheck ? "text-white" : ""
-              } flex gap-1.5 items-center`}
+              } flex gap-2 items-center justify-between   `}
             >
-              {label}
+              <div>{label}</div>
               {modeSetting == "file" && (
-                <>
+                <div className="flex gap-1.5">
                   {gmail ? (
-                    <div className="w-4 h-4 rounded-full aspect-square bg-red-500 flex justify-center items-center">
-                      <MailFilled className="text-white text-[8px]"></MailFilled>
-                    </div>
+                    <MailFilled className="text-[10px] text-red-500"></MailFilled>
                   ) : (
                     ""
                   )}
                   {facebook ? (
-                    <div className="w-4 h-4 rounded-full aspect-square bg-blue-500 flex justify-center items-center">
-                      <BsMessenger className="text-white text-[8px]"></BsMessenger>
-                    </div>
+                    <BsMessenger className="text-[10px] text-blue-500"></BsMessenger>
                   ) : (
                     ""
                   )}
-                </>
+                </div>
               )}
             </div>
             {image && display && (
