@@ -18,11 +18,20 @@ const FacebookPreviewFile: React.FC<FacebookPreviewFileProps> = ({
               {data.filename && (
                 <div className="flex flex-col gap-0">
                   {data.filename.map((file, f) => {
-                    return (
-                      <div key={`min-file-${i}-${f}`} className="flex items-center gap-2">
-                        <FilePdfOutlined className="text-red-500"/>  {file}
-                      </div>
-                    );
+                    if (data.fileUrlDownload) {
+                      if (
+                        data.fileUrlDownload.length == data.filename?.length
+                      ) {
+                        return (
+                          <div
+                            key={`min-file-${i}-${f}`}
+                            className="flex items-center gap-2"
+                          >
+                            <FilePdfOutlined className="text-red-500" /> {file}
+                          </div>
+                        );
+                      }
+                    }
                   })}
                 </div>
               )}

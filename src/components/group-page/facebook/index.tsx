@@ -11,6 +11,9 @@ import FacebookSelectAccount from "./content/preview-account";
 import FacebookSendFile from "./send-file";
 import Router from "next/router";
 import { LoadingOutlined } from "@ant-design/icons";
+import ControlerFile from "./control-send";
+import { GiTurtle } from "react-icons/gi";
+import { RiSpeedMiniFill } from "react-icons/ri";
 
 interface FacebookPageGroupProps {
   getLocalInput: IUserInput | undefined;
@@ -34,6 +37,7 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
   );
 
   const [selectUser, setSelectUser] = useState<number>(0);
+  const [optionSendfile, setOptionSendfile] = useState<boolean>(false);
 
   const [sendFileCreateCompo, setSendFileCreateCompo] = useState<
     | {
@@ -135,14 +139,18 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
     }[] = [];
     getMockup?.map((data) => {
       if (data.fileUrlDownload) {
-        data.fileUrlDownload.map((url) => {
-          fileUrl.push({
-            name: data.name,
-            fileUrl: url,
+        if (data.fileUrlDownload.length == data.filename?.length) {
+          data.fileUrlDownload.map((url, i) => {
+            let filename = data.filename ? data.filename[i] : "";
+            fileUrl.push({
+              name: filename,
+              fileUrl: url,
+            });
           });
-        });
+        }
       }
     });
+    console.log(fileUrl, "FILEURLE");
     setSendFileCreateCompo(fileUrl);
     showSendFile();
   };
@@ -223,6 +231,39 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
       >
         <div className="flex flex-col gap-2">
           <FacebookPreviewFile getMockup={getMockup}></FacebookPreviewFile>
+          <div>
+            <div className="font-bold">วิธีส่งไฟล์</div>
+            <div className="w-full flex gap-2 ">
+              <ButtonCustom
+                type={!optionSendfile ? "primary" : undefined}
+                onClick={() => {
+                  setOptionSendfile(false);
+                }}
+                className="w-full h-full"
+              >
+                <div className="flex flex-col items-start">
+                  <div className="text-lg flex gap-1 items-center">
+                    เร็ว <RiSpeedMiniFill></RiSpeedMiniFill>
+                  </div>
+                  <div className="text-xs">ส่งแบบสุ่มไม่เรียงลำดับไฟล์</div>
+                </div>
+              </ButtonCustom>
+              <ButtonCustom
+                type={optionSendfile ? "primary" : undefined}
+                onClick={() => {
+                  setOptionSendfile(true);
+                }}
+                className="w-full h-full"
+              >
+                <div className="flex flex-col items-start">
+                  <div className="text-lg flex gap-1 items-center">
+                    ช้า <GiTurtle></GiTurtle>
+                  </div>
+                  <div className="text-xs">เรียงลำดับทีละไฟล์</div>
+                </div>
+              </ButtonCustom>
+            </div>
+          </div>
           <div className="">
             <div className="font-bold">ส่งให้</div>
             <div>
@@ -288,39 +329,35 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
         destroyOnClose
         onOk={handleOk}
       >
-        <div className="">
-          <div className="font-bold">ผู้รับ</div>
-          <div className="pt-1 ">
-            <FacebookPreviewUser
-              selectUser={selectUser}
-              facebookChat={facebookChat!}
-              onClickUser={(index) => {
-                setSelectUser(index);
-              }}
-            ></FacebookPreviewUser>
-          </div>
-        </div>
-        <div className="">
-          <div className="font-bold">สภานะ</div>
-          {sendFileCreateCompo && onSelectAccount && facebookChat && (
-            <div className="pt-1 flex flex-col gap-1">
-              {sendFileCreateCompo?.map((data, index) => {
-                return (
-                  <div key={`copo-sent-${index}`}>
-                    <FacebookSendFile
-                      adminUserId={onSelectAccount.id}
-                      token={onSelectAccount?.token}
-                      userId={
-                        facebookChat.data[selectUser].participants.data[0].id
-                      }
-                      name={data.name}
-                      urlFile={data.fileUrl}
-                    ></FacebookSendFile>
-                  </div>
-                );
-              })}
+        <div className="flex flex-col gap-1.5">
+          <div className="">
+            <div className="font-bold">ผู้รับ</div>
+            <div className="pt-1 ">
+              <FacebookPreviewUser
+                selectUser={selectUser}
+                facebookChat={facebookChat!}
+                onClickUser={(index) => {
+                  setSelectUser(index);
+                }}
+              ></FacebookPreviewUser>
             </div>
-          )}
+          </div>
+          <div className="">
+            <div>* มือถือ ไม่อนุญาตให้เปลี่ยนหน้าจอเด็ดขาด</div>
+            <div>* มือถือ ไม่สามารถทำงานเบื้องหลังได้</div>
+            <div className="font-bold">สถานะ</div>
+            {sendFileCreateCompo && onSelectAccount && facebookChat && (
+              <div className="pt-1 flex flex-col gap-1">
+                <ControlerFile
+                  disableWaitFuncion={!optionSendfile}
+                  adminUserId={onSelectAccount.id}
+                  token={onSelectAccount?.token}
+                  userId={facebookChat.data[selectUser].participants.data[0].id}
+                  sendFileCreateCompo={sendFileCreateCompo}
+                ></ControlerFile>
+              </div>
+            )}
+          </div>
         </div>
       </Modal>
 
