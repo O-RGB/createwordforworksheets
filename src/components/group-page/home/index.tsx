@@ -198,10 +198,6 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
     setIsModalUserOpen(false);
   };
 
-  const handleOkFacebook = (output: IFacebookTokenInput) => {
-    setFbToken(output);
-  };
-
   const checkUserAndSheets = async () => {
     CheckUsernameAndURLIsRuning().then((result) => {
       setUserInitLocal({
@@ -474,6 +470,10 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                           {getModel.worksheets?.map((element, JKey) => {
                             let getEleemtnModel = element.getWorksheets();
                             if (getEleemtnModel) {
+                              console.log(
+                                getEleemtnModel.fileUrlDownload,
+                                "CHECK"
+                              );
                               return (
                                 <div
                                   key={`element-key-${JKey}`}
@@ -481,6 +481,17 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                                 >
                                   {resetFormOnChange ? (
                                     <CheckBoxCustom
+                                      facebook={
+                                        getEleemtnModel.fileUrlDownload
+                                          ? getEleemtnModel.fileUrlDownload
+                                              ?.length > 0
+                                          : false
+                                      }
+                                      gmail={
+                                        getEleemtnModel.filename
+                                          ? getEleemtnModel.filename?.length > 0
+                                          : false
+                                      }
                                       InputDisable={{
                                         file: !getEleemtnModel.price.file
                                           ? true

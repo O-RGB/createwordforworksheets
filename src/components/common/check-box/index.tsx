@@ -2,7 +2,8 @@ import { Checkbox, CheckboxProps, Form, FormInstance, Input } from "antd";
 import React, { useEffect, useState } from "react";
 import ImageNumber from "../input-number";
 import { BgCal, CalColor, colorPrimary, colorSecondary } from "@/config/color";
-
+import { MailFilled } from "@ant-design/icons";
+import { BsMessenger } from "react-icons/bs";
 interface CheckBoxCustomProps extends CheckboxProps {
   image?: string;
   label: string;
@@ -15,6 +16,8 @@ interface CheckBoxCustomProps extends CheckboxProps {
   debug: boolean;
   InputDisable?: InputDisable;
   hoverColorBorder?: string;
+  gmail?: boolean;
+  facebook?: boolean;
 }
 
 const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
@@ -29,6 +32,8 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
   debug,
   InputDisable,
   hoverColorBorder,
+  gmail,
+  facebook,
   ...props
 }) => {
   let File: InputValue[] = [
@@ -228,7 +233,11 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
                 ? colorPrimary
                 : CalColor(colorSecondary)
               : "",
-            border: !onCheck ? hover ? "1px solid" + colorPrimary : "1px solid #FFFFFF" : "1px solid " + colorPrimary,
+            border: !onCheck
+              ? hover
+                ? "1px solid" + colorPrimary
+                : "1px solid #FFFFFF"
+              : "1px solid " + colorPrimary,
           }}
           className={` p-2 md:p-3 rounded-lg border border-solid  border-transparent duration-300  w-full z-20`}
         >
@@ -237,8 +246,30 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
               display?.image ? "gap-1.5 pb-1" : ""
             } duration-300 transition-all`}
           >
-            <div className={`${textSize} ${onCheck ? "text-white" : ""}`}>
+            <div
+              className={`${textSize} ${
+                onCheck ? "text-white" : ""
+              } flex gap-1.5 items-center`}
+            >
               {label}
+              {modeSetting == "file" && (
+                <>
+                  {gmail ? (
+                    <div className="w-4 h-4 rounded-full aspect-square bg-red-500 flex justify-center items-center">
+                      <MailFilled className="text-white text-[8px]"></MailFilled>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {facebook ? (
+                    <div className="w-4 h-4 rounded-full aspect-square bg-blue-500 flex justify-center items-center">
+                      <BsMessenger className="text-white text-[8px]"></BsMessenger>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </>
+              )}
             </div>
             {image && display && (
               <ImageForChange
