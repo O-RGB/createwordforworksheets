@@ -1,4 +1,6 @@
+import Link from "next/link";
 import React from "react";
+import { FilePdfFilled } from "@ant-design/icons";
 
 interface FacebookPreviewChatProps {
   facebookChat: IFacebookChat;
@@ -43,10 +45,17 @@ const FacebookPreviewChat: React.FC<FacebookPreviewChatProps> = ({
                             {ca.from.name}
                           </div>
                           <div
-                            className={` break-all w-fit p-2  bg-blue-500 rounded-2xl text-white`}
+                            className={` break-all w-fit p-2  ${
+                              ca.sticker ? "" : "bg-blue-500"
+                            }  rounded-2xl text-white`}
                           >
                             {ca.message != "" ? (
                               <div className=" ">{ca.message}</div>
+                            ) : ca.sticker != undefined ? (
+                              <img
+                                className="w-fit h-20 object-contain bg-white"
+                                src={ca?.sticker}
+                              />
                             ) : (
                               <div className={"flex gap-1 w-fit "}>
                                 {ca.attachments?.data.map((at, ati) => {
@@ -64,15 +73,17 @@ const FacebookPreviewChat: React.FC<FacebookPreviewChatProps> = ({
                                     );
                                   } else {
                                     return (
-                                      <div
-                                        key={`at-k-${ati}`}
-                                        className="flex p-4 rounded-md bg-red-300 w-fit"
-                                        onClick={() => {
-                                          window.open(at.file_url);
-                                        }}
-                                      >
-                                        {at.name}
-                                      </div>
+                                      <Link href={at.file_url ?? ""}>
+                                        <div
+                                          key={`at-k-${ati}`}
+                                          className="flex rounded-md  w-fit gap-1"
+                                        >
+                                          <div>
+                                            <FilePdfFilled className=""></FilePdfFilled>
+                                          </div>
+                                          <div>{at.name}</div>
+                                        </div>
+                                      </Link>
                                     );
                                   }
                                 })}

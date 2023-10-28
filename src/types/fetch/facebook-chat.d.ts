@@ -33,6 +33,7 @@ interface Message {
   };
   from: Participant;
   id: string;
+  sticker?: stirng;
 }
 
 interface Conversation {
@@ -43,6 +44,7 @@ interface Conversation {
     data: Message[];
   };
   id: string;
+  updated_time: string;
 }
 
 interface ConversationsResponse {

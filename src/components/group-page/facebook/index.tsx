@@ -48,7 +48,7 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
       const baseUrl = "https://graph.facebook.com/v18.0/me/conversations";
       const params: any = {
         fields:
-          "participants,messages.limit(10){id,message,attachments{image_data,mime_type,file_url,name},from},name",
+          "participants,messages.limit(10){id,message,attachments{image_data,mime_type,file_url,name},from,sticker},name,updated_time",
         limit: 10,
         access_token: onSelectAccount?.token,
       };
@@ -156,7 +156,7 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
         footer={
           <>
             <ButtonCustom
-              type="primary"
+              type="default"
               onClick={() => {
                 setIsModalOpen(false);
               }}
@@ -205,7 +205,7 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
         footer={
           <>
             <ButtonCustom
-              type="primary"
+              type="default"
               onClick={() => {
                 setIsModalOpen(false);
                 setIsModalConfirmOpan(false);
@@ -345,6 +345,7 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
               </div>
               <div className="w-fit h-full">
                 <ButtonCustom
+                  type="primary"
                   className="h-[4.6rem]"
                   onClick={() => {
                     setFacebookChat(undefined);
