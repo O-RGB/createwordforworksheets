@@ -37,7 +37,7 @@ const FacebookSendFile: React.FC<FacebookSendFileProps> = ({
           attachment: {
             type: "file",
             payload: {
-              attachment_id: urlFile,
+              url: urlFile,
             },
           },
         },
