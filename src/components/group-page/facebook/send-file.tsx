@@ -102,7 +102,9 @@ const FacebookSendFile: React.FC<FacebookSendFileProps> = ({
         setOnFetch(true);
       }
     } else {
-      setStatus("กำลังรอ");
+      if (!onResult) {
+        setStatus("กำลังรอ");
+      }
       if (start) {
         if (!onFetch) {
           sendFile();

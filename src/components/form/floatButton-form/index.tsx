@@ -1,10 +1,10 @@
 import { FloatButton, ConfigProvider } from "antd";
 import React, { useContext } from "react";
 import {
-  SaveOutlined,
-  DeleteOutlined,
-  SettingOutlined,
-  MailOutlined,
+  SaveFilled,
+  DeleteFilled,
+  SettingFilled,
+  MailFilled,
   CheckCircleFilled,
   CloseCircleFilled,
   FacebookFilled,
@@ -52,7 +52,7 @@ const FloatButtonForm: React.FC<FloatButtonFormProps> = ({
                       <CloseCircleFilled className="text-[0.5rem] text-red-500 bg-white rounded-full border border-white" />
                     </div>
                   )}
-                  <MailOutlined />
+                  <MailFilled />
                 </div>
               }
               type="primary"
@@ -79,21 +79,21 @@ const FloatButtonForm: React.FC<FloatButtonFormProps> = ({
         <FloatButton
           onClick={onSetting}
           className="ant-float-btn-body-secondary"
-          icon={<SettingOutlined />}
+          icon={<SettingFilled />}
           type="primary"
           style={{ right: 24 }}
         />
         <FloatButton
           className="ant-float-btn-body-red"
           onClick={removeResult}
-          icon={<DeleteOutlined />}
+          icon={<DeleteFilled />}
           type="primary"
           style={{ right: 24 }}
         />
         <FloatButton
           className="ant-float-btn-body-green"
           onClick={onSave}
-          icon={<SaveOutlined />}
+          icon={<SaveFilled />}
           type="primary"
           style={{ right: 24 }}
         />

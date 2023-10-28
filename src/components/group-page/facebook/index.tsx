@@ -65,7 +65,6 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
 
       getFacebookChat(url, undefined, { "Content-Type": "application/json" })
         .then((data) => {
-          console.log(data);
           setFacebookChat(data);
         })
         .catch((error) => {
@@ -150,7 +149,6 @@ const FacebookPageGroup: React.FC<FacebookPageGroupProps> = ({
         }
       }
     });
-    console.log(fileUrl, "FILEURLE");
     setSendFileCreateCompo(fileUrl);
     showSendFile();
   };

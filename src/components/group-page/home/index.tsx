@@ -182,7 +182,6 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   };
 
   const [userInitLocal, setUserInitLocal] = useState<IUserInput>();
-  const [userFacebookToken, setFacebookToken] = useState<IFacebookTokenInput>();
 
   const [isModalUser, setIsModalUserOpen] = useState(false);
 
@@ -217,16 +216,8 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
     });
   };
 
-  const checkFacebookToken = async () => {
-    let toktn = getFbToken();
-    setFacebookToken({
-      facebookToken: toktn.fbToken ? toktn.fbToken : undefined,
-    });
-  };
-
   useEffect(() => {
     checkUserAndSheets();
-    checkFacebookToken();
   }, []);
 
   // COMPONENT SETTING
@@ -235,7 +226,6 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
 
   const showModalSetting = () => {
     checkUserAndSheets();
-    checkFacebookToken();
     setTimeout(() => {
       setIsModalSettingOpen(true);
     }, 100);
@@ -399,15 +389,6 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
               removeCancel
               openOnChangeMode
             ></UserForm>
-          </CardCustom>
-          <CardCustom Header={"ความปลอดภัย Facebook"}>
-            <FacebookTokenForm
-              onCancel={handleCancelUser}
-              onFinish={handleOkFacebook}
-              initData={userFacebookToken}
-              removeCancel
-              openOnChangeMode
-            ></FacebookTokenForm>
           </CardCustom>
         </div>
       </Modal>
@@ -577,7 +558,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
           </div>
         </div>
 
-        <div className=" md:w-20">
+        <div className=" md:w-16">
           <div
             className={`fixed md:sticky ${
               detectScroll ? "right-0" : "-right-[4.5rem]"
@@ -585,7 +566,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
               modeSettingStiky ? "top-14" : "top-2 md:top-4"
             }   z-30 bg-transparent transition-all duration-300`}
           >
-            <div className="flex w-full h-fit ">
+            {/* <div className="flex w-full h-fit ">
               <ScrollDetection
                 onActive={detectScroll}
                 getScrollProsition={(y) => {
@@ -604,7 +585,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                 getMockup={getMockup}
               ></ScrollDetection>
               <div className="w-3  "></div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
