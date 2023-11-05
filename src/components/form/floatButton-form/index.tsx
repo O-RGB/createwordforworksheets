@@ -75,13 +75,13 @@ const FloatButtonForm: React.FC<FloatButtonFormProps> = ({
             style={{ right: 24 }}
           />
         )}
-        <FloatButton
+        {/* <FloatButton
           onClick={onSetting}
           className="ant-float-btn-body-secondary"
           icon={<SettingFilled />}
           type="primary"
           style={{ right: 24 }}
-        />
+        /> */}
         <FloatButton
           className="ant-float-btn-body-red"
           onClick={removeResult}

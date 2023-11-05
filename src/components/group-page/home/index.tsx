@@ -14,7 +14,7 @@ import { getResultOnForm } from "@/function/result/formToResult";
 import ResultSetting from "@/components/form/result-form";
 import FloatButtonForm from "@/components/form/floatButton-form";
 import { NotificationPlacement } from "antd/es/notification/interface";
-
+import { SettingFilled } from "@ant-design/icons";
 import Router from "next/router";
 import { SheetsContext } from "@/context/sheetsService";
 import UserForm from "@/components/form/user-from";
@@ -278,8 +278,24 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
       return (
         <>
           <CardCustom Header={"ชนิด"}>
-            {radio}
-            {debug && <div>Mode Selection: {JSON.stringify(modeSetting)}</div>}
+            <div className="flex justify-between ">
+              <div>
+                {radio}
+                {debug && (
+                  <div>Mode Selection: {JSON.stringify(modeSetting)}</div>
+                )}
+              </div>
+              <div>
+                <div
+                  onClick={() => {
+                    showModalSetting();
+                  }}
+                  className="bg-gray-200 hover:bg-gray-300 duration-300 cursor-pointer text-gray-600 rounded-full w-7 h-7 flex justify-center items-center"
+                >
+                  <SettingFilled></SettingFilled>
+                </div>
+              </div>
+            </div>
           </CardCustom>
         </>
       );
@@ -360,9 +376,18 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
           modeSettingStiky ? "top-0" : "-top-10"
         } duration-300 z-40 pb-2 left-0 `}
       >
-        <div className="flex gap-2 p-2 items-center bg-white shadow-md ">
-          <div className="text-sm"> </div>
+        <div className="flex gap-2 p-2  items-center bg-white shadow-md w-full justify-between px-4">
           <div>{SettingModeComponent(true)}</div>
+          <div className="w-fit ">
+            <div
+              onClick={() => {
+                showModalSetting();
+              }}
+              className=" bg-gray-200 hover:bg-gray-300 duration-300 cursor-pointer text-gray-600 rounded-full w-7 h-7 flex justify-center items-center"
+            >
+              <SettingFilled></SettingFilled>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -417,7 +442,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         modeSetting={modeSetting}
         onFacebook={checkBeforeGotoFacebook}
         onExcel={ChangeToSeets}
-        onSetting={() => showModalSetting()}
+        // onSetting={() => showModalSetting()}
         onSave={() => GetReslut()}
         onSentMail={() => {
           checkBeforeSentMail();
