@@ -7,9 +7,8 @@ import {
   MailFilled,
   CheckCircleFilled,
   CloseCircleFilled,
-  FacebookFilled,
 } from "@ant-design/icons";
-import { PiMicrosoftExcelLogo } from "react-icons/pi";
+import { SiGooglesheets } from "react-icons/si";
 import { NgrokUrlContext } from "@/context/ngrokService";
 import { BsMessenger } from "react-icons/bs";
 
@@ -71,7 +70,7 @@ const FloatButtonForm: React.FC<FloatButtonFormProps> = ({
           <FloatButton
             className="ant-float-btn-body-excel"
             onClick={onExcel}
-            icon={<PiMicrosoftExcelLogo />}
+            icon={<SiGooglesheets />}
             type="primary"
             style={{ right: 24 }}
           />

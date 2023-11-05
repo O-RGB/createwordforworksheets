@@ -62,7 +62,7 @@ html {
 }
 
 .ant-float-btn-body-excel > .ant-badge > .ant-float-btn-body {
-  background-color: #2dd0dd !important;
+  background-color: #1f9e5f !important;
 }
 .ant-float-btn-body-secondary > .ant-badge > .ant-float-btn-body {
   background-color: #ff7b00 !important;
@@ -79,6 +79,7 @@ html {
 .ant-float-btn-body-facebook > .ant-badge > .ant-float-btn-body {
   background-color: #1977f2 !important;
 }
+ 
 
 .ant-notification-notice {
   top: 30px !important;
