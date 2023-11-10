@@ -259,11 +259,11 @@ const CheckBoxCustom: React.FC<CheckBoxCustomProps> = ({
                   ) : (
                     ""
                   )}
-                  {facebook ? (
+                  {/* {facebook ? (
                     <BsMessenger className="text-[10px] text-blue-500"></BsMessenger>
                   ) : (
                     ""
-                  )}
+                  )} */}
                 </div>
               )}
             </div>

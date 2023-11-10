@@ -57,13 +57,13 @@ const FloatButtonForm: React.FC<FloatButtonFormProps> = ({
               type="primary"
               style={{ right: 24 }}
             />
-            <FloatButton
+            {/* <FloatButton
               className="ant-float-btn-body-facebook"
               onClick={onFacebook}
               icon={<BsMessenger />}
               type="primary"
               style={{ right: 24 }}
-            />
+            /> */}
           </>
         )}
         {modeSetting != "file" && (
