@@ -19,6 +19,7 @@ import SheetsGenImage from "./gen-image";
 import ImageTemplate from "./template";
 import * as htmlToImage from "html-to-image";
 import { NnumberFormat } from "@/lib/number.format";
+import PreviewImage from "./preview-image";
 
 interface SheetsGroupProps {
   sheets: IMapDataToSheets[][];
@@ -35,6 +36,9 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
   //   if (sheets.length == 0) {
   //     return <>DATA LENGTH IS EMTPY</>;
   //   }
+  const [previewToImage, setPreviewToImage] = useState<string | undefined>();
+  const [previewModalToImage, setModalPreviewToImage] =
+    useState<boolean>(false);
   const [loadingToImage, setLoadingToImage] = useState<boolean>(false);
   const [inputSumPriceByAdmin, setInputSumByAdmin] = useState<
     number | undefined
@@ -103,11 +107,13 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
     htmlToImage
       .toPng(node)
       .then(function (dataUrl) {
-        var link = document.createElement("a");
-        link.download = "my-image-name.jpeg";
-        link.href = dataUrl;
-        link.click();
+        // var link = document.createElement("a");
+        // link.download = "my-image-name";
+        // link.href = dataUrl;
+        // link.click();
         setLoadingToImage(false);
+        setPreviewToImage(dataUrl);
+        setModalPreviewToImage(true);
       })
       .catch(function (error) {
         console.error("oops, something went wrong!", error);
@@ -368,6 +374,11 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
 
   return (
     <>
+      <PreviewImage
+        onClose={() => setModalPreviewToImage(false)}
+        open={previewModalToImage}
+        imageUrl={previewToImage}
+      ></PreviewImage>
       <Modal
         closeIcon={<></>}
         title="กำลังเพิ่มข้อมูล"
