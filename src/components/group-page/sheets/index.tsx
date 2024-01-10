@@ -15,6 +15,11 @@ import {
 } from "@ant-design/icons";
 import { BgCal, CalColor, colorPrimary, colorSecondary } from "@/config/color";
 import { pushBookingToSheets } from "@/api/fetcher/pushBookingToSheets";
+import SheetsGenImage from "./gen-image";
+import ImageTemplate from "./template";
+import * as htmlToImage from "html-to-image";
+import { NnumberFormat } from "@/lib/number.format";
+
 interface SheetsGroupProps {
   sheets: IMapDataToSheets[][];
   data: IInitMainData[];
@@ -30,6 +35,12 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
   //   if (sheets.length == 0) {
   //     return <>DATA LENGTH IS EMTPY</>;
   //   }
+  const [inputSumPriceByAdmin, setInputSumByAdmin] = useState<
+    string | undefined
+  >(undefined);
+  const [contentToImage, setContentToImage] = useState<
+    IPreparDataFormSheets | undefined
+  >(undefined);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [resultBooking, setResultBooking] = useState<
     IPushBookingResult | undefined
@@ -84,6 +95,22 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
   if (!temp) {
     return <></>;
   }
+
+  const toImage = () => {
+    var node: any = document.getElementById("my-node");
+
+    htmlToImage
+      .toPng(node)
+      .then(function (dataUrl) {
+        var link = document.createElement("a");
+        link.download = "my-image-name.jpeg";
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch(function (error) {
+        console.error("oops, something went wrong!", error);
+      });
+  };
 
   const createURLForSheets = (item: IPreparDataFormSheets) => {
     // type
@@ -141,7 +168,7 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
         });
       });
     });
-
+    setContentToImage(output);
     (output as IPreparDataFormSheets).items = item;
     let iItemList = createURLForSheets(output);
     let url = createURLStr(iItemList);
@@ -316,6 +343,27 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
     },
   ];
 
+  function GenImage({
+    list,
+    auto,
+    contentToImage,
+    inputSumPriceByAdmin,
+  }: {
+    list?: ProductModelData[];
+    auto?: boolean;
+    contentToImage?: IPreparDataFormSheets;
+    inputSumPriceByAdmin?: string;
+  }) {
+    return (
+      <ImageTemplate
+        contentToImage={contentToImage}
+        list={list}
+        auto={auto}
+        priceByAdmin={inputSumPriceByAdmin}
+      ></ImageTemplate>
+    );
+  }
+
   return (
     <>
       <Modal
@@ -348,15 +396,36 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
           ) : (
             <>
               {resultBooking.status ? (
-                <div className="relative z-50">
-                  <div className="text-green-500 ">{resultBooking.message}</div>
-
-                  <Table
-                    pagination={false}
-                    className="Table-Custom overflow-auto"
-                    dataSource={resultBooking.data?.list}
-                    columns={columns}
-                  ></Table>
+                <div className="relative z-50 flex flex-col gap-3">
+                  <div>
+                    <div className="text-green-500 ">
+                      {resultBooking.message}
+                    </div>
+                    <Table
+                      pagination={false}
+                      className="Table-Custom overflow-auto"
+                      dataSource={resultBooking.data?.list}
+                      columns={columns}
+                    ></Table>
+                  </div>
+                  <hr />
+                  {resultBooking?.data?.list && contentToImage && (
+                    <SheetsGenImage
+                      onFinishAndClickToImage={(price: number) => {
+                        setInputSumByAdmin(NnumberFormat(price));
+                        setTimeout(() => {
+                          toImage();
+                        }, 1000);
+                      }}
+                    >
+                      <GenImage
+                        list={resultBooking.data?.list}
+                        contentToImage={contentToImage}
+                        inputSumPriceByAdmin={inputSumPriceByAdmin}
+                        auto
+                      ></GenImage>
+                    </SheetsGenImage>
+                  )}
                 </div>
               ) : (
                 <div className="text-red-500 ">{resultBooking.message}</div>
@@ -365,10 +434,24 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
           )}
         </div>
       </Modal>
+
       <div
-        className={` duration-300  p-2 sm:p-3 min-h-screen `}
+        className={`relative overflow-hidden z-50 duration-300 p-2 sm:p-3 min-h-screen `}
         style={{ ...BgCal(colorSecondary) }}
       >
+        {resultBooking?.data?.list &&
+          contentToImage &&
+          inputSumPriceByAdmin && (
+            <div className="absolute -z-50 ">
+              <div id="my-node">
+                <GenImage
+                  inputSumPriceByAdmin={inputSumPriceByAdmin}
+                  contentToImage={contentToImage}
+                  list={resultBooking.data?.list}
+                ></GenImage>
+              </div>
+            </div>
+          )}
         <CardCustom Header={"ตรวจสอบข้อมูล"}>
           <Form
             form={form}
