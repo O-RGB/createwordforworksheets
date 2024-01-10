@@ -35,8 +35,9 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
   //   if (sheets.length == 0) {
   //     return <>DATA LENGTH IS EMTPY</>;
   //   }
+  const [loadingToImage, setLoadingToImage] = useState<boolean>(false);
   const [inputSumPriceByAdmin, setInputSumByAdmin] = useState<
-    string | undefined
+    number | undefined
   >(undefined);
   const [contentToImage, setContentToImage] = useState<
     IPreparDataFormSheets | undefined
@@ -106,6 +107,7 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
         link.download = "my-image-name.jpeg";
         link.href = dataUrl;
         link.click();
+        setLoadingToImage(false);
       })
       .catch(function (error) {
         console.error("oops, something went wrong!", error);
@@ -352,7 +354,7 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
     list?: ProductModelData[];
     auto?: boolean;
     contentToImage?: IPreparDataFormSheets;
-    inputSumPriceByAdmin?: string;
+    inputSumPriceByAdmin?: number;
   }) {
     return (
       <ImageTemplate
@@ -411,8 +413,10 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
                   <hr />
                   {resultBooking?.data?.list && contentToImage && (
                     <SheetsGenImage
-                      onFinishAndClickToImage={(price: number) => {
-                        setInputSumByAdmin(NnumberFormat(price));
+                      loading={loadingToImage}
+                      onFinishAndClickToImage={(price: string) => {
+                        setLoadingToImage(true);
+                        setInputSumByAdmin(Number(price));
                         setTimeout(() => {
                           toImage();
                         }, 1000);

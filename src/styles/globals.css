@@ -79,10 +79,24 @@ html {
 .ant-float-btn-body-facebook > .ant-badge > .ant-float-btn-body {
   background-color: #1977f2 !important;
 }
- 
 
 .ant-notification-notice {
   top: 30px !important;
   width: fit-content;
   padding: 13px !important;
+}
+
+@font-face {
+  font-family: "mali";
+  src: url("../../public/font/Mali-Bold.ttf") format("truetype");
+  font-weight: bold;
+}
+@font-face {
+  font-family: "mali";
+  src: url("../../public/font/Mali-Regular.ttf") format("truetype");
+  font-weight: normal;
+}
+
+.mali {
+  font-family: "mali";
 }

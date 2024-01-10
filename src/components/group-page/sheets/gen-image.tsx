@@ -6,12 +6,14 @@ import { Form } from "antd";
 
 interface SheetsGenImageProps {
   children?: React.ReactNode;
-  onFinishAndClickToImage?: (price: number) => void;
+  onFinishAndClickToImage?: (price: string) => void;
+  loading?: boolean;
 }
 
 const SheetsGenImage: React.FC<SheetsGenImageProps> = ({
   children,
   onFinishAndClickToImage,
+  loading,
 }) => {
   return (
     <div className="flex flex-col gap-2">
@@ -23,6 +25,7 @@ const SheetsGenImage: React.FC<SheetsGenImageProps> = ({
       >
         <div className="flex gap-2">
           <Form.Item
+            style={{ marginBottom: 0 }}
             name={"price_admin"}
             rules={[{ required: true, message: "ไม่สามารถปล่อยว่าง" }]}
             className="w-full"
@@ -33,7 +36,9 @@ const SheetsGenImage: React.FC<SheetsGenImageProps> = ({
               placeholder="ใส่ราคารวม"
             ></InputCustom>
           </Form.Item>
-          <ButtonCustom htmlType="submit">บันทึกรูปภาพ</ButtonCustom>
+          <ButtonCustom loading={loading} disabled={loading} htmlType="submit">
+            บันทึกรูปภาพ
+          </ButtonCustom>
         </div>
       </Form>
       <div className="overflow-x-auto">{children}</div>
