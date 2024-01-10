@@ -41,8 +41,8 @@ const ImageTemplate: React.FC<ImageTemplateProps> = ({
       <>
         รายการ:
         <div className="flex flex-col">
-          {list?.map((data) => {
-            return <div>{data.list}</div>;
+          {list?.map((data, index) => {
+            return <div key={`item-imgae-${index}`}>{data.list}</div>;
           })}
         </div>
       </>
