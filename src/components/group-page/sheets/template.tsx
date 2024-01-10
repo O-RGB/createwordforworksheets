@@ -21,9 +21,8 @@ const ImageTemplate: React.FC<ImageTemplateProps> = ({
     return (
       <>
         <div className="flex gap-2 ">
-          <div className="w-8 h-8 aspect-square rounded-full bg-green-500">
-            <img src="/logo.png" alt="" />
-          </div>
+          <img src="/logo.png" alt="" className="w-8 h-8 object-contain" />
+
           <div className="flex justify-center items-center">
             <div>สื่อการสอน Worksheets</div>
           </div>
