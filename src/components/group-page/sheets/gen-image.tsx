@@ -36,7 +36,13 @@ const SheetsGenImage: React.FC<SheetsGenImageProps> = ({
               placeholder="ใส่ราคารวม"
             ></InputCustom>
           </Form.Item>
-          <ButtonCustom loading={loading} disabled={loading} htmlType="submit">
+          <ButtonCustom
+            loading={loading}
+            disabled={loading}
+            btnColor="#49c866"
+            htmlType="submit"
+            type="primary"
+          >
             บันทึกรูปภาพ
           </ButtonCustom>
         </div>

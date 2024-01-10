@@ -443,19 +443,18 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
         className={`relative overflow-hidden z-50 duration-300 p-2 sm:p-3 min-h-screen `}
         style={{ ...BgCal(colorSecondary) }}
       >
-        {resultBooking?.data?.list &&
-          contentToImage &&
-          inputSumPriceByAdmin && (
-            <div className="absolute -z-50 ">
-              <div id="my-node">
-                <GenImage
-                  inputSumPriceByAdmin={inputSumPriceByAdmin}
-                  contentToImage={contentToImage}
-                  list={resultBooking.data?.list}
-                ></GenImage>
-              </div>
-            </div>
-          )}
+        <div className="absolute -z-50 ">
+          <div id="my-node">
+            {resultBooking && (
+              <GenImage
+                inputSumPriceByAdmin={inputSumPriceByAdmin}
+                contentToImage={contentToImage}
+                list={resultBooking.data?.list}
+              ></GenImage>
+            )}
+          </div>
+        </div>
+
         <CardCustom Header={"ตรวจสอบข้อมูล"}>
           <Form
             form={form}
