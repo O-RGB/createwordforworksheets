@@ -17,6 +17,7 @@ interface SentMailProps {
   email: string;
   rootToFile: string[];
   onLoadFinish?: () => void;
+  password?: string;
 }
 
 interface BlobName {
@@ -42,6 +43,7 @@ const SentMail: React.FC<SentMailProps> = ({
   email,
   rootToFile,
   onLoadFinish,
+  password,
 }) => {
   const [strStatus, setStrStatus] = useState<string>("");
   const [finish, setFinish] = useState<boolean | undefined>(undefined);
@@ -73,10 +75,12 @@ const SentMail: React.FC<SentMailProps> = ({
       setStrStatus("รอการตอบกลับจาก Ngrok");
 
       if (compoSent && detectChangeApp && ngrokUrl) {
+        console.log("password", password)
         sendMailServerNgrokUrl(ngrokUrl, {
           filepaths: rootToFile,
           recipient: email,
           subject: name,
+          removePassword: password,
         })
           .then((data) => {
             if (data) {

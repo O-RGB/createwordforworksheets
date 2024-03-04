@@ -9,6 +9,7 @@ interface InputCustomProps extends InputProps {
   rules?: Rule[] | undefined;
   name?: string;
   initialValue?: any;
+  password?: boolean;
 }
 
 const InputCustom: React.FC<InputCustomProps> = ({
@@ -16,8 +17,19 @@ const InputCustom: React.FC<InputCustomProps> = ({
   rules,
   name,
   initialValue,
+  password,
   ...prpos
 }) => {
+  const style = {
+    width: "100%",
+    backgroundColor: "#FFFFFF",
+  };
+  const inputInit = password ? (
+    <Input.Password {...prpos} style={style} />
+  ) : (
+    <Input {...prpos} style={style} />
+  );
+
   return (
     <Form.Item
       style={{ marginBottom: 0, width: "100%" }}
@@ -27,13 +39,7 @@ const InputCustom: React.FC<InputCustomProps> = ({
       rules={rules}
       required={prpos.required}
     >
-      <Input
-        {...prpos}
-        style={{
-          width: "100%",
-          backgroundColor: "#FFFFFF",
-        }}
-      />
+      {inputInit}
     </Form.Item>
   );
 };

@@ -17,6 +17,7 @@ interface IFileGoogleDriveInput {
   fileNames: string[];
   subject: string;
   rootToFile: string[];
+  password?: string;
 }
 
 interface ISenttEmailCompo {

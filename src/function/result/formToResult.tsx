@@ -81,6 +81,7 @@ export const getResultOnForm = async (
             }
           }
           if (book) {
+            console.log("book", book)
             initString += book;
             priceAll = priceAll + result.book.priceAddFee;
           }

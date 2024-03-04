@@ -1,6 +1,6 @@
 import { checkServerNgrokUrl, getNgrokUrl } from "@/api/fetcher/getNgrokUrl";
 import { NgrokUrlContext } from "@/context/ngrokService";
- 
+
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { LoadingOutlined, CheckCircleOutlined } from "@ant-design/icons";
 
@@ -59,19 +59,33 @@ const Connection: React.FC<ConnectionProps> = ({
               notificationInstance.destroy();
               openNotification(<div>กำลังติดต่อกับ Ngrok</div>);
               setTimeout(() => {
-                checkServerNgrokUrl(googleSheets.configData).then((data) => {
-                  setTimeout(() => {
-                    setNgrokUrl(googleSheets.configData);
-                    notificationInstance.destroy();
-                    openNotification(
-                      <div className="text-green-500">
-                        Server พร้อมส่งอีเมล
-                      </div>,
-                      <CheckCircleOutlined className="text-green-500" />,
-                      5
-                    );
-                  }, 1000);
-                });
+                checkServerNgrokUrl(googleSheets.configData)
+                  .then((data) => {
+                    setTimeout(() => {
+                      setNgrokUrl(googleSheets.configData);
+                      notificationInstance.destroy();
+                      openNotification(
+                        <div className="text-green-500">
+                          Server พร้อมส่งอีเมล
+                        </div>,
+                        <CheckCircleOutlined className="text-green-500" />,
+                        5
+                      );
+                    }, 1000);
+                  })
+                  .catch((e) => {
+                    setTimeout(() => {
+                      setNgrokUrl(undefined);
+                      notificationInstance.destroy();
+                      openNotification(
+                        <div className="text-red-500">
+                          Server ไม่พร้อมส่งอีเมล
+                        </div>,
+                        <CheckCircleOutlined className="text-red-500" />,
+                        5
+                      );
+                    }, 1000);
+                  });
               }, 1000);
             }, 1000);
           }, 0);

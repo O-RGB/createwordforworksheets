@@ -1,12 +1,20 @@
 import { NextPage } from "next";
-import React from "react";
+import React, { useEffect } from "react";
 
 const Test: NextPage = () => {
+  useEffect(() => {
+    var iframe: any = document.getElementById("preview_content");
+    if (iframe != null) {
+      alert(iframe.contentWindow.document.body.innerHTML);
+    }
+  }, []);
+
   return (
     <div className="w-full h-screen flex flex-col gap-10">
       <div className="w-full h-full">
         <div>Full URL</div>
         <iframe
+        id="preview_content"
           src="https://th.kerryexpress.com/th/track/?track=YWIzOGQ5NmRiNmI3NzIzODMwY2Q3MTBhNmMwZTFlNjBmSHg4ZDMxOWQ5MGVmODdmODcyOTE0ZmUxMzFmYjViOGQwZjVmSHg4UlJFVDAwMDEzNDI5M00zZkh4ODBjNGNiZTNiOGY3NTE0NzJmZDFmNmI4M2IzMGExMDc5Zkh4ODgwMDYwNWY0NzdhYzE3OTU1NjY2ZjM4Yjg1Zjg3YmNj"
           className="w-full h-full"
         ></iframe>

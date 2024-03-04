@@ -10,6 +10,7 @@ interface ISendMailNgrok {
   recipient: string;
   subject: string;
   filepaths: string[];
+  removePassword?: string;
 }
 
 interface ISendMailResultNgrok {

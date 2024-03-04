@@ -2,18 +2,21 @@ import ButtonCustom from "@/components/common/button";
 import CardCustom from "@/components/common/card";
 import InputCustom from "@/components/common/input";
 import { BgCal, colorSecondary } from "@/config/color";
-import { Form, Modal } from "antd";
+import { Checkbox, Form, Modal } from "antd";
 import Router from "next/router";
 import React, { useContext, useEffect, useState } from "react";
 import SentMail from "./sentMail";
-import { getLimitOfDay } from "@/api/fetcher/getLimitOfDay";
 import {
   LoadingOutlined,
   CheckCircleFilled,
   CloseCircleFilled,
 } from "@ant-design/icons";
-import { getNgrokUrl, sendMailServerNgrokUrl } from "@/api/fetcher/getNgrokUrl";
 import { NgrokUrlContext } from "@/context/ngrokService";
+import {
+  getPasswordDecodePDF,
+  setPasswordDecodePDF,
+} from "@/lib/savePasswordDecodePDF";
+
 interface SentEmailGroupProps {
   sheets: IMapDataToSheets[][];
   getMockup?: WorksheetsModelInput[];
@@ -27,13 +30,15 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
 }) => {
   const { ngrokUrl } = useContext(NgrokUrlContext);
 
-  const form = Form.useForm();
+  const [form] = Form.useForm();
   const [compoSent, setCompoSent] = useState<ISenttEmailCompo[] | undefined>(
     undefined
   );
   const [countLoad, setCountLoad] = useState<number>(0);
 
   const [countCompo, setCountCompo] = useState<number>(0);
+
+  const [checkBoxPassword, onSetBoxPassword] = useState<boolean>(false);
 
   // const [getlimit, setLimit] = useState<number | undefined>(undefined);
   // const getLimit = (url: string) => {
@@ -48,6 +53,11 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
     if (getMockup) {
       setCountLoad(0);
       setCountCompo(getMockup.length);
+      let passwordSaved = getPasswordDecodePDF();
+      if (passwordSaved) {
+        form.setFieldValue("password", passwordSaved);
+        // onSetBoxPassword(true);
+      }
       // if (!getlimit) {
       //   if (getLocalInput.googlesheets) {
       //     getLimit(getLocalInput.googlesheets);
@@ -61,7 +71,7 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
     }
   }, [sheets, getMockup]);
 
-  const createIFileGoogleDriveInput = (email: string) => {
+  const createIFileGoogleDriveInput = (email: string, password?: string) => {
     let items: ISenttEmailCompo[] = [];
     getMockup?.map((main) => {
       if (main.filename && main.root) {
@@ -80,6 +90,7 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
             rootToFile: main.filename.map((x) => main.root + "/" + x),
             path: main.root,
             subject: main.name,
+            password: password,
           },
         });
       }
@@ -88,11 +99,15 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
     return items;
   };
 
-  const onFinish = (e: { email: string }) => {
+  const onFinish = (e: { email: string; password?: string }) => {
     let createURL: ISenttEmailCompo[] = [];
-    createURL = createIFileGoogleDriveInput(e.email);
+    createURL = createIFileGoogleDriveInput(e.email, e.password);
     setCompoSent(createURL);
     setCountLoad(createURL.length);
+
+    if (e.password) {
+      setPasswordDecodePDF(e.password);
+    }
     setTimeout(() => {
       showModal();
     }, 100);
@@ -155,6 +170,7 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
                   filename={data.objWorkinput.fileNames}
                   name={data.workUI.name}
                   email={data.objWorkinput.email}
+                  password={data.objWorkinput.password}
                 ></SentMail>
               </div>
             );
@@ -168,6 +184,7 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
       >
         <CardCustom Header={"ตรวจสอบข้อมูล"} className="flex flex-col gap-2">
           <Form
+            form={form}
             onFinish={onFinish}
             layout="vertical"
             className="flex flex-col gap-2"
@@ -203,6 +220,29 @@ const SentEmailGroup: React.FC<SentEmailGroupProps> = ({
               name="email"
               label={"ผู้รับ"}
             ></InputCustom>
+
+            <Checkbox
+              // value={checkBoxPassword}
+              // checked={checkBoxPassword}
+              onChange={(v) => onSetBoxPassword(v.target.checked)}
+            >
+              ส่งแบบไม่มีรหัสผ่าน
+            </Checkbox>
+            {checkBoxPassword && (
+              <div className="flex gap-4 items-end">
+                <InputCustom
+                  password
+                  rules={[
+                    {
+                      message: "ห้ามปล่อยว่าง",
+                      required: true,
+                    },
+                  ]}
+                  name="password"
+                  label={"รหัสผ่าน"}
+                ></InputCustom>
+              </div>
+            )}
 
             {getMockup?.map((data, i) => {
               if (data.filename && data.root) {

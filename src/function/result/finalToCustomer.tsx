@@ -23,6 +23,7 @@ export const createTextForCustomer = (
     customerText += `${menuEmo} `;
     customerText += `${good.goodsName} (${result.introducingEmoji} ${result.introducing})\n`;
     if (good.type != "file" && good.count > 1) {
+
       customerText += `${menuDetailEmo} ${good.count} ชุด ${"📚"}\n`;
       customerText += `${menuDetailEmo} ชุดละ ${good.price} ${unit}\n`;
     }
