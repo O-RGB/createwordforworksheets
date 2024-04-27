@@ -20,8 +20,10 @@ const AutoCompleteCustom: React.FC<AutoCompleteCustomProps> = ({
       option.map((data) => {
         var re = search;
         var str = data.label;
-        if (str.search(re) != -1) {
-          optionTemp.push(data);
+        if (typeof str === "string") {
+          if (str.search(re) != -1) {
+            optionTemp.push(data);
+          }
         }
       });
       return optionTemp;
@@ -54,8 +56,10 @@ const AutoCompleteCustom: React.FC<AutoCompleteCustomProps> = ({
         }}
         onSelect={(...select) => {
           ref?.current.blur();
-          setFakeValue(select[1].label);
-          props.onSelect?.(select[0], select[1]);
+          if (typeof select[1].label === "string") {
+            setFakeValue(select[1].label);
+            props.onSelect?.(select[0], select[1]);
+          }
         }}
         placeholder="Search"
       />
