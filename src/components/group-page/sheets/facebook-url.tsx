@@ -8,9 +8,11 @@ interface FacebookUrlDetectProps {}
 
 type IBaseType = "FB_MESSAGE" | "IG_MESSAGE";
 
-export const onInputFacebookUrl = (url: string) => {
-  // ตรวจสอบว่า URL นั้นถูกต้องหรือไม่
+export const onInputFacebookUrl = (url?: string) => {
   let check = true;
+  if (url === undefined) {
+    return { check: check, data: undefined };
+  }
   try {
     const urlObj = new URL(url);
     const searchParams = new URLSearchParams(urlObj.search);
@@ -76,35 +78,42 @@ const FacebookUrlDetect: React.FC<FacebookUrlDetectProps> = ({}) => {
           {
             validator: (_, value) => {
               const input = value;
-              setFaceLink(input.length > 0 ? input : undefined);
-              let valid = onInputFacebookUrl(input);
 
-              if (!valid.check) {
-                let classText = "text-red-500";
-                return Promise.reject(
-                  <div className={classText}>
-                    รูปแบบ URL ไม่ถูกต้อง
-                    <div className="text-xs text-gray-400">
-                      ตัวอย่าง:{" "}
-                      <span className={classText}>
-                        https://business.facebook.com/latest/inbox/all/?
-                      </span>
-                      <span className={classText}>asseft_id</span>
-                      =000&
-                      <span className={classText}>mailbox_id</span>
-                      =000&
-                      <span className={classText}>selected_item_id</span>
-                      =000&
-                      <span className={classText}>thread_type</span>
-                      =IG_MESSAGE
+              if (typeof input === "string") {
+                console.log(input);
+                setFaceLink(input.length > 0 ? input : undefined);
+                let valid = onInputFacebookUrl(input);
+
+                console.log(valid);
+
+                if (!valid.check) {
+                  let classText = "text-red-500";
+                  return Promise.reject(
+                    <div className={classText}>
+                      รูปแบบ URL ไม่ถูกต้อง
+                      <div className="text-xs text-gray-400">
+                        ตัวอย่าง:{" "}
+                        <span className={classText}>
+                          https://business.facebook.com/latest/inbox/all/?
+                        </span>
+                        <span className={classText}>asseft_id</span>
+                        =000&
+                        <span className={classText}>mailbox_id</span>
+                        =000&
+                        <span className={classText}>selected_item_id</span>
+                        =000&
+                        <span className={classText}>thread_type</span>
+                        =IG_MESSAGE
+                      </div>
                     </div>
-                  </div>
-                );
-              } else {
-                if (valid.data?.type) {
-                  setType(valid.data.type);
+                  );
+                } else {
+                  if (valid.data?.type) {
+                    setType(valid.data.type);
+                  }
+                  return Promise.resolve();
                 }
-
+              } else {
                 return Promise.resolve();
               }
             },
