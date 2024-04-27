@@ -11,7 +11,6 @@ import React, { useContext, useEffect, useState } from "react";
 import ScrollDetection from "@/components/common/scroll-detection";
 import { scrollToEleemtById } from "@/lib/scrollToEleemtById";
 import { getResultOnForm } from "@/function/result/formToResult";
-import ResultSetting from "@/components/form/result-form";
 import FloatButtonForm from "@/components/form/floatButton-form";
 import { NotificationPlacement } from "antd/es/notification/interface";
 import { SettingFilled } from "@ant-design/icons";
@@ -21,7 +20,7 @@ import UserForm from "@/components/form/user-from";
 import {
   CheckUsernameAndURLIsRuning,
   getFbToken,
-  setFbToken,
+  getVersion,
   setUsernameOrURL,
 } from "@/lib/checkGoogleSheetsUrl";
 import {
@@ -33,7 +32,7 @@ import {
 import { MapDataToSheets } from "@/function/result/mapForSheets";
 import CustomResultForm from "@/components/form/custom-result-form";
 import Connection from "@/apps/connection";
-import FacebookTokenForm from "@/components/form/facebook-token-form";
+import CheckVersion from "@/apps/connection/checkVersion";
 
 interface HomeGroupProps {
   getMockup: HeadWorkSheets[];
@@ -132,6 +131,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
       message: `คัดลอกขึ้น Clipboard แล้ว ✅`,
       duration: 1.5,
       placement,
+      closeIcon: false,
     });
   };
 
@@ -192,8 +192,8 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   const handleOkUser = (output: IUserInput) => {
     setUsernameOrURL(output);
     setIsModalUserOpen(false);
-    handleCancelSetting()
-    window.location.reload()
+    handleCancelSetting();
+    window.location.reload();
   };
 
   const handleCancelUser = () => {
@@ -214,7 +214,10 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
     });
   };
 
+  const [versionWeb, setVersionWeb] = useState<string | null>(null);
   useEffect(() => {
+    const version = getVersion();
+    setVersionWeb(version.version);
     checkUserAndSheets();
   }, []);
 
@@ -329,6 +332,12 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
     </CardCustom>
   );
 
+  const VersionDisplyComponent = (
+    <CardCustom Header={"เวอร์ชัน"}>
+      {versionWeb ? versionWeb : "ตรวจไม่พบเวอร์ชัน"}
+    </CardCustom>
+  );
+
   const SettingDeliveryComponent = (
     <CardCustom Header={"ค่าบริการ"}>
       <FeeFrom
@@ -402,6 +411,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
         footer={<></>}
       >
         <div className="flex flex-col gap-2">
+          {VersionDisplyComponent}
           {_DEV_SettingDebugComponent}
           {SettingDisplyComponent}
           <CardCustom Header={"ความปลอดภัย"}>
@@ -463,10 +473,13 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
       ></FloatButtonForm>
 
       {userInitLocal && (
-        <Connection
-          notificationInstance={api}
-          getLocalInput={userInitLocal}
-        ></Connection>
+        <>
+          <Connection
+            notificationInstance={api}
+            getLocalInput={userInitLocal}
+          ></Connection>
+          <CheckVersion getLocalInput={userInitLocal}></CheckVersion>
+        </>
       )}
 
       <div className="relative flex md:gap-3 duration-300 ">
@@ -497,10 +510,6 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                           {getModel.worksheets?.map((element, JKey) => {
                             let getEleemtnModel = element.getWorksheets();
                             if (getEleemtnModel) {
-                              console.log(
-                                getEleemtnModel.fileUrlDownload,
-                                "CHECK"
-                              );
                               return (
                                 <div
                                   key={`element-key-${JKey}`}
@@ -554,7 +563,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
               </div>
             </Form>
 
-            <CardCustom Header={"ตั้งค่าผลลัพธ์"} className="w-full">
+            {/* <CardCustom Header={"ตั้งค่าผลลัพธ์"} className="w-full">
               <ResultSetting
                 cancel={GetReslut}
                 onChange={(e) => {
@@ -565,7 +574,7 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
                 }}
                 setPriceAll={priceAllNow}
               ></ResultSetting>
-            </CardCustom>
+            </CardCustom> */}
             {customReset && (
               <CardCustom Header={"กำหนดเอง"} className="w-full">
                 <CustomResultForm

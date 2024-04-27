@@ -1,10 +1,13 @@
-interface IGetConfigNgrok {
+//Base API Input
+interface IGetConfig {
   key: string;
 }
 
-interface IReslutConfigNgrok {
+interface IReslutConfig {
   configData: string;
 }
+
+// API Interfase
 
 interface ISendMailNgrok {
   recipient: string;

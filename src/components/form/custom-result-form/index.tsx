@@ -43,6 +43,8 @@ const CustomResultForm: React.FC<CustomResultFormProps> = ({
   const [priceOnSubmit, setPriceOnSubmit] = useState<number | undefined>(
     undefined
   );
+  const [originPrice, setOriginPrice] = useState<number>(0);
+  const [formChange, setFormChange] = useState<boolean>(false);
 
   const cloneObj = (mainObj: HeadWorkSheets[]) => {
     let cloneItems: HeadWorkSheets[] = [];
@@ -175,13 +177,20 @@ const CustomResultForm: React.FC<CustomResultFormProps> = ({
       }
     }
 
-    if (!priceOnSubmit) {
-      setPriceNew(priceAll);
-    }
+    // if (!priceOnSubmit) {
+    setPriceNew(priceAll);
+    setOriginPrice(priceAll);
+    // }
     setSelectType(realValue);
   }, [IFinalResultPrice]);
 
-  const onFieldsChange = () => {
+  useEffect(() => {
+    setPriceNew(0);
+    // setOriginPrice(0);
+    setPriceOnSubmit(undefined);
+  }, [ModeOnFinish]);
+
+  const onFieldsChange = (reset: boolean = false) => {
     let price: number = 0;
     let item = form?.getFieldsValue();
     for (var key in item) {
@@ -195,7 +204,10 @@ const CustomResultForm: React.FC<CustomResultFormProps> = ({
         }
       }
     }
-    setPriceOnSubmit(price);
+
+    setFormChange(!reset);
+    setPriceOnSubmit(undefined);
+    // setPriceOnSubmit(price);
     setPriceNew(price);
   };
 
@@ -238,9 +250,11 @@ const CustomResultForm: React.FC<CustomResultFormProps> = ({
       }
 
       onFinish?.(copyObj);
-      setTimeout(() => {
-        setPriceOnSubmit(undefined);
-      }, 1000);
+      setPriceOnSubmit(priceNew);
+      setFormChange(false);
+      // setTimeout(() => {
+      //   setPriceOnSubmit(undefined);
+      // }, 1000);
     }
   };
 
@@ -249,7 +263,7 @@ const CustomResultForm: React.FC<CustomResultFormProps> = ({
       form={form}
       layout="vertical"
       className="flex flex-col gap-1 "
-      onFieldsChange={onFieldsChange}
+      onFieldsChange={() => onFieldsChange()}
       onFinish={onSumit}
     >
       <div>รายการที่เลือก</div>
@@ -300,6 +314,13 @@ const CustomResultForm: React.FC<CustomResultFormProps> = ({
 
                     <div className="h-0 m-0 p-0 opacity-0 w-0">
                       <InputCustom
+                        rules={[
+                          {
+                            type: "number",
+                            min: 1,
+                            message: "ตัวเลขเท่านั้น",
+                          },
+                        ]}
                         className="h-0 m-0 p-0 opacity-0 w-0"
                         initialValue={min.count}
                         name={`${min.workSheetsMainId}-${min?.workSheetsId}-${i}-${j}-${data.mode}-count`}
@@ -323,11 +344,49 @@ const CustomResultForm: React.FC<CustomResultFormProps> = ({
           );
         })}
       </div>
-      <div>ราคารวม (ยังไม่รวมส่ง)</div>
-      <div className=" md:pr-4 ">
-        <div className="border rounded-md w-[40%] p-4 text-lg font-bold">
-          {priceNew.toLocaleString()}฿
+
+      <div className="flex gap-3  items-center ">
+        <div>
+          <div>ราคารวม (ไม่รวมส่ง)</div>
+          <div className="border rounded-md  p-4 text-lg font-bold text-center">
+            {(priceOnSubmit ? priceOnSubmit : priceNew).toLocaleString()}฿
+          </div>
         </div>
+
+        {originPrice !== priceNew && (
+          <>
+            <div>
+              <div className="select-none opacity-0">|</div>
+              <div className="text-lg">
+                <div className="h-full w-[1px] bg-gray-300  select-none">
+                  <div className="opacity-0">|</div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div>ราคาเก่า</div>
+              <div className="border rounded-md p-4 text-lg font-bold text-center">
+                {originPrice}฿
+              </div>
+            </div>
+          </>
+        )}
+        {(originPrice !== priceNew || formChange) && (
+          <div>
+            <div>{originPrice > priceNew ? "ลดลง" : "มากกว่า"}</div>
+            <div className="border rounded-md   p-4 text-lg font-bold text-center">
+              {originPrice < priceNew ? (
+                <div className="text-red-500">
+                  +{(priceNew - originPrice).toLocaleString()}฿
+                </div>
+              ) : (
+                <div className="text-green-500">
+                  -{(originPrice - priceNew).toLocaleString()}฿
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="pt-2 flex  gap-2">
@@ -343,6 +402,8 @@ const CustomResultForm: React.FC<CustomResultFormProps> = ({
           type="default"
           onClick={() => {
             form?.resetFields();
+            onFieldsChange(true);
+            setPriceOnSubmit(undefined);
             setTimeout(() => {
               onReset?.();
             }, 100);

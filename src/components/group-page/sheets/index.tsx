@@ -575,22 +575,24 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
                       </label>
                       <div
                         style={{
-                          backgroundColor: CalColor(colorPrimary, 0),
+                          borderColor: CalColor(colorPrimary, 0),
                         }}
-                        className="flex flex-col gap-0.5  p-0.5 rounded-lg  "
+                        className="flex flex-col gap-0.5  p-0.5 rounded-lg border "
                       >
                         {x.map((y, j) => {
                           return (
                             <div
-                              className="rounded-md flex flex-col md:flex-row gap-0.5 w-full   p-2  bg-white"
+                              className="rounded-md flex flex-col md:flex-row gap-5 md:gap-0.5 w-full p-4 bg-white"
                               key={`sheets-j-${i}-${j}`}
                             >
-                              <div className="w-[100%]">
+                              <div className="w-[100%] md:pr-1.5">
                                 <InputCustom
                                   label={
                                     <div className=" flex gap-1 justify-center items-center">
                                       <PlusCircleFilled className="text-gray-500 text-xs" />
-                                      <div>งาน</div>
+                                      <div>
+                                        งานที่ {i+1}.{j+1}
+                                      </div>
                                     </div>
                                   }
                                   required
@@ -606,7 +608,7 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
                                 ></InputCustom>
                               </div>
 
-                              <div className="flex  flex-row  gap-2 w-full md:w-[40%]">
+                              <div className="flex flex-row  gap-2 w-full md:w-[40%]">
                                 <div className="w-full">
                                   <InputCustom
                                     required

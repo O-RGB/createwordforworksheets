@@ -19,13 +19,24 @@ const InputPrice: React.FC<InputPriceProps> = ({ count, price, name }) => {
             {menuDetailEmo} {count > 1 ? "ชุดละ" : "ราคา"}
           </div>
           <InputCustom
-            //   rules={[
-            //     {
-            //       message: "ตัวเลขเท่านั้น",
-            //       //   required: true,
-            //       //   type: "number",
-            //     },
-            //   ]}
+            rules={[
+              {
+                validator(rule, value, callback) {
+                  if (Number(value)) {
+                    return Promise.resolve();
+                  } else {
+                    if (value === 0 || value === "0") {
+                      return Promise.reject(
+                        <div>
+                          <div>ไม่สามารถใส่ 0</div>
+                        </div>
+                      );
+                    }
+                    return Promise.reject("ตัวเลขเท่านั้น");
+                  }
+                },
+              },
+            ]}
             inputMode="numeric"
             initialValue={Number(price)}
             onChange={(e) => {

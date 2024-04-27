@@ -30,6 +30,16 @@ export const getFbToken = () => {
   };
 };
 
+export const getVersion = () => {
+  let version = getLocal("app_script_version");
+  return {
+    version,
+  };
+};
+export const setVersion = (version: string) => {
+  setLocal("app_script_version", version);
+};
+
 export const CheckUsernameAndURLIsRuning = async () => {
   let username = getLocal("username");
   let sheets = getLocal("googlesheets");

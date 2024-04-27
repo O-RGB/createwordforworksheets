@@ -9,7 +9,7 @@ export const getFacebookChat = (
   return FetchCustom<IFacebookChat>(url, data, met, headers);
 };
 
-export const getAccount = (url: string, input: IGetConfigNgrok) => {
+export const getAccount = (url: string, input: IGetConfig) => {
   url = url + "?page=getconfig" + `&key=${input.key}`;
   return FetchCustom<IResultPageConfigJson>(url);
 };

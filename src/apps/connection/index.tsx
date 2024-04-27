@@ -39,7 +39,7 @@ const Connection: React.FC<ConnectionProps> = ({
     });
   };
 
-  const [getNgrok, setNgrok] = useState<IReslutConfigNgrok | undefined>(
+  const [getNgrok, setNgrok] = useState<IReslutConfig | undefined>(
     undefined
   );
 

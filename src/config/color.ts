@@ -1,6 +1,6 @@
 export const colorPrimary = "#fc9d00";
 export const colorSecondary = "#cccccc";
-export const colorSuccess = "#35c79f";
+export const colorSuccess = "#09e034";
 export const colorDenger = "#ff616d";
 
 export const adjustColor = (color: string, percent: number) => {
