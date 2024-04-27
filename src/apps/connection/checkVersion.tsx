@@ -14,7 +14,7 @@ interface CheckVersionProps {
 }
 
 const CheckVersion: React.FC<CheckVersionProps> = ({ getLocalInput }) => {
-  const [version, setVersionNumber] = useState<string>();
+  const [versions, setVersionNumber] = useState<string>();
   const [lastVersion, setLastVersionNumber] = useState<string>();
   //   const [versionAlert, setVersionAlert] = useState<string>();
   const [modalUpdate, setModalUpdate] = useState<boolean>(false);
@@ -42,8 +42,9 @@ const CheckVersion: React.FC<CheckVersionProps> = ({ getLocalInput }) => {
         });
     }
   };
+
   useEffect(() => {
-    if (!version) {
+    if (!versions) {
       if (getLocalInput.googlesheets) {
         const versionLocal = getVersion();
         getConfigUrl(getLocalInput.googlesheets, {
@@ -78,10 +79,10 @@ const CheckVersion: React.FC<CheckVersionProps> = ({ getLocalInput }) => {
         footer={<></>}
         closable={false}
       >
-        *กรุณากดปุ่ม "อัปเดต" สีส้มเพื่อใช้งานต่อ
+        *กรุณากดปุ่ม {`"อัปเดต"`} สีส้มเพื่อใช้งานต่อ
         <div className="flex flex-col gap-2">
           <div className="p-3 border rounded-md text-red-500 ">
-            <div>เวอร์ชันของคุณ: {version}</div>
+            <div>เวอร์ชันของคุณ: {versions}</div>
           </div>
           <div className="p-3 border rounded-md text-green-500 flex justify-between items-center">
             <div>เวอร์ชันใหม่: {lastVersion}</div>
