@@ -20,6 +20,9 @@ import ImageTemplate from "./template";
 import * as htmlToImage from "html-to-image";
 import { NnumberFormat } from "@/lib/number.format";
 import PreviewImage from "./preview-image";
+import RadioCustom from "@/components/common/radio";
+
+import FacebookUrlDetect, { onInputFacebookUrl } from "./facebook-url";
 
 interface SheetsGroupProps {
   sheets: IMapDataToSheets[][];
@@ -51,6 +54,7 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
     IPushBookingResult | undefined
   >(undefined);
   const [temp, setTemp] = useState<IInitMainData[][] | undefined>(undefined);
+
   const initData = async () => {
     let test: IInitMainData[][] = [];
     for (let i = 0; i < sheets.length; i++) {
@@ -131,14 +135,35 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
     let list: string[] = [];
     let price: string[] = [];
     let facebook: string = item.facebook;
+    let facebook_url: string = item.facebook_url;
     let address: string = item.address;
     let shippingcost: string = item.shippingcost;
     let paper: string[] = [];
+
+    const faceUrl = onInputFacebookUrl(item.facebook_url);
+    console.log(item.facebook_url);
+
     item.items?.map((x) => {
       list.push(x.name);
       price.push(x.price);
       paper.push(x.paper);
     });
+
+    let chatType: number | undefined = undefined;
+    let selectId: string | undefined = undefined;
+
+    if (faceUrl.check && faceUrl.data) {
+      const DataFB = faceUrl.data;
+      if (DataFB.type === "FB_MESSAGE") {
+        chatType = 0;
+      } else if (DataFB.type === "IG_MESSAGE") {
+        chatType = 1;
+      }
+
+      if (DataFB.selectedItemId !== undefined) {
+        selectId = DataFB.selectedItemId;
+      }
+    }
 
     let data: IItemsToURL = {
       address,
@@ -148,6 +173,8 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
       type,
       shippingcost,
       paper,
+      chatType,
+      selectId,
     };
 
     return data;
@@ -161,6 +188,12 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
     }&address=${iItemList.address}&paper=${iItemList.paper.join(
       ","
     )}&shippingcost=${iItemList.shippingcost}&actor=${getLocalInput.username}`;
+
+    if (iItemList.selectId) {
+      param =
+        param +
+        `&selectId=${iItemList.selectId}&chatType=${iItemList.chatType}`;
+    }
 
     return param;
   };
@@ -488,6 +521,9 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
               label="Facebook"
               rules={[{ required: true, message: "ไม่สามารถปล่อยว่าง" }]}
             ></InputCustom>
+
+            <FacebookUrlDetect></FacebookUrlDetect>
+
             <TextAreaCustom
               name="address"
               autoSize

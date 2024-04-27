@@ -8,7 +8,6 @@ import FacebookPreviewFile from "./content/perview-file";
 import FacebookPreviewChat from "./content/perview-chat";
 import FacebookPreviewUser from "./content/preview-user";
 import FacebookSelectAccount from "./content/preview-account";
-import FacebookSendFile from "./send-file";
 import Router from "next/router";
 import { LoadingOutlined } from "@ant-design/icons";
 import ControlerFile from "./control-send";

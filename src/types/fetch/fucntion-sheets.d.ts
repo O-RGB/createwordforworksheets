@@ -22,6 +22,7 @@ interface IPreparDataFormSheets {
   shippingcost: string;
   paper: string;
   facebook: string;
+  facebook_url: string;
   type: string;
   paper: string;
   items?: IPreparItemsSheets[];
@@ -32,6 +33,8 @@ interface IItemsToURL {
   list: string[];
   price: string[];
   facebook: string;
+  selectId?: string;
+  chatType?: number;
   address: string;
   shippingcost: string;
   paper: string[];

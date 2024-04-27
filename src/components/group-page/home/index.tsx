@@ -192,6 +192,8 @@ const HomeGroup: React.FC<HomeGroupProps> = ({
   const handleOkUser = (output: IUserInput) => {
     setUsernameOrURL(output);
     setIsModalUserOpen(false);
+    handleCancelSetting()
+    window.location.reload()
   };
 
   const handleCancelUser = () => {
