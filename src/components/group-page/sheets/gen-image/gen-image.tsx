@@ -1,5 +1,5 @@
 import ButtonCustom from "@/components/common/button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as htmlToImage from "html-to-image";
 import InputCustom from "@/components/common/input";
 import { Form } from "antd";
@@ -15,6 +15,7 @@ const SheetsGenImage: React.FC<SheetsGenImageProps> = ({
   onFinishAndClickToImage,
   loading,
 }) => {
+  useEffect(() => {}, []);
   return (
     <div className="flex flex-col gap-2">
       <Form

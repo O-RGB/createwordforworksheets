@@ -9,6 +9,7 @@ interface IInitMainData {
   price: WorkSheetsDetailPrice;
   priceOfStr?: string;
   paper: string;
+  imagePerview?: string;
 }
 
 interface IPreparItemsSheets {

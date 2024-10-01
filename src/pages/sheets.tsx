@@ -48,6 +48,7 @@ const InterSheets: NextPage = () => {
             name: element.name,
             price: element.price,
             paper: String(element.paper),
+            imagePerview: element.imagePreview,
           });
         }
       });

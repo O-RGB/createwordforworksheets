@@ -15,7 +15,7 @@ import {
 } from "@ant-design/icons";
 import { BgCal, CalColor, colorPrimary, colorSecondary } from "@/config/color";
 import { pushBookingToSheets } from "@/api/fetcher/pushBookingToSheets";
-import SheetsGenImage from "./gen-image";
+import SheetsGenImage from "./gen-image/gen-image";
 import ImageTemplate from "./template";
 import * as htmlToImage from "html-to-image";
 import { NnumberFormat } from "@/lib/number.format";
@@ -23,6 +23,8 @@ import PreviewImage from "./preview-image";
 import RadioCustom from "@/components/common/radio";
 
 import FacebookUrlDetect, { onInputFacebookUrl } from "./facebook-url";
+import html2canvas from "html2canvas";
+import InitGenImage from "./gen-image";
 
 interface SheetsGroupProps {
   sheets: IMapDataToSheets[][];
@@ -85,6 +87,7 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
             price: search.price,
             priceOfStr: price,
             paper: search.paper,
+            imagePerview: search.imagePerview,
           });
         }
       }
@@ -96,6 +99,7 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
 
   useEffect(() => {
     initData().then((x) => {
+      console.log(x);
       setTimeout(() => {
         setTemp(x);
       }, 10);
@@ -105,23 +109,38 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
     return <></>;
   }
 
-  const toImage = () => {
-    var node: any = document.getElementById("my-node");
+  // const toImage = () => {
+  //   var node: any = document.getElementById("my-node");
 
-    htmlToImage
-      .toPng(node)
-      .then(function (dataUrl) {
-        // var link = document.createElement("a");
-        // link.download = "my-image-name";
-        // link.href = dataUrl;
-        // link.click();
+  //   htmlToImage
+  //     .toPng(node)
+  //     .then(function (dataUrl) {
+  //       // var link = document.createElement("a");
+  //       // link.download = "my-image-name";
+  //       // link.href = dataUrl;
+  //       // link.click();
+  //       setLoadingToImage(false);
+  //       setPreviewToImage(dataUrl);
+  //       setModalPreviewToImage(true);
+  //     })
+  //     .catch(function (error) {
+  //       console.error("oops, something went wrong!", error);
+  //     });
+  // };
+
+  const toImage = async () => {
+    const node = document.getElementById("my-node");
+    if (node) {
+      try {
+        const canvas = await html2canvas(node, { useCORS: true });
+        const dataUrl = canvas.toDataURL();
         setLoadingToImage(false);
         setPreviewToImage(dataUrl);
         setModalPreviewToImage(true);
-      })
-      .catch(function (error) {
+      } catch (error) {
         console.error("oops, something went wrong!", error);
-      });
+      }
+    }
   };
 
   const createURLForSheets = (item: IPreparDataFormSheets) => {
@@ -384,26 +403,43 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
     },
   ];
 
-  function GenImage({
-    list,
-    auto,
-    contentToImage,
-    inputSumPriceByAdmin,
-  }: {
-    list?: ProductModelData[];
-    auto?: boolean;
-    contentToImage?: IPreparDataFormSheets;
-    inputSumPriceByAdmin?: number;
-  }) {
-    return (
-      <ImageTemplate
-        contentToImage={contentToImage}
-        list={list}
-        auto={auto}
-        priceByAdmin={inputSumPriceByAdmin}
-      ></ImageTemplate>
-    );
-  }
+  // const mappingImageToRespone = (
+  //   list: ProductModelData[] = [],
+  //   mainData: IInitMainData[][] = []
+  // ) => {
+  //   mainData.map((x, i) => {
+  //     x.map((y, j) => {
+  //       let item = list[i + j];
+  //       item.imagePerview = y.imagePerview;
+  //     });
+  //   });
+
+  //   return list;
+  // };
+
+  // function GenImage({
+  //   list,
+  //   auto,
+  //   contentToImage,
+  //   inputSumPriceByAdmin,
+  //   mainData,
+  // }: {
+  //   list?: ProductModelData[];
+  //   auto?: boolean;
+  //   contentToImage?: IPreparDataFormSheets;
+  //   inputSumPriceByAdmin?: number;
+  //   mainData?: IInitMainData[][];
+  // }) {
+  //   let listAndImte = mappingImageToRespone(list, mainData);
+  //   return (
+  //     <ImageTemplate
+  //       contentToImage={contentToImage}
+  //       list={listAndImte}
+  //       auto={auto}
+  //       priceByAdmin={inputSumPriceByAdmin}
+  //     ></ImageTemplate>
+  //   );
+  // }
 
   return (
     <>
@@ -412,6 +448,7 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
         open={previewModalToImage}
         imageUrl={previewToImage}
       ></PreviewImage>
+
       <Modal
         closeIcon={<></>}
         title="กำลังเพิ่มข้อมูล"
@@ -455,25 +492,26 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
                     ></Table>
                   </div>
                   <hr />
-                  {resultBooking?.data?.list && contentToImage && (
-                    <SheetsGenImage
-                      loading={loadingToImage}
-                      onFinishAndClickToImage={(price: string) => {
-                        setLoadingToImage(true);
-                        setInputSumByAdmin(Number(price));
-                        setTimeout(() => {
-                          toImage();
-                        }, 1000);
-                      }}
-                    >
-                      <GenImage
+                  <SheetsGenImage
+                    loading={loadingToImage}
+                    onFinishAndClickToImage={(price: string) => {
+                      setLoadingToImage(true);
+                      setInputSumByAdmin(Number(price));
+                      setTimeout(() => {
+                        toImage();
+                      }, 1000);
+                    }}
+                  >
+                    {resultBooking?.data?.list && contentToImage && (
+                      <InitGenImage
                         list={resultBooking.data?.list}
                         contentToImage={contentToImage}
                         inputSumPriceByAdmin={inputSumPriceByAdmin}
+                        mainData={temp}
                         auto
-                      ></GenImage>
-                    </SheetsGenImage>
-                  )}
+                      ></InitGenImage>
+                    )}
+                  </SheetsGenImage>
                 </div>
               ) : (
                 <div className="text-red-500 ">{resultBooking.message}</div>
@@ -490,11 +528,12 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
         <div className="absolute -z-50 ">
           <div id="my-node">
             {resultBooking && (
-              <GenImage
+              <InitGenImage
+                mainData={temp}
                 inputSumPriceByAdmin={inputSumPriceByAdmin}
                 contentToImage={contentToImage}
                 list={resultBooking.data?.list}
-              ></GenImage>
+              ></InitGenImage>
             )}
           </div>
         </div>
@@ -591,7 +630,7 @@ const SheetsGroup: React.FC<SheetsGroupProps> = ({
                                     <div className=" flex gap-1 justify-center items-center">
                                       <PlusCircleFilled className="text-gray-500 text-xs" />
                                       <div>
-                                        งานที่ {i+1}.{j+1}
+                                        งานที่ {i + 1}.{j + 1}
                                       </div>
                                     </div>
                                   }

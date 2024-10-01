@@ -22,9 +22,8 @@ const ImageTemplate: React.FC<ImageTemplateProps> = ({
       <>
         <div className="flex gap-2 ">
           <img src="/logo.png" alt="" className="w-8 h-8 object-contain" />
-
-          <div className="flex justify-center items-center">
-            <div>สื่อการสอน Worksheets</div>
+          <div className="-mt-1">
+            <div className="pb-2">สื่อการสอน Worksheets</div>
           </div>
         </div>
       </>
@@ -32,32 +31,44 @@ const ImageTemplate: React.FC<ImageTemplateProps> = ({
   }
   function Content() {
     return (
-      <>
-        <div className="flex flex-col border p-2 rounded-lg">
-          <div>
-            <span className="font-bold">เฟซบุ๊ก</span>:{" "}
-            {contentToImage?.facebook}
-          </div>
-          <div>
-            <span className="font-bold">ที่อยู่</span>:{" "}
-            {contentToImage?.address}
-          </div>
-        </div>
-      </>
+      <span className="flex flex-col pb-4 border px-2 rounded-lg">
+        <span>
+          <span className="font-bold">เฟซบุ๊ก</span>: {contentToImage?.facebook}
+        </span>
+        <span>
+          <span className="font-bold">ที่อยู่</span>: {contentToImage?.address}
+        </span>
+      </span>
     );
   }
   function Item() {
     return (
       <>
-        <div className="-mb-1 ">
+        <div className="">
           <span className="font-bold">รายการ</span>:{" "}
         </div>
-        <div className="flex flex-col pl-3 border p-2 rounded-lg">
+        <div className="flex gap-2 flex-col pl-3 border p-2 rounded-lg">
           {list?.map((data, index) => {
             return (
-              <div key={`item-imgae-${index}`} className="flex gap-2">
-                <div className="w-4">{index + 1}.</div>
-                <div>{data.list}</div>
+              <div
+                key={`perview-img-${index}`}
+                className="flex gap-2 items-center"
+              >
+                <div className="w-[38px] h-[54px] object-cover">
+                  {data.imagePerview ? (
+                    <img
+                      src={data.imagePerview}
+                      alt=""
+                      className="w-[38px] h-[54px] rounded-md overflow-hidden object-cover"
+                    />
+                  ) : (
+                    <div className="w-[38px] h-[54px] rounded-md overflow-hidden bg-gray-100"></div>
+                  )}
+                </div>
+                <div key={`item-imgae-${index}`} className="flex -mt-3">
+                  <div className="w-4">{index + 1}.</div>
+                  <div className="">{data.list}</div>
+                </div>
               </div>
             );
           })}

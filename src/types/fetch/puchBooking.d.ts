@@ -37,4 +37,5 @@ interface ProductModelData {
   actor: string;
   createUrl: string;
   encodeRowId: string;
+  imagePerview?: string;
 }

@@ -33,6 +33,7 @@ export const MapDataToMinModel = async (items: GoogleSheetsGetItem[]) => {
               root: item.root,
               filename: item.filename,
               fileUrlDownload: item.fileUrlDownload,
+              imagePreview: item.imagePreview,
             })
           );
         });
